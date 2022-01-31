@@ -1,0 +1,112 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="big-content-with-max-width">
+                <div class='margin-bottom'>
+                    <input class='form-control inline-block'
+                           ng-class='{"users-search": isAdmin || isManager}'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='Search registration requests' >
+
+                    <button class='btn btn-default inline-block users-search-btn'
+                            ng-if='isAdmin || isManager'
+                            ng-disabled='!registrationRequests || registrationRequests.length === 0'
+                            ng-click='exportRegistrationRequests()'>Export</button>
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "rr.username" )'>
+                            <span localized>Username</span>
+                            <span ng-if='config.sortValue === "rr.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "rr.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "rr.email" )'>
+                            <span localized>Email</span>
+                            <span ng-if='config.sortValue === "rr.email" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "rr.email" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "rr.phone" )'>
+                            <span localized>Phone</span>
+                            <span ng-if='config.sortValue === "rr.phone" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "rr.phone" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-if='isAdmin || isManager'
+                            ng-click='sortByField("reseller")'>
+                            <span localized>Reseller</span>
+                            <span ng-if='config.sortValue === "reseller" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "reseller" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "rr.date" )'>
+                            <span localized>Date</span>
+                            <span ng-if='config.sortValue === "rr.date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "rr.date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th localized
+                            ng-class="{'actions-column': isAdmin || isManager || accessGranted, 'actions-column-small': !isAdmin && !isManager && !accessGranted}">lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='registrationRequest in registrationRequests'>
+                        <td>{{registrationRequest.username}}</td>
+                        <td>{{registrationRequest.email}}</td>
+                        <td>
+                            <input type='text'
+                                   class='input-as-span'
+                                   ng-model='registrationRequest.phone'
+                                   ui-us-phone-number
+                                   disabled/>
+                        </td>
+                        <td ng-if='isAdmin || isManager'>{{registrationRequest.reseller}}</td>
+                        <td>{{getFormattedDate(registrationRequest.date)}}</td>
+                        <td>
+                            <button type='button'
+                                    ng-if='isAdmin || isManager || accessGranted'
+                                    class='btn btn-default'
+                                    ng-click='verifyRegistrationRequest(registrationRequest)'>
+                                <span class='glyphicon glyphicon-ok'></span>
+                            </button>
+                            <button type='button'
+                                    class='btn btn-default'
+                                    ng-click='cancelRegistrationRequest(registrationRequest)'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='registrationRequests && registrationRequests.length === 0' class='center'>
+                    <span localized>No registration requests found</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='hidden_frame' style='display:none'></div>

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='small-content-with-max-width'>
+                <label class='left margin-left-7 list-type-label' localized>dashboard.data.source</label>
+                <select class='form-control left list-type-select margin-right-20'
+                        ng-model='dataType'>
+                    <option ng-repeat='dataSource in dataSources'
+                            value="{{dataSource.id - 1}}">{{dataSource.title}}</option>
+                </select>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='nowrap'>Source</th>
+                        <th class='nowrap'>Price</th>
+                        <th localized class='actions-column-small'>lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='price in filtered = (prices | filter: priceMatch())'>
+                        <td>{{getLocalizedPrice(price)}}</td>
+                        <td>
+                            <span class='money-sign'>$</span>
+                            <input type='text'
+                                   class='form-control price-input'
+                                   ng-model='price.price'/>
+                        </td>
+                        <td>
+                            <button type='button' class='btn btn-default' ng-click='savePrice( price )'>
+                                <span class='glyphicon glyphicon-floppy-disk'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>matched</td>
+                        <td>
+                            <span class='money-sign'>$</span>
+                            <input type='text'
+                                   class='form-control price-input'
+                                   ng-model='matchedPrices[dataType]'/>
+                        </td>
+                        <td>
+                            <button type='button' class='btn btn-default' ng-click='saveMatchedPrice(s)'>
+                                <span class='glyphicon glyphicon-floppy-disk'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

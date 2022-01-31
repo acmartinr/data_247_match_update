@@ -1,0 +1,29 @@
+<div class='padding-top' ng-if='!isEmpty()'>
+    <div>
+        <input class='form-control lists-search margin-bottom'
+               ng-model='config.searchValue'
+               localized-placeholder='dashboard.lists.search.list' >
+    </div>
+
+    <div class='col-sm-4' ng-if='( lists | filter: { name: config.searchValue } ).length > 0'><!--ng-if='!config.searchValue' -->
+        <input id='list.name.select.all'
+               ng-model='config.selectAll'
+               ng-change='onSelectAllChanged()'
+               type='checkbox'/>
+
+        <label class='pointer tiny-label'
+               for='list.name.select.all'
+               localized>dashboard.lists.select.all</label>
+    </div>
+
+    <div class='col-sm-4'
+         ng-repeat='list in filtered = ( lists | filter: { name: config.searchValue } )'>
+        <input id='{{list.name}}'
+               ng-model='selectedLists[ list.name + "|" + list.id ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{list.name}}'>{{list.name}}</label>
+    </div>
+</div>
+
+<div ng-if='isEmpty()'
+     class='margin-top-20'
+     localized>dashboard.no.lists</div>

@@ -1,0 +1,38 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": ethnicityType === "group"}'
+                   ng-click='ethnicityType = "group"' localized>ethnicity.group</a>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": ethnicityType === "language"}'
+                   ng-click='ethnicityType = "language"' localized>ethnicity.language</a>
+                <!--<a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": ethnicityType === "religion"}'
+                   ng-click='ethnicityType = "religion"' localized>ethnicity.religion</a>-->
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='ethnicityType === "group"'>
+            <div class='col-sm-12' ng-repeat='item in groups'>
+                <input id='{{item.value}}' ng-model='selectedEthnicityGroup[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='ethnicityType === "language"'>
+            <div class='col-sm-12' ng-repeat='item in languages'>
+                <input id='{{item.value}}' ng-model='selectedEthnicityLanguage[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+        <div ng-if='ethnicityType === "religion"'>
+            <div class='col-sm-12' ng-repeat='item in religions'>
+                <input id='{{item.value}}' ng-model='selectedEthnicityReligion[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+    </div>
+</div>

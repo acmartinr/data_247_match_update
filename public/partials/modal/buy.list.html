@@ -1,0 +1,54 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form class='form-horizontal'>
+            <div class='form-group' ng-if='checkListSize()'>
+                <span class='list_size_error'>You can only get a list of 1M records or less.</span>
+            </div>
+
+            <div class='form-group'>
+                <label class='col-sm-3 text-right' localized>buy.list.balance</label>
+                <span class='col-sm-9'>${{balance}}</span>
+            </div>
+
+            <div class='form-group'>
+                <label class='col-sm-3 text-right' localized>buy.list.amount</label>
+                <span class='col-sm-9'>${{amount}}</span>
+            </div>
+
+            <div class='form-group'>
+                <label class='col-sm-3 text-right' localized>buy.list.records</label>
+
+                <div class='col-sm-2 records-count-wrapper'>
+                    <input type='text'
+                           class='form-control'
+                           ng-model='total'
+                           ng-change='totalChanged()'
+                           ng-keypress='filterValue( $event )'
+                           placeholder='Enter records count'/>
+                </div>
+
+                <div class='col-sm-6'>
+                    <input ng-model='total' type='text'
+                           ng-change='totalChanged()'
+                           slider
+                           options='sliderOptions' />
+                </div>
+            </div>
+
+            <div class='right-align'>
+                <img ng-if='loading' class='margin-left' src='/assets/images/loading.gif'>
+
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        ng-disabled='loading'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='buy()'
+                        class='btn btn-default'
+                        ng-disabled='total === 0 || loading'
+                        localized>buy.list.buy</button>
+            </div>
+        </form>
+    </div>
+</div>
+

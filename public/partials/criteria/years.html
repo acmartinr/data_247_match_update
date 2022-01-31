@@ -1,0 +1,49 @@
+<div class='padding-top'>
+    <div class='col-sm-12'>
+        <span class='estate-date-span'>Start Date:</span>
+        <input type="text"
+               class="form-control select-month-input no-margin"
+               placeholder="Choose date"
+               id="startDateAuto"
+               datepicker-options="{minMode: 'year'}"
+               datepicker-mode="'year'"
+               datepicker-popup="yyyy"
+               show-button-bar="false"
+               ng-model="values.startDate"
+               ng-change="onStartDateChanged()"
+               is-open="startDateOpened"
+               ng-click='startDateOpened = !startDateOpened'/>
+
+        <input type='checkbox'
+               ng-model='values.before'
+               id="before"
+               ng-disabled="!values.startDate"
+               ng-change="onStartDateIntervalParamChanged()"
+               class='estate-date-checkbox'/>
+        <label for='before' class="estate-date-span">Before</label>
+    </div>
+
+    <div class='col-sm-12 margin-top'>
+        <span class='estate-date-span'>End Date:</span>
+        <input type="text"
+               class="form-control select-month-input no-margin"
+               placeholder="Choose date"
+               id="endDateAuto"
+               datepicker-options="{minMode: 'year'}"
+               datepicker-mode="'year'"
+               datepicker-popup="yyyy"
+               show-button-bar="false"
+               ng-model="values.endDate"
+               ng-change="onEndDateChanged()"
+               is-open="endDateOpened"
+               ng-click='endDateOpened = !endDateOpened'/>
+
+        <input type='checkbox'
+               ng-model='values.after'
+               id="after"
+               ng-disabled="!values.endDate"
+               ng-change="onEndDateIntervalParamChanged()"
+               class='estate-date-checkbox'/>
+        <label for='after' class="estate-date-span">After</label>
+    </div>
+</div>

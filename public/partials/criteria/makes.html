@@ -1,0 +1,33 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <input class='form-control margin-bottom'
+                   localized-placeholder='Search make by name'
+                   ng-model='searchConfig.search'
+                   ng-change='updateData()'>
+        </div>
+    </div>
+
+    <div ng-if='loading' class='center'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <div ng-if='!loading'>
+        <div class='col-sm-4'>
+            <input id='make_all' ng-model='searchConfig.all' ng-change='onAllMakesChanged()' type='checkbox'/>
+            <label class='pointer tiny-label' for='make_all'>ALL</label>
+        </div>
+
+        <div class='col-sm-4' ng-repeat='make in makes'>
+            <input id='make_{{make}}' ng-model='selectedMakes[make + "|" + make]' type='checkbox'/>
+            <label class='pointer tiny-label' for='make_{{make}}'>{{make}}</label>
+        </div>
+
+        <div class='center margin-bottom load-more' ng-if='searchConfig.limit < total'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </div>
+
+</div>

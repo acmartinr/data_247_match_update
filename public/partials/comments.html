@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="huge-content-with-max-width">
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "c.date" )'>
+                            <span localized>Date</span>
+                            <span ng-if='config.sortValue === "c.date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "c.date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "u.username" )'>
+                            <span localized>Username</span>
+                            <span ng-if='config.sortValue === "u.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "u.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "c.name" )'>
+                            <span localized>Visible name</span>
+                            <span ng-if='config.sortValue === "c.name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "c.name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'>
+                            <span localized>Comment</span>
+                        </th>
+
+                        <th class='pointer nowrap'>
+                            <span localized>Answer</span>
+                        </th>
+
+                        <th class='pointer nowrap'>
+                            <span localized>Approved</span>
+                        </th>
+
+                        <th class='actions-column'>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='comment in comments'>
+                        <td>{{getFormattedDate(comment.date)}}</td>
+                        <td>{{comment.username}}</td>
+                        <td>{{comment.name}}</td>
+                        <td>{{comment.comment}}</td>
+                        <td>{{comment.answer}}</td>
+                        <td>{{comment.approved ? 'Yes' : 'No'}}</td>
+                        <td>
+                            <button type='button' class='btn btn-default' ng-click='editComment(comment)'>
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </button>
+
+                            <button type='button' class='btn btn-default' ng-click='removeComment(comment)'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='comments && comments.length === 0' class='center'>
+                    <span localized>There is no comment yet</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='hidden_frame' style='display:none'></div>
+

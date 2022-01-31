@@ -1,0 +1,69 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='searchConfig.option === "estimatedIncome"'>
+            <div class='col-sm-12' ng-repeat='item in incomes'>
+                <input id='finance_{{item.value}}' ng-model='selectedEstimatedIncome[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='finance_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "netWorth"'>
+            <div class='col-sm-12' ng-repeat='item in nets'>
+                <input id='finance_{{item.value}}' ng-model='selectedNetWorthes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='finance_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "investmentEstimatedResidentialPropertiesOwned"'>
+            <div class='col-sm-12' ng-repeat='item in propertyOwned'>
+                <input id='finance_{{item.value}}' ng-model='selectedPropertyOwned[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='finance_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "investment"'>
+            <input id='finance_{{tabs[1].value}}' ng-model='selectedProperties[tabs[1].title + "|" + tabs[1].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[1].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investmentStockSecurities"'>
+            <input id='finance_{{tabs[2].value}}' ng-model='selectedProperties[tabs[2].title + "|" + tabs[2].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[2].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investing_active"'>
+            <input id='finance_{{tabs[4].value}}' ng-model='selectedProperties[tabs[4].title + "|" + tabs[4].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[4].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investmentsPersonal"'>
+            <input id='finance_{{tabs[5].value}}' ng-model='selectedProperties[tabs[5].title + "|" + tabs[5].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[5].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investmentsRealeState"'>
+            <input id='finance_{{tabs[6].value}}' ng-model='selectedProperties[tabs[6].title + "|" + tabs[6].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[6].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investingFinanceGrouping"'>
+            <input id='finance_{{tabs[7].value}}' ng-model='selectedProperties[tabs[7].title + "|" + tabs[7].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[7].value}}'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "investmentsForeign"'>
+            <input id='finance_{{tabs[8].value}}' ng-model='selectedProperties[tabs[8].title + "|" + tabs[8].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='finance_{{tabs[8].value}}'>Yes</label>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,274 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+body {
+    height: 100%;
+    min-height: 100%;
+}
+
+.login {
+    margin: 20px 40px;
+    max-width: 400px;
+}
+
+.login-title {
+    color: #3167c1;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 30px;
+}
+
+.login-text {
+    text-align: center;
+}
+
+@media only screen and (min-width : 481px) {
+    .login {
+        margin: 20px auto !important;
+    }
+}
+
+
+.try-for-free-link {
+    float: right;
+    padding-top: 8px;
+}
+
+.footer-layer {
+    text-align: center;
+    background: #e1e1e1;
+    color: #585757;
+    padding: 10px 0px 0px 0px;
+    margin-top: 20px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.add-credit {
+    padding-left: 10px;
+    color: white !important;
+}
+
+.gray {
+    color: #9d9d9d !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.dropdown-menu {
+    top: 47px !important;
+    right: 0px;
+    left: auto !important;
+    min-width: auto !important;
+}
+
+.main-container {
+    padding: 0px 20px;
+}
+
+.margin-right-20 {
+    margin-right: 20px !important;
+}
+
+.margin-right-10 {
+    margin-right: 10px !important;
+}
+
+.margin-left-10 {
+    margin-left: 10px !important;
+}
+
+.margin-top-10 {
+    margin-top: 10px !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px !important;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.tiny {
+    font-weight: normal !important;
+}
+
+.checkbox {
+    position: relative;
+    top: 1px;
+    display: inline-block !important;
+}
+
+.block {
+    display: block !important;
+}
+
+.inline {
+    display: inline-block !important;
+}
+
+.keyword-input {
+    display: inline-block !important;
+    width: calc(100% - 142px);
+    position: relative;
+    top: 1px;
+}
+
+.tip-span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.date-input {
+    margin-left: 5px;
+    width: 60px;
+    display: inline-block;
+}
+
+.distance-input {
+    margin-left: 5px;
+    width: 79px;
+    display: inline-block;
+}
+
+.zip-code-input {
+    margin-left: 5px;
+    width: 120px;
+    display: inline-block;
+}
+
+.width-half {
+    width: 50%;
+    display: inline-block;
+}
+
+.item-span {
+    margin: 2px;
+    padding: 0 5px;
+    display: inline-block;
+    height: 26px;
+    line-height: 25px;
+    border: 1px solid #acacac;
+    border-radius: 3px;
+}
+
+.actions-column {
+    width: 100px;
+}
+
+.lists-search {
+    width: calc(100% - 70px);
+    float: right;
+}
+
+.lists-name {
+    display: block;
+    word-wrap: break-word;
+}
+
+.table {
+    word-break: break-word;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.confirm span {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-dialog {
+    margin: 50px auto;
+    max-width: 300px;
+}
+
+.confirm div {
+    text-align: center;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.profile-balance-field {
+    width: calc(100% - 105px);
+    display: inline-block;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.profile-balance-payment {
+    width: 100px;
+    display: inline-block;
+}
+
+.profile-balance-payment button {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.payment-input {
+    width: calc(100% - 190px);
+    display: inline-block;
+}
+
+.payment-label-content {
+    width: 100%;
+    height: 42px;
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.payment-label-content.focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.payment-label-content.invalid {
+  border-color: #fa755a;
+}
+
+.payment-error-message {
+    color: red;
+    font-size: 12px;
+    display: block;
+    position: relative;
+    top: 15px;
+}
+
+.padding-top {
+    padding-top: 15px;
+}

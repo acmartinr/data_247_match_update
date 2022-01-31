@@ -1,0 +1,26 @@
+<div class="popup-cont">
+
+    <div align="right">
+        <a class="close_modal" ng-click="close()">X</a>
+    </div>
+
+    <div>
+        <p><strong>Feedback</strong></p>
+        <p><input
+                ng-model='feedback.name'
+                type="text" placeholder="Name"></p>
+        <p><input
+                ng-model='feedback.email'
+                type="text" placeholder="Email (required)"></p>
+        <p><textarea
+                ng-model='feedback.message'
+                placeholder="Message"></textarea></p>
+
+        <p><input type="button"
+                  ng-click='send()'
+                  ng-disabled='!feedback.email || !feedback.message'
+                  value="Send"
+                  class="form-submit"></p>
+    </div>
+
+</div>

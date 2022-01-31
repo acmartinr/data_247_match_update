@@ -1,0 +1,32 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <input class='form-control col-sm-12'
+                   localized-placeholder='Search source'
+                   ng-model='params.filter'
+                   ng-change='onSearchChanged()'>
+        </div>
+    </div>
+
+    <div class='padding-top'>
+        <div class='col-sm-6'>
+            <input id='title_all'
+                   ng-model='config.all'
+                   ng-change='onAllSourcesChanged()'
+                   type='checkbox'/>
+            <label class='pointer tiny-label' for='title_all'>all</label>
+        </div>
+
+        <div class='col-sm-6' ng-repeat='source in sources'>
+            <input id='{{source}}' class='vertical-top' ng-model='selectedSources[ source.toLowerCase() + "|" + source ]' type='checkbox'/>
+            <label class='pointer tiny-label checkbox-label site-label' for='{{source}}'>{{source}}</label>
+        </div>
+
+        <div class='center margin-bottom load-more' ng-if='params.limit < params.count'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </div>
+
+</div>

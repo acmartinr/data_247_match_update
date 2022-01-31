@@ -1,0 +1,142 @@
+<div class="container-fluid padding-bottom-50">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <div ng-if='errorMessage'>{{errorMessage}}</div>
+                <div ng-if='successMessage'>{{successMessage}}</div>
+
+                <form username='profileForm' ng-submit='singIn()'>
+                    <div class='center'>
+                        <label localized>profile.information</label>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='username' localized>profile.username</label>
+                        <input type='text' class='form-control' id='username'
+                               ng-model='profile.username' localized-placeholder='profile.username.placeholder'
+                               required disabled/>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='email' localized>profile.email</label>
+                        <input type='text' class='form-control' id='email'
+                               ng-model='profile.email' localized-placeholder='profile.email.placeholder'
+                               required disabled/>
+                    </div>
+
+                    <div class='form-group'>
+                        <label localized>profile.balance</label>
+
+                        <div ng-if='isPaymentAvailable()'>
+                            <span class='form-control profile-balance-field'
+                                  disabled>${{profile.balance}}</span>
+
+                            <div class='profile-balance-payment right-align'>
+                                <button class='btn btn-default'
+                                        ng-click='doPayment()'
+                                        localized>profile.balance.payment</button>
+                            </div>
+                        </div>
+
+                        <div ng-if='!isPaymentAvailable()'>
+                            <span class='form-control'
+                                  disabled>${{profile.balance}}</span>
+                        </div>
+                    </div>
+
+                    <div class='form-group' ng-if='!profile.verified'>
+                        <label for='phone' localized>profile.phone</label>
+
+                        <div>
+                            <input type='text'
+                                   class='form-control profile-phone-field'
+                                   id='phone'
+                                   ng-model='profile.phone'
+                                   ui-us-phone-number
+                                   localized-placeholder='profile.phone.placeholder'
+                                   required/>
+
+                            <div class='profile-verify-phone right-align'>
+                                <button class='btn btn-default'
+                                        ng-click='verifyPhoneNumber()'
+                                        localized>profile.verify</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='form-group' ng-if='profile.verified'>
+                        <label for='phoneVerified' localized>profile.phone</label>
+                        <input type='text'
+                               class='form-control'
+                               id='phoneVerified'
+                               ng-model='profile.phone'
+                               ui-us-phone-number
+                               localized-placeholder='profile.phone.placeholder'
+                               required/>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='companyName' localized>profile.company.name</label>
+                        <input type='text' class='form-control' id='companyName'
+                               ng-model='profile.companyName'
+                               localized-placeholder='profile.company.name.placeholder'/>
+                    </div>
+
+                    <div class='form-group' ng-if='isAddress()'>
+                        <label for='address' localized>profile.address</label>
+                        <textarea focus-on='isAddress()'
+                                  type='text' class='form-control' id='address'
+                                  ng-model='profile.address'
+                                  localized-placeholder='profile.address.placeholder'></textarea>
+                    </div>
+
+                    <div class='form-group' ng-if='!isAddress()'>
+                        <label for='address' localized>State</label>
+                        <input focus-on='!isAddress()'
+                               type='text' class='form-control' id='state'
+                               ng-model='profile.address'
+                               placeholder='Enter your state'/>
+                    </div>
+
+                    <div class='right-align'>
+                        <button class='btn btn-default'
+                                ng-click='updateProfile()'
+                                localized>profile.profile</button>
+                    </div>
+
+                    <div class='center margin-top'>
+                        <label localized>profile.change.password</label>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='oldPassword' localized>profile.old.password</label>
+                        <input type='password' class='form-control' id='oldPassword'
+                               ng-model='passwordConfig.oldPassword'
+                               localized-placeholder='profile.old.password.placeholder'/>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='password' localized>profile.new.password</label>
+                        <input type='password' class='form-control' id='password'
+                               ng-model='passwordConfig.password'
+                               localized-placeholder='profile.new.password.placeholder'/>
+                    </div>
+
+                    <div class='form-group'>
+                        <label for='retypePassword' localized>profile.retype.password</label>
+                        <input type='password' class='form-control' id='retypePassword'
+                               ng-model='passwordConfig.retypePassword'
+                               localized-placeholder='profile.retype.password.placeholder'/>
+                    </div>
+
+                    <div class='right-align'>
+                        <button class='btn btn-default'
+                                ng-click='changePassword()'
+                                ng-disabled='!passwordConfig.oldPassword || !passwordConfig.password || ( passwordConfig.password != passwordConfig.retypePassword )'
+                                localized>profile.change.password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

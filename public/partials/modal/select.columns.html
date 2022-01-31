@@ -1,0 +1,26 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <label>Search columns</label>
+        <!--<input class='all margin-left-important' ng-model='config.all' ng-change='selectAll()' type='checkbox'/>
+        <span class='all-span pointer' ng-click='changeAll()'>select all</span>-->
+        <div class='row'>
+            <div class='col-sm-6' ng-repeat='column in columns'>
+                <input id='{{column}}'
+                       class='margin-left-important pointer'
+                       ng-model='selectedColumns[ column ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{column}}'>{{column.split( '|' )[ 0 ]}}</label>
+            </div>
+        </div>
+
+        <div class='right-align'>
+            <button class='btn btn-default'
+                    ng-click='close()'
+                    localized>lists.modal.cancel</button>
+
+            <button ng-click='done()'
+                    class='btn btn-default'
+                    localized>OK</button>
+        </div>
+    </div>
+</div>
+

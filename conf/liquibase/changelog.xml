@@ -1,0 +1,2234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
+        logicalFilePath="db.changelog.xml">
+
+    <changeSet id="12.03.17-21:20" author="serfeo">
+        <comment>Create users table</comment>
+        <sql>
+            CREATE TABLE users (
+                id serial NOT NULL CONSTRAINT user_pr_key PRIMARY KEY,
+                username varchar(50),
+                email varchar(100),
+                phone varchar(50),
+                companyName text,
+                address text,
+                promoCode varchar(50),
+                password varchar(50),
+                CONSTRAINT user_name_key UNIQUE( username ),
+                CONSTRAINT user_email_key UNIQUE( email )
+            );
+        </sql>
+        <rollback>
+            DROP TABLE users;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:25" author="serfeo">
+        <comment>Create registration requests table</comment>
+        <sql>
+            CREATE TABLE registrationRequests (
+                id serial NOT NULL CONSTRAINT registration_request_pr_key PRIMARY KEY,
+                uuid varchar(100),
+                username varchar(50),
+                email varchar(100),
+                phone varchar(50),
+                companyName text,
+                address text,
+                promoCode varchar(50),
+                password varchar(50)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE registrationRequests;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:30" author="serfeo">
+        <comment>Create cities table</comment>
+        <sql>
+            CREATE TABLE cities (
+                id serial NOT NULL CONSTRAINT cities_pr_key PRIMARY KEY,
+                state varchar(10),
+                county varchar(100),
+                city varchar(100)
+            );
+            CREATE INDEX cities_state_key ON cities (state);
+            CREATE INDEX cities_city_key ON cities (city);
+        </sql>
+        <rollback>
+            DROP TABLE cities;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:35" author="serfeo">
+        <comment>Create counties table</comment>
+        <sql>
+            CREATE TABLE counties (
+                id serial NOT NULL CONSTRAINT counties_pr_key PRIMARY KEY,
+                state varchar(10),
+                county varchar(100)
+            );
+            CREATE INDEX counties_state_key ON counties (state);
+        </sql>
+        <rollback>
+            DROP TABLE counties;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:40" author="serfeo">
+        <comment>Create zip codes table</comment>
+        <sql>
+            CREATE TABLE zipCodes (
+                id serial NOT NULL CONSTRAINT zip_codes_pr_key PRIMARY KEY,
+                state varchar(10),
+                code integer
+            );
+            CREATE INDEX zip_codes_state_key ON zipCodes(state);
+        </sql>
+        <rollback>
+            DROP TABLE zipCodes;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:45" author="serfeo">
+        <comment>Create area codes table</comment>
+        <sql>
+            CREATE TABLE areaCodes (
+                id serial NOT NULL CONSTRAINT area_codes_pr_key PRIMARY KEY,
+                state varchar(10),
+                code smallint
+            );
+            CREATE INDEX area_codes_state_key ON areaCodes(state);
+        </sql>
+        <rollback>
+            DROP TABLE areaCodes;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.03.17-21:50" author="serfeo">
+        <comment>Create area codes table</comment>
+        <sql>
+            CREATE TABLE consumers (
+                id serial NOT NULL CONSTRAINT consumer_pr_key PRIMARY KEY,
+                ADDR text,
+                APT text,
+                BUY_AUTO_PARTS boolean,
+                BUY_GARDENING boolean,
+                BUY_HOME_GARD boolean,
+                CC_USER boolean,
+                CITY varchar(100),
+                CREDIT_LINES integer,
+                CREDIT_RANGE_NEW integer,
+                CREDIT_RATING varchar(10),
+                DOB_DAY integer,
+                DOB_MON integer,
+                DOB_YR integer,
+                DONR_CHARITABLE boolean,
+                DONR_MAIL_ORD boolean,
+                DONR_POL boolean,
+                DONR_POL_CONS boolean,
+                DONR_POL_LIB boolean,
+                DONR_RELIG boolean,
+                DONR_VETS boolean,
+                DWELL_TYP varchar(10),
+                EDUC varchar(10),
+                ETHNIC_ASSIM varchar(10),
+                ETHNIC_CODE varchar(10),
+                ETHNIC_CONF varchar(10),
+                ETHNIC_GRP varchar(10),
+                ETHNIC_HISP_CNTRY varchar(10),
+                ETHNIC_LANG varchar(10),
+                ETHNIC_RELIG varchar(10),
+                FIPS_CTY varchar(100),
+                FN varchar(100),
+                GENDER varchar(10),
+                GENS varchar(100),
+                HH_INCOME varchar(100),
+                HH_MARITAL_STAT varchar(100),
+                HH_SIZE integer,
+                HOME_OWNR varchar(10),
+                HOME_OWNR_SRC varchar(100),
+                INF_HH_RANK varchar(100),
+                INT_HOB_SWEEPS varchar(100),
+                INT_TRAV_CASINO boolean,
+                INT_TRAV_GENL boolean,
+                LIFE_DIY varchar(100),
+                LIFE_HOME varchar(100),
+                LN varchar(100),
+                LOR integer,
+                MI varchar(100),
+                NAME_PRE varchar(100),
+                NET_WORTH varchar(100),
+                NUM_ADULTS integer,
+                NUM_KIDS integer,
+                PHONE varchar(50),
+                AREA_CODE smallint,
+                PRES_KIDS varchar(100),
+                PROP_TYPE varchar(100),
+                ST varchar(10),
+                ST_CODE smallint,
+                TIME_ZN varchar(100),
+                VET_IN_HH boolean,
+                ZIP_CODE integer,
+                ZIP varchar(50),
+                ZIP4 varchar(50),
+                COUNTY varchar(100),
+                DOB_DATE bigint
+            );
+        </sql>
+        <rollback>
+            DROP TABLE consumers;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:10" author="serfeo">
+        <comment>Add states index to consumers table</comment>
+        <sql>
+            CREATE INDEX states_id_indx ON consumers(ST_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE states_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:15" author="serfeo">
+        <comment>Add counties index to consumers table</comment>
+        <sql>
+            CREATE INDEX county_id_indx ON consumers(COUNTY, id);
+        </sql>
+        <rollback>
+            DROP TABLE county_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:20" author="serfeo">
+        <comment>Add city index to consumers table</comment>
+        <sql>
+            CREATE INDEX city_id_indx ON consumers(CITY, id);
+        </sql>
+        <rollback>
+            DROP TABLE city_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:25" author="serfeo">
+        <comment>Add zip code index to consumers table</comment>
+        <sql>
+            CREATE INDEX zip_code_id_indx ON consumers(ZIP_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE zip_code_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:30" author="serfeo">
+        <comment>Add area code index to consumers table</comment>
+        <sql>
+            CREATE INDEX area_code_id_indx ON consumers(AREA_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE area_code_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.03.17-17:35" author="serfeo">
+        <comment>Add date of birthday index to consumers table</comment>
+        <sql>
+            CREATE INDEX dob_date_id_indx ON consumers(DOB_DATE, id);
+        </sql>
+        <rollback>
+            DROP TABLE dob_date_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.04.2017-20.50" author="serfeo">
+        <comment>Add verified column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN verified int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN verified;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.04.2017-20.55" author="serfeo">
+        <comment>Add verificationCode column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN verificationCode varchar(10);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN verificationCode;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.04.2017-21:00" author="serfeo">
+        <comment>Create sms table</comment>
+        <sql>
+            CREATE TABLE sms (
+                id serial NOT NULL CONSTRAINT sms_pr_key PRIMARY KEY,
+                userId int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                phone varchar(20) NOT NULL,
+                message text NOT NULL
+            );
+        </sql>
+        <rollback>
+            DROP TABLE sms;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.04.2017-22.00" author="serfeo">
+        <comment>Add ip column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN ip varchar(20);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN ip;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.04.2017-22.10" author="serfeo">
+        <comment>Add ip column to registrationRequests table</comment>
+        <sql>
+            ALTER TABLE registrationRequests ADD COLUMN ip varchar(20);
+        </sql>
+        <rollback>
+            ALTER TABLE registrationRequests DROP COLUMN ip;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06.04.2017-17:00" author="serfeo">
+        <comment>Create lists table</comment>
+        <sql>
+            CREATE TABLE lists (
+                id serial NOT NULL CONSTRAINT lists_pr_key PRIMARY KEY,
+                userId int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                name text,
+                cnt bigint,
+                date bigint,
+                request text NOT NULL
+            );
+        </sql>
+        <rollback>
+            DROP TABLE lists;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10.04.2017-00:40" author="serfeo">
+        <comment>Create user lists items table</comment>
+        <sql>
+            CREATE TABLE userListsItems (
+                id serial NOT NULL CONSTRAINT user_lists_pr_key PRIMARY KEY,
+                listId int NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+                itemId int
+            );
+        </sql>
+        <rollback>
+            DROP TABLE userListsItems;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10.04.2017-00:45" author="serfeo">
+        <comment>Add list id, item id index to user lists items table</comment>
+        <sql>
+            CREATE INDEX list_id_item_id_odx ON userListsItems(listId, itemId);
+        </sql>
+        <rollback>
+            DROP INDEX list_id_item_id_odx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.04.2017-14.10" author="serfeo">
+        <comment>Add balance column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN balance float NOT NULL DEFAULT 10;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN balance;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.04.2017-17.10" author="serfeo">
+        <comment>Add card holder details column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN cardHolderDetails TEXT;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN cardHolderDetails;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.04.2017-17.50" author="serfeo">
+        <comment>Add hawaii counties</comment>
+        <sql>
+            INSERT INTO counties(state, county) VALUES
+                ('Hawaii', 'Hawaii'),
+                ('Hawaii', 'City and County of Honolulu'),
+                ('Hawaii', 'Kalawao'),
+                ('Hawaii', 'Kauaʻi'),
+                ('Hawaii', 'Maui');
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="17.04.2017-17.30" author="serfeo">
+        <comment>Add state column to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN state INT NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN state;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17.04.2017-17:40" author="serfeo">
+        <comment>Create purchased user lists items table</comment>
+        <sql>
+            CREATE TABLE purchasedUserListsItems (
+                id serial NOT NULL CONSTRAINT purchased_user_lists_pr_key PRIMARY KEY,
+                listId int NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+                itemId int
+            );
+        </sql>
+        <rollback>
+            DROP TABLE purchasedUserListsItems;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17.04.2017-17:45" author="serfeo">
+        <comment>Add list id, item id index to purchased user lists items table</comment>
+        <sql>
+            CREATE INDEX purchased_list_id_item_id_odx ON purchasedUserListsItems(listId, itemId);
+        </sql>
+        <rollback>
+            DROP INDEX purchased_list_id_item_id_odx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17.04.2017-17.55" author="serfeo">
+        <comment>Add pcnt column to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN pcnt bigint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN pcnt;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-17:35" author="serfeo">
+        <comment>Create business table</comment>
+        <sql>
+            CREATE TABLE business (
+                id serial NOT NULL CONSTRAINT business_pr_key PRIMARY KEY,
+                ADDRESS varchar(200),
+                ANNUAL_SALES varchar(100),
+                CITY varchar(100),
+                COMPANY_NAME varchar(200),
+                CONTACT_NAME varchar(200),
+                COUNTY varchar(100),
+                EMPLOYEE varchar(50),
+                FAX varchar(50),
+                GENDER varchar(50),
+                INDUSTRY varchar(100),
+                LATITUDE float,
+                LONGITUDE float,
+                PHONE varchar(20),
+                SIC_CODE varchar(20),
+                STATE varchar(22),
+                ST_CODE smallint,
+                TITLE varchar(100),
+                WWW varchar(100),
+                ZIP_CODE integer,
+                AREA_CODE smallint,
+                ZIP varchar(50)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE business;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-18:10" author="serfeo">
+        <comment>Add states index to business table</comment>
+        <sql>
+            CREATE INDEX business_states_id_indx ON business(ST_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE business_states_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-18:15" author="serfeo">
+        <comment>Add counties index to business table</comment>
+        <sql>
+            CREATE INDEX business_county_id_indx ON business(COUNTY, id);
+        </sql>
+        <rollback>
+            DROP TABLE business_county_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-18:20" author="serfeo">
+        <comment>Add city index to business table</comment>
+        <sql>
+            CREATE INDEX business_city_id_indx ON business(CITY, id);
+        </sql>
+        <rollback>
+            DROP TABLE business_city_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-18:25" author="serfeo">
+        <comment>Add zip code index to business table</comment>
+        <sql>
+            CREATE INDEX business_zip_code_id_indx ON business(ZIP_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE business_zip_code_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.04.17-18:30" author="serfeo">
+        <comment>Add area code index to business table</comment>
+        <sql>
+            CREATE INDEX business_area_code_id_indx ON business(AREA_CODE, id);
+        </sql>
+        <rollback>
+            DROP TABLE business_area_code_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="19.04.2017-00.50" author="serfeo">
+        <comment>Add admin column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN admin smallint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN admin;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="19.04.2017-01.00" author="serfeo">
+        <comment>Insert admin record to users table</comment>
+        <sql>
+            INSERT INTO users( username, email, phone, companyName, address, password, admin )
+            VALUES( 'admin', 'fast.daemon@gmail.com', '', '', '', 'b2ab6613d5ae654c53f33218ba571c27', 1 )
+        </sql>
+        <rollback>
+            DELETE FROM users WHERE username='admin';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.04.2017-01.40" author="serfeo">
+        <comment>Add type column to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN type smallint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN type;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="24.04.2017-17.10" author="serfeo">
+        <comment>Add hawaii counties</comment>
+        <sql>
+            INSERT INTO counties(state, county) VALUES
+            ('HI', 'Hawaii'),
+            ('HI', 'City and County of Honolulu'),
+            ('HI', 'Kalawao'),
+            ('HI', 'Kauaʻi'),
+            ('HI', 'Maui');
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="08.06.17-13:20" author="serfeo">
+        <comment>Create industries table</comment>
+        <sql>
+            CREATE TABLE industries (
+                id serial NOT NULL CONSTRAINT industries_pr_key PRIMARY KEY,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE industries;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.06.17-13:30" author="serfeo">
+        <comment>Fill industries table</comment>
+        <sql>
+            INSERT INTO industries(name) SELECT INDUSTRY FROM business GROUP BY INDUSTRY ORDER BY INDUSTRY;
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="10.09.2017-23.40" author="serfeo">
+        <comment>Add missed cities</comment>
+        <sql>
+            INSERT INTO cities(state, county, city) VALUES
+            ('CA', 'Orange', 'Buena Park'),
+            ('CA', 'Los Angeles', 'North Hollywood');
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="16.09.2017-21.40" author="serfeo">
+        <comment>Add status column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN status varchar(20);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN status;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.09.2017-21.45" author="serfeo">
+        <comment>Add date column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN date bigint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN date;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.09.2017-22:20" author="serfeo">
+        <comment>Create payments table</comment>
+        <sql>
+            CREATE TABLE payments (
+                id serial NOT NULL CONSTRAINT payments_pr_key PRIMARY KEY,
+                date bigint,
+                strDate varchar(30),
+                userId int REFERENCES users(id) ON DELETE CASCADE,
+                type varchar(30),
+                amount float
+            );
+        </sql>
+        <rollback>
+            DROP TABLE payments;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.10.2017-02.50" author="serfeo">
+        <comment>Add token column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN token varchar(100);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN token;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.10.17-15:20" author="serfeo">
+        <comment>Create temp table names table</comment>
+        <sql>
+            CREATE TABLE tempTableNames (
+                id serial NOT NULL CONSTRAINT temp_table_names_pr_key PRIMARY KEY,
+                type int,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE tempTableNames;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-13:40" author="serfeo">
+        <comment>Drop temp table names</comment>
+        <sql>
+            DROP TABLE tempTableNames;
+        </sql>
+        <rollback>
+            CREATE TABLE tempTableNames (
+                id serial NOT NULL CONSTRAINT temp_table_names_pr_key PRIMARY KEY,
+                type int,
+                name varchar(200)
+            );
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-13:45" author="serfeo">
+        <comment>Create data tables table</comment>
+        <sql>
+            CREATE TABLE dataTables (
+                id serial NOT NULL CONSTRAINT data_tables_pr_key PRIMARY KEY,
+                type int,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE dataTables;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-13:50" author="serfeo">
+        <comment>Insert default tables to data tables</comment>
+        <sql>
+            INSERT INTO dataTables ( type, name ) VALUES ( 0, 'consumers' );
+            INSERT INTO dataTables ( type, name ) VALUES ( 1, 'business' );
+        </sql>
+        <rollback>
+            DELETE FROM dataTables WHERE name = 'consumers';
+            DELETE FROM dataTables WHERE name = 'business';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-13:55" author="serfeo">
+        <comment>Add table name column to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN tableName varchar(100);
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN tableName;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-14:00" author="serfeo">
+        <comment>Add empty table name column in lists table</comment>
+        <sql>
+            UPDATE lists SET tableName = 'consumers' WHERE type = 0;
+            UPDATE lists SET tableName = 'business' WHERE type = 1;
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="22.10.17-15:15" author="serfeo">
+        <comment>Add removed column to data tables table</comment>
+        <sql>
+            ALTER TABLE dataTables ADD COLUMN removed int default 0;
+        </sql>
+        <rollback>
+            ALTER TABLE dataTables DROP COLUMN removed;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:20" author="serfeo">
+        <comment>Add hash column to consumers table</comment>
+        <sql>
+            ALTER TABLE consumers ADD COLUMN hash varchar(32);
+        </sql>
+        <rollback>
+            ALTER TABLE consumers DROP COLUMN hash;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:25" author="serfeo">
+        <comment>Update hash column in consumers table</comment>
+        <sql>
+            UPDATE consumers SET hash = md5( phone || fn || ln || dob_date );
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:30" author="serfeo">
+        <comment>Add hash column to business table</comment>
+        <sql>
+            ALTER TABLE business ADD COLUMN hash varchar(32);
+        </sql>
+        <rollback>
+            ALTER TABLE business DROP COLUMN hash;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:35" author="serfeo">
+        <comment>Update hash column in business table</comment>
+        <sql>
+            UPDATE business SET hash = md5( phone || company_name || contact_name );
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:40" author="serfeo">
+        <comment>Add hash column to purchased user lists items table</comment>
+        <sql>
+            ALTER TABLE purchasedUserListsItems ADD COLUMN hash varchar(32);
+        </sql>
+        <rollback>
+            ALTER TABLE purchasedUserListsItems DROP COLUMN hash;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:45" author="serfeo">
+        <comment>Add list, hash index to purchased user lists items table</comment>
+        <sql>
+            CREATE INDEX purchase_list_phone_id_indx ON purchasedUserListsItems(listId, hash);
+        </sql>
+        <rollback>
+            DROP INDEX purchase_list_phone_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:50" author="serfeo">
+        <comment>Add hash column to user lists items table</comment>
+        <sql>
+            ALTER TABLE userListsItems ADD COLUMN hash varchar(32);
+        </sql>
+        <rollback>
+            ALTER TABLE userListsItems DROP COLUMN hash;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.12.17-14:55" author="serfeo">
+        <comment>Add list, phone index to user lists items table</comment>
+        <sql>
+            CREATE INDEX items_list_phone_id_indx ON userListsItems(listId, hash);
+        </sql>
+        <rollback>
+            DROP TABLE items_list_phone_id_indx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.12.2017-18:15" author="serfeo">
+        <comment>Create uploaded lists table</comment>
+        <sql>
+            CREATE TABLE uploadedLists (
+                id serial NOT NULL CONSTRAINT uploaded_lists_pr_key PRIMARY KEY,
+                userId int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                name text,
+                cnt bigint,
+                date bigint
+            );
+        </sql>
+        <rollback>
+            DROP TABLE uploadedLists;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.12.2017-18:20" author="serfeo">
+        <comment>Create uploaded lists items table</comment>
+        <sql>
+            CREATE TABLE uploadedListsItems (
+                id serial NOT NULL CONSTRAINT uploaded_lists_item_pr_key PRIMARY KEY,
+                listId int NOT NULL REFERENCES uploadedLists(id) ON DELETE CASCADE,
+                phone varchar(50)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE uploadedListsItems;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10.12.2017-15:25" author="serfeo">
+        <comment>Add list id, phone index to uploaded lists items table</comment>
+        <sql>
+            CREATE INDEX list_id_phone_odx ON uploadedListsItems(listId, phone);
+        </sql>
+        <rollback>
+            DROP INDEX list_id_phone_odx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.01.2018-13.50" author="serfeo">
+        <comment>Add visible column to data tables table</comment>
+        <sql>
+            ALTER TABLE dataTables ADD COLUMN visible boolean NOT NULL DEFAULT TRUE;
+        </sql>
+        <rollback>
+            ALTER TABLE dataTables DROP COLUMN visible;
+        </rollback>
+    </changeSet>
+
+    <!--<changeSet id="18.01.2018-16.50" author="serfeo">
+        <comment>Add age column to consumers table</comment>
+        <sql>
+            ALTER TABLE consumers2017 ADD COLUMN AGE smallint NOT NULL DEFAULT 0;
+            ALTER TABLE consumers2018 ADD COLUMN AGE smallint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE consumers2017 DROP COLUMN AGE;
+            ALTER TABLE consumers2018 DROP COLUMN AGE;
+        </rollback>
+    </changeSet>-->
+
+    <!--<changeSet id="23.01.2018-16.50" author="serfeo">
+        <comment>Add age column to consumers table</comment>
+        <sql>
+            ALTER TABLE consumers2017 ADD COLUMN phoneType smallint;
+            ALTER TABLE consumers2018 ADD COLUMN phoneType smallint;
+
+            ALTER TABLE business2017 ADD COLUMN phoneType smallint;
+            ALTER TABLE business2018 ADD COLUMN phoneType smallint;
+        </sql>
+        <rollback>
+            ALTER TABLE consumers2017 DROP COLUMN phoneType;
+            ALTER TABLE consumers2018 DROP COLUMN phoneType;
+
+            ALTER TABLE business2017 DROP COLUMN phoneType;
+            ALTER TABLE business2018 DROP COLUMN phoneType;
+        </rollback>
+    </changeSet>-->
+
+    <changeSet id="23.01.2018-14:20" author="serfeo">
+        <comment>Create phone prefixes table</comment>
+        <sql>
+            CREATE TABLE phonePrefixes (
+                id serial NOT NULL CONSTRAINT phone_prefixes_pr_key PRIMARY KEY,
+                prefix varchar(10),
+                type smallInt
+            );
+        </sql>
+        <rollback>
+            DROP TABLE phonePrefixes;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.01.2018-14:45" author="serfeo">
+        <comment>Add prefix, type index to phone prefixes table</comment>
+        <sql>
+            CREATE INDEX prefix_type_idx ON phonePrefixes(prefix, type);
+        </sql>
+        <rollback>
+            DROP INDEX prefix_type_idx;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="29.04.2018-20.00" author="serfeo">
+        <comment>Add mobile column to data tables table</comment>
+        <sql>
+            ALTER TABLE dataTables ADD COLUMN mobile int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE dataTables DROP COLUMN mobile;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="29.04.2018-20.40" author="serfeo">
+        <comment>Add restriction column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN restriction boolean NOT NULL DEFAULT TRUE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN restriction;
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="02.05.2018-16:00" author="serfeo">
+        <comment>Create item type price table</comment>
+        <sql>
+            CREATE TABLE itemTypePrices (
+                id serial NOT NULL CONSTRAINT item_type_price_pr_key PRIMARY KEY,
+                type smallint,
+                price float
+            );
+        </sql>
+        <rollback>
+            DROP TABLE itemTypePrices;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.05.2018-16:10" author="serfeo">
+        <comment>Init item type price table</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, price) VALUES(0, 0.001);
+            INSERT INTO itemTypePrices(type, price) VALUES(1, 0.01);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.06.17-17:30" author="serfeo">
+        <comment>Create categories table</comment>
+        <sql>
+            CREATE TABLE categories (
+                id serial NOT NULL CONSTRAINT categories_pr_key PRIMARY KEY,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE categories;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.08.18-22:50" author="serfeo">
+        <comment>Create dataSources table</comment>
+        <sql>
+            CREATE TABLE dataSources (
+                id serial NOT NULL CONSTRAINT data_sources_pr_key PRIMARY KEY,
+                visible boolean,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE dataSources;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.08.18-22:55" author="serfeo">
+        <comment>Create blocked users table</comment>
+        <sql>
+            CREATE TABLE dataSourcesBlockedUsers (
+                id serial NOT NULL CONSTRAINT data_sources_blocked_users_pr_key PRIMARY KEY,
+                dataSourcesId int NOT NULL REFERENCES dataSources(id) ON DELETE CASCADE,
+                userId int NOT NULL REFERENCES users(id) ON DELETE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE dataSourcesBlockedUsers;
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="02.08.18-23:00" author="serfeo">
+        <comment>Insert default data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('consumers', true);
+            INSERT INTO dataSources(name, visible) VALUES('business', true);
+            INSERT INTO dataSources(name, visible) VALUES('directory', true);
+            INSERT INTO dataSources(name, visible) VALUES('craigslist', true);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'consumers';
+            DELETE FROM dataSources WHERE name = 'business';
+            DELETE FROM dataSources WHERE name = 'directory';
+            DELETE FROM dataSources WHERE name = 'craigslist';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="07.08.18-14:00" author="serfeo">
+        <comment>Add reseller id column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN resellerId int;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN resellerId;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="07.08.18-14:05" author="serfeo">
+        <comment>Added reseller number column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN resellerNumber int;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN resellerNumber;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="07.08.18-14:10" author="serfeo">
+        <comment>Add reseller id column to registration requests table</comment>
+        <sql>
+            ALTER TABLE registrationRequests ADD COLUMN resellerId int;
+        </sql>
+        <rollback>
+            ALTER TABLE registrationRequests DROP COLUMN resellerId;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="15.08.18-14:10" author="serfeo">
+        <comment>Add date column to registration requests table</comment>
+        <sql>
+            ALTER TABLE registrationRequests ADD COLUMN date bigint;
+        </sql>
+        <rollback>
+            ALTER TABLE registrationRequests DROP COLUMN date;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.08.2018-13.45" author="serfeo">
+        <comment>Rename mobile column to phone type column in data tables table</comment>
+        <sql>
+            ALTER TABLE dataTables RENAME COLUMN mobile TO phoneType;
+        </sql>
+        <rollback>
+            ALTER TABLE dataTables RENAME COLUMN phoneType TO mobile;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.08.2018-13:55" author="serfeo">
+        <comment>Add landline item type to price table</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, price) VALUES(2, 0.001);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices where type = 2;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17.08.18-19:10" author="serfeo">
+        <comment>Insert default data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('WHOIS', true);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'WHOIS';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.08.2018-15.25" author="serfeo">
+        <comment>Add matched field to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN matched boolean NOT NULL DEFAULT false;
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN matched;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.08.2018-18.00" author="serfeo">
+        <comment>Create settings table</comment>
+        <sql>
+            CREATE TABLE settings (
+                id serial NOT NULL CONSTRAINT settings_pr_key PRIMARY KEY,
+                key varchar(200),
+                value varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE settings;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.04.2021-20.30" author="serfeo">
+        <comment>Create consumer_carrier table</comment>
+        <sql>
+            CREATE TABLE consumer_carrier_names (
+            id serial NOT NULL CONSTRAINT consumer_carrier_names_pr_key PRIMARY KEY,
+            carrier_name character varying(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE consumer_carrier;
+        </rollback>
+    </changeSet>
+    <changeSet id="15.06.2021-18.08" author="serfeo">
+        <comment>Create facebook hispanic last name table</comment>
+        <sql>
+            CREATE TABLE fb_hispanic_last_name (
+            id serial NOT NULL CONSTRAINT fb_hisp_last_name_pr_key PRIMARY KEY,
+            lastname character varying(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE fb_hispanic_last_name;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="27.04.2021-20.52" author="serfeo">
+        <comment>Create purchasetables table</comment>
+        <sql>
+            CREATE TABLE purchase_tables (
+            id serial NOT NULL CONSTRAINT purchase_tables_names_pr_key PRIMARY KEY,
+            name character varying(200),
+            request text NOT NULL,
+            userid integer NOT NULL,
+            date bigint,
+            cnt bigint NOT NULL DEFAULT 0,
+            type smallint NOT NULL DEFAULT 0,
+            tablename character varying(100),
+            matched boolean NOT NULL DEFAULT false,
+            savedcolumns text
+            );
+        </sql>
+        <rollback>
+            DROP TABLE purchase_tables;
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="15.07.2021-12.49" author="serfeo">
+        <comment>Create sent_email table</comment>
+        <sql>
+            CREATE TABLE sent_email (
+            id serial NOT NULL CONSTRAINT sent_email_pr_key PRIMARY KEY,
+            date bigint,
+            name character varying(100),
+            useremail character varying(100),
+            sentemail character varying(100)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE sent_email;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.08.2018-18.10" author="serfeo">
+        <comment>Insert matching price setting</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price', '0.01');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key='matched_price';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="27.08.18-17:30" author="serfeo">
+        <comment>Added reseller domains column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN domains varchar(500);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN domains;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.09.2018-11.00" author="serfeo">
+        <comment>Add manual column to payments table</comment>
+        <sql>
+            ALTER TABLE payments ADD COLUMN manual boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE payments DROP COLUMN manual;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.09.18-00:10" author="serfeo">
+        <comment>Add search engine data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('search engine', true);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'search engine';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.10.18-19:30" author="serfeo">
+        <comment>Add user role column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN role int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN role;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.10.18-19:35" author="serfeo">
+        <comment>Init role column in users table</comment>
+        <sql>
+            UPDATE users SET role = 3 WHERE admin = 1;
+            UPDATE users SET role = 1 WHERE resellerNumber > 0;
+        </sql>
+        <rollback>
+            UPDATE users SET role = 0;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="11.10.18-13:40" author="serfeo">
+        <comment>Added reseller support phone column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN supportPhone varchar(50);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN supportPhone;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.10.18-15:30" author="serfeo">
+        <comment>Added note column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN note text;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN note;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.18-19:30" author="serfeo">
+        <comment>Added data source column to item type prices table</comment>
+        <sql>
+            ALTER TABLE itemTypePrices ADD COLUMN dataSource int NOT NULL DEFAULT -1;
+        </sql>
+        <rollback>
+            ALTER TABLE itemTypePrices DROP COLUMN dataSource;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.18-19:40" author="serfeo">
+        <comment>Init new item type prices values</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 0, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 1, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 2, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 3, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 4, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 5, 0.002);
+
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 0, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 1, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 2, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 3, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 4, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 5, 0.003);
+
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 0, 0.001);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 1, 0.001);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 2, 0.001);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 3, 0.001);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 4, 0.001);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 5, 0.001);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource != -1;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.18-19:45" author="serfeo">
+    <comment>Init matched item type prices values</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_0', '0.05');
+            INSERT INTO settings(key, value) VALUES('matched_price_1', '0.05');
+            INSERT INTO settings(key, value) VALUES('matched_price_2', '0.05');
+            INSERT INTO settings(key, value) VALUES('matched_price_3', '0.05');
+            INSERT INTO settings(key, value) VALUES('matched_price_4', '0.05');
+            INSERT INTO settings(key, value) VALUES('matched_price_5', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key LIKE('matched_price_%');
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.18-20:20" author="serfeo">
+        <comment>Add note status column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN noteStatus int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN noteStatus;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.10.18-14:30" author="serfeo">
+        <comment>Add filter DNC column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN filterDNC boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN filterDNC;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.10.18-16:20" author="serfeo">
+        <comment>Add consumers2 data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('consumers2', true);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'consumers2';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.11.18-15:00" author="serfeo">
+        <comment>Init item type prices values for consumers2 data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 6, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 6, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 6, 0.001);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource != 6;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.11.18-15:05" author="serfeo">
+        <comment>Init matched item type prices values</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_6', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_6';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.12.18-14:30" author="serfeo">
+        <comment>Create lenders table</comment>
+        <sql>
+            CREATE TABLE lenders (
+                id serial NOT NULL CONSTRAINT lenders_pr_key PRIMARY KEY,
+                lender varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE lenders;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.12.18-13:00" author="serfeo">
+        <comment>Add filter empty phones column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN filterEmptyPhone boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN filterEmptyPhone;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.12.18-15:30" author="serfeo">
+        <comment>Add allow manage money column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowManageMoney boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowManageMoney;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.01.19-15:40" author="serfeo">
+        <comment>Add instagram data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('instagram', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'instagram';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.01.19-15:45" author="serfeo">
+        <comment>Init item type prices values for consumers2 data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 7, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 7, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 7, 0.001);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource != 7;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.01.19-15:50" author="serfeo">
+        <comment>Init matched item type prices values</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_7', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_7';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.02.14-14:30" author="serfeo">
+        <comment>Add opt in data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('OPT IN', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'optin';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.02.19-14:35" author="serfeo">
+        <comment>Init item type prices values for opt in data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 8, 0.002);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 8, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 8, 0.001);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource == 8;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.02.19-14:40" author="serfeo">
+        <comment>Init matched item type prices values</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_8', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_8';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.02.19-14:25" author="serfeo">
+        <comment>Rename consumers data sources</comment>
+        <sql>
+            UPDATE dataSources SET name = 'consumer2018' WHERE name = 'consumers2';
+        </sql>
+        <rollback>
+            UPDATE dataSources SET name = 'consumers2' WHERE name = 'consumer2018';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.02.19-14:30" author="serfeo">
+        <comment>Add opt in data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('consumer2019', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'consumer2019';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.02.19-14:35" author="serfeo">
+        <comment>Init item type prices values for consumer2019 data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 9, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 9, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 9, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource == 9;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.02.19-14:40" author="serfeo">
+        <comment>Init matched item type prices value for consumers2019</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_9', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_9';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.02.19-14:30" author="serfeo">
+        <comment>Add filter email column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN filterEmail boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN filterEmail;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="28.02.19-14:25" author="serfeo">
+        <comment>Rename consumers data sources</comment>
+        <sql>
+            UPDATE dataSources SET name = 'consumer' WHERE name = 'consumers2019';
+        </sql>
+        <rollback>
+            UPDATE dataSources SET name = 'consumers2019' WHERE name = 'consumer';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.03.19-13:40" author="serfeo">
+        <comment>Add resellerId column to item type prices table</comment>
+        <sql>
+            ALTER TABLE itemtypeprices ADD COLUMN resellerId int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE itemtypeprices DROP COLUMN resellerId;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.03.19-14:00" author="serfeo">
+        <comment>Add resellerId column to settings table</comment>
+        <sql>
+            ALTER TABLE settings ADD COLUMN resellerId int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE settings DROP COLUMN resellerId;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06.03.19-15:00" author="serfeo">
+        <comment>Create stripe keys table</comment>
+        <sql>
+            CREATE TABLE stripeKeys (
+                id serial NOT NULL CONSTRAINT stripe_keys_pr_key PRIMARY KEY,
+                resellerId int,
+                publicKey varchar(50),
+                privateKey varchar(50)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE stripeKeys;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.03.19-14:30" author="serfeo">
+        <comment>Add validate registration requests column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN validateRegistrationRequests boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN validateRegistrationRequests;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="26.03.19-15:40" author="serfeo">
+        <comment>Create data sources visibility table</comment>
+        <sql>
+            CREATE TABLE dataSourcesVisibility (
+                id serial NOT NULL CONSTRAINT data_sources_visibility_pr_key PRIMARY KEY,
+                resellerId int,
+                dataSourceId int,
+                visible bool
+            );
+        </sql>
+        <rollback>
+            DROP TABLE dataSourcesVisibility;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01.04.19-15:10" author="serfeo">
+        <comment>Add auto data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('AUTO', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'AUTO';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.04.19-00:30" author="serfeo">
+        <comment>Create auto models table</comment>
+        <sql>
+            CREATE TABLE autoModels (
+                id serial NOT NULL CONSTRAINT auto_models_pr_key PRIMARY KEY,
+                make VARCHAR(100),
+                model VARCHAR(100)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE autoModels;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.04.19-00:40" author="serfeo">
+        <comment>Create auto makes table</comment>
+        <sql>
+            CREATE TABLE autoMakes (
+                id serial NOT NULL CONSTRAINT auto_makes_pr_key PRIMARY KEY,
+                make VARCHAR(100)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE autoMakes;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.04.19-14:10" author="serfeo">
+        <comment>Create system staff user</comment>
+        <sql>
+            INSERT INTO users(username) VALUES('system_staff');
+        </sql>
+        <rollback>
+            DELETE FROM users WHERE username='system_staff';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.04.2019-14.20" author="serfeo">
+        <comment>Add saved columns to lists table</comment>
+        <sql>
+            ALTER TABLE lists ADD COLUMN savedColumns TEXT;
+        </sql>
+        <rollback>
+            ALTER TABLE lists DROP COLUMN savedColumns;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.04.2019-14.30" author="serfeo">
+        <comment>Add data column to purchased user lists items table</comment>
+        <sql>
+            ALTER TABLE purchaseduserlistsitems ADD COLUMN data TEXT;
+        </sql>
+        <rollback>
+            ALTER TABLE purchaseduserlistsitems DROP COLUMN data;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.04.2019-14.40" author="serfeo">
+        <comment>Add data column to user lists items table</comment>
+        <sql>
+            ALTER TABLE userlistsitems ADD COLUMN data TEXT;
+        </sql>
+        <rollback>
+            ALTER TABLE userlistsitems DROP COLUMN data;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="25.04.2019-14.50" author="serfeo">
+        <comment>Add saved columns to lists table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN invitationDomain INT DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN invitationDomain;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="29.05.19-14:40" author="serfeo">
+        <comment>Add blacklist data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('blacklist', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'blacklist';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="29.05.19-14:50" author="serfeo">
+        <comment>Init item type prices values for consumer2019 data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 11, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 11, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 11, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource == 11;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="29.05.19-15:00" author="serfeo">
+        <comment>Init matched item type prices value for consumers2019</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_11', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_11';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.06.2019-12.40" author="serfeo">
+        <comment>Add restriction column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN multipleGeographicParametersEnabled boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN multipleGeographicParametersEnabled;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.06.2019-13:30" author="serfeo">
+        <sql>
+            CREATE TABLE ipAddressBlocked (
+                id serial NOT NULL CONSTRAINT ip_address_blocked_pr_key PRIMARY KEY,
+                ip VARCHAR(20)
+            )
+        </sql>
+        <rollback>
+            DROP TABLE ipAddressBlocked;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02.07.2019-14.00" author="serfeo">
+        <comment>Add allowCustomersKeyword column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowCustomersKeyword boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowCustomersKeyword;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09.07.2019-14.00" author="serfeo">
+        <comment>Add allowCarriersSearch column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowCarriersSearch boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowCarriersSearch;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="16.07.2019-15:40" author="serfeo">
+        <sql>
+            CREATE TABLE comments (
+                id serial NOT NULL CONSTRAINT comment_pr_key PRIMARY KEY,
+                userId INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                name VARCHAR(100),
+                comment TEXT,
+                answer TEXT,
+                date BIGINT,
+                approved BOOL
+            )
+        </sql>
+        <rollback>
+            DROP TABLE comments;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="19.07.2019-16.00" author="serfeo">
+        <comment>Add allowMatchResponder column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchResponder boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchResponder;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="26.07.2019-15.45" author="serfeo">
+        <comment>Add disabled column to categories table</comment>
+        <sql>
+            ALTER TABLE categories ADD COLUMN disabled boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE categories DROP COLUMN disabled;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="26.07.2019-15.50" author="serfeo">
+        <comment>Add inner type column to data tables table</comment>
+        <sql>
+            ALTER TABLE dataTables ADD COLUMN innerType int NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE dataTables DROP COLUMN innerType;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="31.07.2019-15.00" author="serfeo">
+        <comment>Add last activity date column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN lastActivityDate bigint NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN lastActivityDate;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12.09.2019-16:00" author="serfeo">
+        <comment>Create user item type price table</comment>
+        <sql>
+            CREATE TABLE userItemTypePrices (
+                id serial NOT NULL CONSTRAINT user_item_type_price_pr_key PRIMARY KEY,
+                type smallint,
+                price float,
+                dataSource int NOT NULL DEFAULT -1,
+                userId int
+            );
+        </sql>
+        <rollback>
+            DROP TABLE userItemTypePrices;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="23.09.2019-12.40" author="serfeo">
+        <comment>Add notification email column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN notificationEmail varchar(100);
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN notificationEmail;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="27.09.2019-14.00" author="serfeo">
+        <comment>Add allowBusinessKeyword column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowBusinessKeyword boolean NOT NULL DEFAULT FALSE;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowBusinessKeyword;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="03.10.2019-14.00" author="serfeo">
+        <comment>Add titles table</comment>
+        <sql>
+            CREATE TABLE titles (
+                id serial NOT NULL CONSTRAINT titles_pr_key PRIMARY KEY,
+                title varchar(100)
+            );
+            CREATE INDEX title_idx ON titles (title);
+        </sql>
+        <rollback>
+            DROP TABLE titles;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.19-04:30" author="serfeo">
+        <comment>Add business detailed data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('business detailed', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'business detailed';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14.10.19-06:00" author="serfeo">
+        <comment>Add business titles table</comment>
+        <sql>
+            CREATE TABLE businessTitles (
+                id serial NOT NULL CONSTRAINT business_titles_pr_key PRIMARY KEY,
+                title varchar(100)
+            );
+            CREATE INDEX business_title_idx ON titles (title);
+        </sql>
+        <rollback>
+            DROP TABLE titles;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="24.10.18-15:45" author="serfeo">
+        <comment>Insert instagram2020 data source</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('instagram2020', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'instagram2020';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="24.10.19-16:00" author="serfeo">
+        <comment>Add instagram categories titles table</comment>
+        <sql>
+            CREATE TABLE instagramCategories (
+                id serial NOT NULL CONSTRAINT instagram_categories_pr_key PRIMARY KEY,
+                category varchar(100)
+            );
+            CREATE INDEX instagram_category_idx ON instagramCategories(category);
+        </sql>
+        <rollback>
+            DROP TABLE instagramCategories;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="25.10.19-16:10" author="serfeo">
+        <comment>Add optin sources table</comment>
+        <sql>
+            CREATE TABLE optInSources (
+                id serial NOT NULL CONSTRAINT optin_sources_pr_key PRIMARY KEY,
+                source varchar(100)
+            );
+            CREATE INDEX optin_sources_idx ON optInSources(source);
+        </sql>
+        <rollback>
+            DROP TABLE optInSources;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.11.19-15:45" author="serfeo">
+        <comment>Insert students data source</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('student', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'student';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.11.19-17:30" author="serfeo">
+        <comment>Create student sources table</comment>
+        <sql>
+            CREATE TABLE studentSources (
+                id serial NOT NULL CONSTRAINT student_sources_pr_key PRIMARY KEY,
+                name varchar(200)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE studentSources;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04.01.20-15:30" author="serfeo">
+        <comment>Add allow match craigslist column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchCraigslist boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchCraigslist;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10.02.20-15:30" author="serfeo">
+        <comment>Add allow business email filter column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowBusinessEmailFilter boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowBusinessEmailFilter;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13.02.20-16:10" author="serfeo">
+        <comment>Add allow match consumers column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchConsumers boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchConsumers;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.02.20-14:10" author="serfeo">
+        <comment>Add allow match optin column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchOptIn boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchOptIn;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="18.02.20-14:20" author="serfeo">
+        <comment>Add allow match directory column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchDirectory boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchDirectory;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="25.02.20-16:00" author="serfeo">
+        <comment>Add detailed business industries table</comment>
+        <sql>
+            CREATE TABLE detailedBusinessIndustries (
+                id serial NOT NULL CONSTRAINT detailed_business_industry_pr_key PRIMARY KEY,
+                industry varchar(100),
+                sic int
+            );
+            CREATE INDEX detailed_business_industry_idx ON detailedBusinessIndustries(industry);
+        </sql>
+        <rollback>
+            DROP TABLE detailedBusinessIndustries;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="25.02.20-16:20" author="serfeo">
+        <comment>Add allow match business detailed column to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchBusinessDetailed boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchBusinessDetailed;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="24.03.20-16:40" author="serfeo">
+        <comment>Add allow matching lists to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowMatchingLists boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowMatchingLists;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.04.20-15:40" author="serfeo">
+        <comment>Add allowDetailedBusinessKeywords to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowDetailedBusinessKeywords boolean;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowDetailedBusinessKeywords;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="17.04.20-15:40" author="serfeo">
+        <comment>Add allow payments to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowPayments boolean NOT NULL DEFAULT true;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowPayments;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.05.20-15:40" author="serfeo">
+        <comment>Add allow set data source items prices to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowDataSourceItemsPrices boolean NOT NULL DEFAULT false;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowDataSourceItemsPrices;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="22.05.20-15:40" author="serfeo">
+        <comment>Add allow transfer to suppression to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN allowTransferToSuppression boolean NOT NULL DEFAULT false;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN allowTransferToSuppression;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06.04.20-16:20" author="serfeo">
+        <comment>Create a payment requests table</comment>
+        <sql>
+            CREATE TABLE paymentRequests (
+                id serial NOT NULL CONSTRAINT payment_requests_pr_key PRIMARY KEY,
+                note TEXT,
+                amount FLOAT,
+                dueDate BIGINT,
+                date BIGINT,
+                paid BOOL
+            )
+        </sql>
+        <rollback>
+            DROP TABLE paymentRequests;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06.10.20-18:50" author="serfeo">
+        <comment>Add registration info table</comment>
+        <sql>
+            CREATE TABLE registrationInfo (
+                id serial NOT NULL CONSTRAINT registration_info_pr_key PRIMARY KEY,
+                email varchar(100),
+                message varchar(1000),
+                date bigint
+            )
+        </sql>
+        <rollback>
+            DROP TABLE registrationInfo;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20.07.20-15:40" author="serfeo">
+        <comment>Add list additional code enabled to users table</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN listAdditionalCodeEnabled boolean NOT NULL DEFAULT false;
+        </sql>
+        <rollback>
+            ALTER TABLE users DROP COLUMN listAdditionalCodeEnabled;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.07.20-14:40" author="serfeo">
+        <comment>Add call leads data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('callleads', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'callleads';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.07.20-14:50" author="serfeo">
+        <comment>Init item type prices values for call leads data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 16, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 16, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 16, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource = 16;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="21.07.20-15:00" author="serfeo">
+        <comment>Init matched item type prices value for call leads</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_16', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_16';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.09.20-23:40" author="serfeo">
+        <comment>Add health buyers data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('healthbuyers', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'healthbuyers';
+        </rollback>
+    </changeSet>
+    <changeSet id="05.09.20-23:45" author="serfeo">
+        <comment>Init item type prices values for health buyers data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 17, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 17, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 17, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource = 16;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05.09.20-23:50" author="serfeo">
+        <comment>Init matched item type prices value for health buyers</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_17', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_16';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06.09.20-19:30" author="serfeo">
+        <comment>Add table access table</comment>
+        <sql>
+            CREATE TABLE tableAccess (
+                id serial NOT NULL CONSTRAINT table_access_pr_key PRIMARY KEY,
+                userId int,
+                tableId int
+            )
+        </sql>
+        <rollback>
+            DROP TABLE tableAccess;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.09.20-23:40" author="serfeo">
+        <comment>Add business2 data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('business2', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'business2';
+        </rollback>
+    </changeSet>
+    <changeSet id="08.09.20-23:45" author="serfeo">
+        <comment>Init item type prices values for business2 data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 18, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 18, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 18, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource = 16;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.09.20-23:50" author="serfeo">
+        <comment>Init matched item type prices value for business2</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_18', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_18';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.11.20-08:40" author="serfeo">
+        <comment>Add health insurance leads data sources</comment>
+        <sql>
+            INSERT INTO dataSources(name, visible) VALUES('healthinsuranceleads', false);
+        </sql>
+        <rollback>
+            DELETE FROM dataSources WHERE name = 'healthinsuranceleads';
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.11.20-08:45" author="serfeo">
+        <comment>Init item type prices values for health insurance leads data source</comment>
+        <sql>
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(0, 19, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(1, 19, 0.003);
+            INSERT INTO itemTypePrices(type, dataSource, price) VALUES(2, 19, 0.003);
+        </sql>
+        <rollback>
+            DELETE FROM itemTypePrices WHERE dataSource = 19;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08.11.20-08:50" author="serfeo">
+        <comment>Init matched item type prices value for health insurance leads</comment>
+        <sql>
+            INSERT INTO settings(key, value) VALUES('matched_price_19', '0.05');
+        </sql>
+        <rollback>
+            DELETE FROM settings WHERE key = 'matched_price_19';
+        </rollback>
+    </changeSet>
+    <changeSet id="26.11.21-11:00" author="serfeo">
+        <comment>add state column to datasourceuserblocked table</comment>
+        <sql>
+            ALTER TABLE datasourcesblockedusers ADD COLUMN state smallint;
+        </sql>
+        <rollback>
+            ALTER TABLE datasourcesblockedusers drop COLUMN state;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="26.11.21-11:51" author="serfeo">
+        <comment>set allowed state to all datasourceuserblocked table</comment>
+        <sql>
+            update dataSourcesBlockedUsers set state = 2;
+        </sql>
+        <rollback>
+            update dataSourcesBlockedUsers set state = 0;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

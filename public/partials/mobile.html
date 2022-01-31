@@ -1,0 +1,168 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span>Mobile device is detected. Please use a desktop browser.</span><br/>
+            <button class='btn btn-default right margin-right-10' ng-click='logout()'>Back</button>
+
+
+            <!--<div class='row main-container'>
+
+                <div class='step-wrapper' ng-if='currentStep == "selectTable"'>
+                    <label class='margin-bottom-15'>What Type of Leads Do You Need?</label>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='businessOwners' class='margin-left-10 checkbox' ng-model='params.businessOwners' />
+                        <label for='businessOwners' class='margin-left-10 pointer tiny'>Business Owners</label>
+                    </div>
+
+                    <div class='form-group'>
+                        <input type='checkbox' id='homeOwners' class='margin-left-10 checkbox' ng-model='params.homeOwners' />
+                        <label for='homeOwners' class='margin-left-10 pointer tiny'>Homeowners</label>
+                    </div>
+                </div>
+
+                <div class='step-wrapper' ng-if='currentStep == "selectBusinessOwners"'>
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='allBusinessOwners' class='checkbox' ng-model='params.allBusinessOwners' />
+                        <label for='allBusinessOwners' class='margin-left-10 pointer tiny'>Search All Business Owners</label>
+                    </div>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='specialIndustry' class='checkbox' ng-model='params.specialIndustry' />
+                        <label for='specialIndustry' class='margin-left-10 pointer tiny'>Search Special Industry</label>
+                    </div>
+
+                    <div class='form-group' ng-if='params.specialIndustry'>
+                        <label class='list-keyword-label block'>Industry Keyword</label>
+
+                        <div ng-repeat="keyword in keywords" class='margin-top-10'>
+                            <input ng-model='keyword.keyword' class='form-control keyword-input' placeholder='Enter keyword'>
+
+                            <button class='btn btn-default inline' ng-if='keywords.indexOf(keyword) == 0' ng-click='addKeyword()'>Another Keyword</button>
+
+                            <button ng-if='keywords.indexOf(keyword) > 0' class='btn btn-default inline' ng-click='removeKeyword(keyword)'>Remove Keyword</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='step-wrapper' ng-if='currentStep == "selectHomeOwners"'>
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='allHomeOwners' class='checkbox' ng-model='params.allHomeOwners' />
+                        <label for='allHomeOwners' class='margin-left-10 pointer tiny'>Search All Homeowners</label>
+                    </div>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='hispanicHomeOwners' class='checkbox' ng-model='params.hispanicHomeOwners' />
+                        <label for='hispanicHomeOwners' class='margin-left-10 pointer tiny'>Search Only Hispanic Homeowners</label>
+                    </div>
+
+                    <div class='form-group margin-top-10'>
+                        <label class='inline'>Enter Age Range</label>
+
+                        <input ng-model='params.ageFrom' class='form-control date-input' placeholder='From'>
+                        <input ng-model='params.ageTo' class='form-control date-input' placeholder='To'>
+
+                        <span class='tip-span'>* Leave blank for all ages</span>
+                    </div>
+
+                </div>
+
+                <div class='step-wrapper' ng-if='currentStep == "selectGeographic"'>
+                    <label class='margin-bottom-15'>Geographic Locations. <br>How Would You Like to Search?</label>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='zipCodeRadius' class='margin-left-10 checkbox' ng-model='params.zipCodeRadius' />
+                        <label for='zipCodeRadius' class='margin-left-10 pointer tiny'>A Zip Code Radius</label>
+                    </div>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='byState' class='margin-left-10 checkbox' ng-model='params.byState' />
+                        <label for='byState' class='margin-left-10 pointer tiny'>By State</label>
+                    </div>
+
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='allUSA' class='margin-left-10 checkbox' ng-model='params.allUSA' />
+                        <label for='allUSA' class='margin-left-10 pointer tiny'>All USA</label>
+                    </div>
+                </div>
+
+                <div class='step-wrapper' ng-if='currentStep == "selectZipRadius"'>
+                    <label class='margin-bottom-15'>Zip Code Radius</label>
+
+                    <div class='form-group margin-bottom-5'>
+                        <label class='inline tiny'>Enter Zip Code</label>
+                        <input type='number' ng-model='params.zipCodeCenter' class='form-control zip-code-input'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label class='inline tiny'>Enter Distance in Mile</label>
+                        <input type='number' ng-model='params.zipCodeDistance' class='form-control distance-input'>
+                    </div>
+                </div>
+
+                <div class='step-wrapper margin-bottom-5' ng-if='currentStep == "selectStates"'>
+                    <label class='margin-bottom-15 block'>Select States</label>
+
+                    <div class='width-half' ng-repeat='state in states'>
+                        <input id='{{state.code}}' ng-model='selectedStates[ state.name + "|" + state.code ]' class='checkbox' type='checkbox' />
+                        <label class='pointer tiny margin-left-10' for='{{state.code}}'>{{state.name}}</label>
+                    </div>
+                </div>
+
+                <div class='step-wrapper margin-bottom-5' ng-if='currentStep == "selectDNCAndLists"'>
+                    <div class='form-group margin-bottom-5'>
+                        <input type='checkbox' id='removeDNC' class='checkbox' ng-model='params.removeDNC' />
+                        <label for='removeDNC' class='margin-left-10 pointer tiny'>Remove DNC phones?</label>
+                    </div>
+
+                    <div ng-if='lists && lists.length > 0'>
+                        <label class='margin-bottom-5 margin-top-10 block'>Remove purchased phones</label>
+
+                        <div>
+                            <input id='allLists' ng-model='params.allLists' ng-change='onAllListsTapped()' class='checkbox' type='checkbox' />
+                            <label class='pointer tiny margin-left-10' for='allLists'>All</label>
+                        </div>
+
+                        <div ng-repeat='list in lists'>
+                            <input id='{{list.name}}' ng-model='selectedLists[list.name + "|" + list.id]' class='checkbox' type='checkbox' />
+                            <label class='pointer tiny margin-left-10' for='{{list.name}}'>{{list.name}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='step-wrapper margin-bottom-5' ng-if='currentStep == "gettingCount"'>
+                    <span ng-if='params.homeOwners'>Homeowners</span><br ng-if='params.homeOwners'>
+                    <span ng-if='params.businessOwners'>Business Owners</span><br ng-if='params.businessOwners'>
+
+                    <div ng-if='keywords.length > 0 && keywords[0].keyword'>
+                        Industries: <span class='item-span' ng-repeat='keyword in keywords'>{{keyword.keyword}}</span>
+                    </div>
+
+                    <div ng-if='params.ageFrom || params.ageTo'>
+                        <span ng-if='params.ageFrom'>Age from: {{params.ageFrom}}</span><br ng-if='params.ageFrom'>
+                        <span ng-if='params.ageTo'>Age to: {{params.ageTo}}</span>
+                    </div>
+
+                    <div ng-if='asArray(selectedStates).length > 0'>
+                        States: <span class='item-span' ng-repeat='state in asArray(selectedStates)'>{{state.split("|")[0]}}</span>
+                    </div>
+
+                    <span ng-if='params.zipCodeDistance && params.zipCodeCenter'>{{params.zipCodeDistance}}mile radius {{params.zipCodeCenter}}</span><br ng-if='params.zipCodeDistance && params.zipCodeCenter'>
+
+                    <span ng-if='params.removeDNC'>Remove DNC</span><br ng-if='params.removeDNC'>
+                    <div ng-if='asArray(selectedLists).length > 0'>
+                        Purcahsed lists: <span class='item-span' ng-repeat='list in asArray(selectedLists)'>{{list.split("|")[0]}}</span>
+                    </div>
+
+                    <span>Count: </span>
+                    <span ng-if='loading'>calculating...</span>
+                    <span ng-if='!loading'>{{formattedAmount(count)}}</span>
+                </div>
+
+                <button class='btn btn-default right' ng-disabled='isDisabledForCurrentStep()' ng-click='onNextStepTapped()'>{{currentStep == 'gettingCount' ? 'Buy List': 'Next'}}</button>
+                <button class='btn btn-default right margin-right-10' ng-if='steps.length > 1' ng-click='onPreviousStepTapped()'>Back</button>
+
+            </div>-->
+        </div>
+    </div>
+</div>

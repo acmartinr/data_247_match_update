@@ -1,0 +1,72 @@
+<div class='panel panel-default no-margin-bottom'>
+    <div class='panel-body'>
+        <span class="center" ng-if="isEmpty()">At least one geographic criteria should be selected for getting detailed request information</span>
+        <label class="center" ng-if="!isEmpty()">Detailed request information</label>
+
+        <div ng-if='asArray(selectedTimeZones).length > 0'>
+            <label class='full-width margin-top' localized>Time Zones</label>
+            <div class='bubble' ng-repeat='timeZone in asArray(selectedTimeZones)'>
+                <span>{{timeZone.split("|")[0]}}</span>
+                <img ng-if='handled.length <= requestIndex("timeZone", timeZone)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("timeZone", timeZone)'> [count: {{formattedAmount(handled[requestIndex("timeZone", timeZone)])}}]</span>
+            </div>
+        </div>
+
+        <div ng-if='asArray(selectedStates).length > 0'>
+            <label class='full-width margin-top' localized>tabs.states</label>
+            <div class='bubble' ng-repeat='state in asArray(selectedStates)'>
+                <span>{{state.split("|")[0]}}</span>
+                <img ng-if='handled.length <= requestIndex("state", state)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("state", state)'> [count: {{formattedAmount(handled[requestIndex("state", state)])}}]</span>
+            </div>
+        </div>
+
+        <div ng-if='asArray(selectedCounties).length > 0'>
+            <label class='full-width margin-top' localized>tabs.county</label>
+            <div class='bubble' ng-repeat='county in asArray(selectedCounties)'>
+                <span>{{county.split("_")[0]}}</span>
+                <img ng-if='handled.length <= requestIndex("county", county)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("county", county)'> [count: {{formattedAmount(handled[requestIndex("county", county)])}}]</span>
+            </div>
+        </div>
+
+        <div ng-if='asArray(selectedCities).length > 0'>
+            <label class='full-width margin-top' localized>tabs.city</label>
+            <div class='bubble' ng-repeat='city in asArray(selectedCities)'>
+                <span>{{city.split("_")[0]}}</span>
+                <img ng-if='handled.length <= requestIndex("city", city)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("city", city)'> [count: {{formattedAmount(handled[requestIndex("city", city)])}}]</span>
+            </div>
+        </div>
+
+        <div ng-if='asArray(selectedZipCodes).length > 0'>
+            <label class='full-width margin-top' localized>tabs.zip</label>
+            <div class='bubble' ng-repeat='zip in asArray(selectedZipCodes)'>
+                <span>{{zip}}</span>
+                <img ng-if='handled.length <= requestIndex("zip", zip)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("zip", zip)'> [count: {{formattedAmount(handled[requestIndex("zip", zip)])}}]</span>
+            </div>
+        </div>
+
+        <div ng-if='asArray(selectedAreaCodes).length > 0'>
+            <label class='full-width margin-top' localized>tabs.phones</label>
+            <div class='bubble' ng-repeat='areaCode in asArray(selectedAreaCodes)'>
+                <span>{{areaCode}}</span>
+                <img ng-if='handled.length <= requestIndex("areaCode", areaCode)' class='count-loading' src='/assets/images/loading.gif'>
+                <span ng-if='handled.length > requestIndex("areaCode", areaCode)'> [count: {{formattedAmount(handled[requestIndex("areaCode", areaCode)])}}]</span>
+            </div>
+        </div>
+
+        <div class='right-align float-right full-width margin-top'>
+            <button class='btn btn-default'
+                    ng-disabled='!ready()'
+                    ng-click='download()'
+                    localized>Download</button>
+
+            <button class='btn btn-default'
+                    ng-click='dismiss()'
+                    localized>Cancel</button>
+        </div>
+    </div>
+</div>
+

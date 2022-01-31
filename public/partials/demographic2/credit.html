@@ -1,0 +1,64 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='searchConfig.option === "creditRating"'>
+            <div class='col-sm-12' ng-repeat='item in rating'>
+                <input id='credit_{{item.value}}' ng-model='selectedRating[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='credit_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "numberOfLinesOfCredit"'>
+            <div class='col-sm-12' ng-repeat='item in activeLines'>
+                <input id='credit_{{item.value}}' ng-model='selectedActiveLines[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='credit_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "rangeOfNewCredit"'>
+            <div class='col-sm-12' ng-repeat='item in range'>
+                <input id='credit_{{item.value}}' ng-model='selectedRange[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='credit_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "presenceOfCreditCard"'>
+            <input id='presenceOfCreditCard' ng-model='selectedProperties[tabs[3].title + "|" + tabs[3].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='presenceOfCreditCard'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "presenceOfGoldOrPlatinumCreditCard"'>
+            <input id='presenceOfGoldOrPlatinumCreditCard' ng-model='selectedProperties[tabs[4].title + "|" + tabs[4].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='presenceOfGoldOrPlatinumCreditCard'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "presenceOfPremiumCreditCard"'>
+            <input id='presenceOfPremiumCreditCard' ng-model='selectedProperties[tabs[5].title + "|" + tabs[5].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='presenceOfPremiumCreditCard'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "travelAndEntertainmentCardHolder"'>
+            <input id='travelAndEntertainmentCardHolder' ng-model='selectedProperties[tabs[6].title + "|" + tabs[6].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='travelAndEntertainmentCardHolder'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "creditCardUser"'>
+            <input id='creditCardUser' ng-model='selectedProperties[tabs[7].title + "|" + tabs[7].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='creditCardUser'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "creditCardNewIssue"'>
+            <input id='creditCardNewIssue' ng-model='selectedProperties[tabs[8].title + "|" + tabs[8].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='creditCardNewIssue'>Yes</label>
+        </div>
+
+    </div>
+</div>

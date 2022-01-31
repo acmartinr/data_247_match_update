@@ -1,0 +1,1918 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='row main-container'>
+                <div class='list-type-container'>
+                    <label class='left list-type-label' localized>dashboard.data.source</label>
+                    <select class='form-control left list-type-select margin-right-20'
+                            ng-model='dataType'
+                            ng-change='dataTypeChanged()'>
+                        <option ng-repeat='dataSource in dataSources'
+                                ng-selected='dataSource.name == dataType'
+                                value="{{dataSource.name}}">{{capitalize(dataSource.title)}}</option>
+                    </select>
+
+                    <label class='left list-type-label capitalize'>Phone type:</label>
+                    <select class='form-control left list-search-select margin-right-20'
+                            ng-model='tableName'
+                            ng-options="table as table.name for table in tables track by table.name" >
+                    </select>
+
+                    <label class='left list-criteria-label' localized>dashboard.list.type</label>
+                    <select class='form-control left list-search-select' ng-model='searchType'>
+                        <option value='geographic' localized>dashboard.geographic</option>
+                        <option ng-if='dataType === "consumers"'
+                                value='demographics' localized>dashboard.demographics</option>
+                        <option ng-if='dataType === "consumer2018" || dataType === "consumer"'
+                                value='demographics2' localized>dashboard.demographics</option>
+                        <option ng-if='dataType === "Opt-In"'
+                                value='newoptin' localized>Opt-In</option>
+                        <option ng-if='dataType === "business" || dataType === "business detailed" || dataType === "business2"'
+                                value='company'>Company</option>
+                        <option ng-if='dataType === "linked in"'
+                                value='title'>Title</option>
+                        <option ng-if='dataType === "directory" || dataType === "craigslist" || dataType === "student" || dataType === "healthinsuranceleads" || dataType === "phildirectory" || dataType === "everydata"'
+                                value='source'>Source</option>
+                        <option ng-if='dataType === "WHOIS"'
+                                value='date'>Date</option>
+                        <option ng-if='dataType === "OPT IN" || dataType === "AUTO"'
+                                value='filter'>Filter</option>
+                        <option ng-if='dataType === "instagram" || dataType === "instagram2020"'
+                                value='category'>Category</option>
+                        <option ng-if='dataType === "facebook"'
+                                value='facebookDemographics' localized>dashboard.demographics</option>
+
+                        <option value='lists' localized>dashboard.refine.lists</option>
+                        <option value='uploaded'>Suppressions</option>
+                        <option value='geographicOmit' localized>Omit Areas</option>
+                    </select>
+                    <div>
+                        <!-- ajxjwxw wdefferfewfwewe fewfwefwef ajxjwxw wde swdwdwdqqwd qwdwddqwdqw qwdqwdqddq-->
+                        <label ng-click='saveTxtNoteList(countNote)' style="font-size: small;vertical-align: 400px;width: 400px;margin-left: 30px" class='left'>{{countNote}}</label>
+                    </div>
+
+                </div>
+
+                <div class='tabset-container'>
+                    <div ng-if='ifKeywordsEnable()'
+                         class='list-type-container' ng-repeat="keyword in keywords">
+                        <label class='left list-keyword-label'>Keyword:</label>
+                        <input ng-model='keyword.keyword'
+                               class='form-control keyword-input'
+                               placeholder='Enter keyword'>
+                        <button class='btn btn-default inline relative-top-minus-1'
+                                tooltip='Click this button to select specific columns which will be used in the keywords search'
+                                tooltip-popup-delay='500'
+                                ng-click='selectColumns(keyword)'>Columns</button>
+
+                        <button class='btn btn-default inline relative-top-minus-1'
+                                tooltip='Click this button to add one more keyword search parameter'
+                                tooltip-popup-delay='500'
+                                ng-if='keywords.indexOf(keyword) == 0'
+                                ng-click='addKeyword()'>Another Keyword</button>
+
+                        <button ng-if='keywords.indexOf(keyword) > 0'
+                                tooltip='Click this button to remove the current keyword search parameter'
+                                tooltip-popup-delay='500'
+                                class='btn btn-default inline relative-top-minus-1'
+                                ng-click='removeKeyword(keyword)'>Remove Keyword</button>
+                    </div>
+
+                    <tabset ng-show='searchType === "geographicOmit"' class='tabset'>
+                        <tab heading='{{localize( "tabs.states" )}}'
+                             ng-controller='StatesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/omitted.states.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.city" )}}'
+                             ng-controller='CitiesController'
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "blacklist" && dataType !== "callleads"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/omitted.cities.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.zip" )}}'
+                             ng-controller='ZipController'
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "OPT IN" && dataType !== "blacklist" && dataType !== "callleads" '>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/omitted.zip.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.phones" )}}'
+                             ng-controller='PhonesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/omitted.phones.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <span class='tip-span margin-bottom-5'
+                          ng-show='searchType === "geographic"'>* Leaving geographic blank will search all USA</span>
+                    <tabset ng-show='searchType === "geographic"' class='tabset'>
+                        <tab heading='{{localize( "tabs.states" )}}'
+                             ng-controller='StatesController'
+                             disable='!isTabEnabled("state")'
+                             tooltip-enable='!isTabEnabled("state")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             active="tabConfig.statesActiveTab">
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/states.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.county" )}}'
+                             ng-controller='CountyController'
+                             disable='!isTabEnabled("county")'
+                             tooltip-enable='!isTabEnabled("county")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             active="tabConfig.countiesActiveTab"
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "blacklist" && dataType !== "callleads"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/county.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.city" )}}'
+                             ng-controller='CitiesController'
+                             disable='!isTabEnabled("city")'
+                             tooltip-enable='!isTabEnabled("city")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "blacklist" && dataType !== "callleads"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/cities.html"'></div>
+                        </tab>
+                        <tab heading='Time Zone'
+                             ng-controller='TimeZonesController'
+                             disable='!isTabEnabled("timeZone")'
+                             tooltip-enable='!isTabEnabled("timeZone")'
+                             tooltip='Choose only 1 Area Tab to search'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/time.zones.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.zip" )}}'
+                             ng-controller='ZipController'
+                             disable='!isTabEnabled("zip")'
+                             tooltip-enable='!isTabEnabled("zip")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "OPT IN" && dataType !== "blacklist" && dataType !== "callleads" && dataType !== "facebook"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/zip.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.ring.radius" )}}'
+                             ng-controller='RingRadiusController'
+                             disable='!isTabEnabled("zip")'
+                             tooltip-enable='!isTabEnabled("zip")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             ng-if='dataType !== "craigslist" && dataType !== "search engine" && dataType !== "instagram" && dataType !== "OPT IN" && dataType !== "blacklist" && dataType !== "callleads" && dataType !== "facebook" && dataType !== "directory"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/ring.radius.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.phones" )}}'
+                             disable='!isTabEnabled("areaCode")'
+                             tooltip-enable='!isTabEnabled("areaCode")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             ng-controller='PhonesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/phones.html"'></div>
+                        </tab>
+                        <!--<tab heading='Carrier'
+                             disable='!isTabEnabled("carrier")'
+                             tooltip-enable='!isTabEnabled("carrier")'
+                             tooltip='Choose only 1 Area Tab to search'
+                             ng-controller='CarriersController'
+                             ng-if="isCarriersSearchEnabled && dataType != 'business detailed'">
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/carriers.html"'></div>
+                        </tab>-->
+                    </tabset>
+
+                    <tabset ng-show='searchType === "demographics"' class='tabset'>
+                        <tab heading='{{localize( "tabs.ages" )}}'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='AgeController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/ages.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.genders" )}}'
+                             ng-controller='GenderController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/genders.html"'></div>
+                        </tab>
+                        <!--<tab heading='Phone type'
+                             ng-controller='PhoneTypeController'>
+                            <div ng-include='"/assets/partials/demographics/phone.types.html"'></div>
+                        </tab>-->
+                        <!--<tab heading='{{localize( "tabs.education" )}}'
+                             ng-controller='EducationController'>
+                            <div ng-include='"/assets/partials/demographics/education.html"'></div>
+                        </tab>-->
+                        <tab heading='{{localize( "tabs.credit" )}}'
+                             ng-controller='CreditController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/credits.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.ethnicity" )}}'
+                             ng-controller='EthnicityController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/ethnicity.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.households" )}}'
+                             ng-controller='HouseholdsController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/households.html"'></div>
+                        </tab>
+                        <tab heading='{{localize( "tabs.residence" )}}'
+                             ng-controller='ResidencesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographics/residences.html"'></div>
+                        </tab>
+                        <!--<tab heading='{{localize( "tabs.interests" )}}'
+                             ng-controller='InterestsController'>
+                            <div ng-include='"/assets/partials/demographics/interests.html"'></div>
+                        </tab>-->
+                    </tabset>
+
+                    <tabset ng-show='searchType === "title"' class='tabset'>
+                        <tab heading='Title'
+                             ng-controller='LinkedInTitlesController'
+                             ng-if='dataType === "linked in"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/linkedin.title.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <tabset ng-show='searchType === "company"' class='tabset'>
+                        <tab heading='Industry'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='IndustriesController'
+                             ng-if='dataType === "business"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/industry.html"'></div>
+                        </tab>
+
+                        <tab heading='Industry'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='DetailedIndustriesController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/detailed.business.industry.html"'></div>
+                        </tab>
+                        <tab heading='Annual Sales'
+                             ng-controller='SalesController'
+                             ng-if='dataType === "business" || dataType === "business2"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/sales.html"'></div>
+                        </tab>
+                        <tab heading='Employee Count'
+                             ng-controller='EmployeesController'
+                             ng-if='dataType === "business" || dataType === "business2"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/employee.html"'></div>
+                        </tab>
+                        <tab heading='Title'
+                             ng-controller='TitlesController'
+                             ng-if='dataType === "business"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/title.html"'></div>
+                        </tab>
+
+                        <tab heading='Employees on Site'
+                             ng-controller='EmployeesController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/employee.html"'></div>
+                        </tab>
+                        <tab heading='Revenue at Site'
+                             ng-controller='SalesController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/sales.html"'></div>
+                        </tab>
+                        <tab heading='Year Founded'
+                             ng-controller='YearFoundedController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/year.founded.html"'></div>
+                        </tab>
+                        <tab heading='Credit Score'
+                             ng-controller='CreditScoreController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/credit.score.html"'></div>
+                        </tab>
+                        <tab heading='Company Type'
+                             ng-controller='CompanyTypeController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/company.type.html"'></div>
+                        </tab>
+
+                        <tab heading='Title'
+                             ng-controller='BusinessDetailedTitlesController'
+                             ng-if='dataType === "business detailed"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/linkedin.title.html"'></div>
+                        </tab>
+                        <tab heading='SIC code'
+                             ng-controller='SicController'
+                             ng-if='dataType === "business" || dataType === "business detailed" || dataType === "business2"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/sic.html"'></div>
+                        </tab>
+                        <!--<tab heading='Phone type'
+                             ng-controller='PhoneTypeController'>
+                            <div ng-include='"/assets/partials/demographics/phone.types.html"'></div>
+                        </tab>-->
+                    </tabset>
+
+                    <tabset ng-show='searchType === "facebookDemographics"' class='tabset'>
+                        <tab heading='Facebook Demographics'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='FacebookController'>
+                            <div ng-include='BASE_URL + "/assets/partials/facebook/facebookDemographic.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <tabset ng-show='searchType === "newoptin"' class='tabset'>
+                        <tab heading='Opt-In'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='OptInController'>
+                            <div ng-include='BASE_URL + "/assets/partials/newoptin/filtersparam.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <tabset ng-show='searchType === "demographics2"' class='tabset'>
+
+                        <tab heading='Person'
+                             active="isActive" ng-init="isActive = true"
+                             ng-controller='C2PersonController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/person.html"'></div>
+                        </tab>
+
+                        <tab heading='Credit'
+                             ng-controller='C2CreditController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/credit.html"'></div>
+                        </tab>
+
+                        <tab heading='Residence'
+                             ng-controller='C2ResidenceController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/residence.html"'></div>
+                        </tab>
+
+                        <tab heading='Interests'
+                             ng-controller='C2InterestsController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/interests.html"'></div>
+                        </tab>
+
+                        <!--<tab heading='Contributes'
+                             ng-controller='C2ContributesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/contributes.html"'></div>
+                        </tab>-->
+
+                        <tab heading='Career'
+                             ng-controller='C2CareerController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/career.html"'></div>
+                        </tab>
+
+                        <!--<tab heading='Purchases'
+                             ng-controller='C2PurchasesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/purchases.html"'></div>
+                        </tab>-->
+
+                        <tab heading='Finance'
+                             ng-controller='C2FinanceController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/finance.html"'></div>
+                        </tab>
+
+                        <tab heading='Real Estate'
+                             ng-controller='C2RealEstateController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/real.estate.html"'></div>
+                        </tab>
+
+<!--                        <tab heading='Carrier Name'-->
+<!--                             ng-controller='CarrierC2Controller'>-->
+<!--                            <div ng-include='BASE_URL + "/assets/partials/demographic2/carrier.html"'></div>-->
+<!--                        </tab>-->
+                        <!--
+                        <tab heading='Vehicle'
+                             ng-controller='C2VehicleController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/vehicle.html"'></div>
+                        </tab>
+
+                        -->
+
+
+                        <!--<tab heading='Sources'
+                             ng-controller='C2SourcesController'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/sources.html"'></div>
+                        </tab>-->
+
+                    </tabset>
+
+                    <tabset ng-show='searchType === "source" || searchType === "date"' class='tabset'>
+                        <tab heading='Source'
+                             ng-controller='SourcesController'
+                             ng-if='dataType === "directory"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/source.html"'></div>
+                        </tab>
+                        <tab heading='Date'
+                             ng-controller='DatesController'
+                             ng-if='dataType === "directory"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/dates.html"'></div>
+                        </tab>
+                        <tab heading='Source'
+                             ng-controller='PhilSourcesController'
+                             ng-if='dataType === "phildirectory"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/philSource.html"'></div>
+                        </tab>
+                        <tab heading='Source'
+                             ng-controller='EverydataSourcesController'
+                             ng-if='dataType === "everydata"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/everydatasource.html"'></div>
+                        </tab>
+                        <tab heading='Dob'
+                             ng-controller='DatesController'
+                             ng-if='dataType === "everydata"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/dates.html"'></div>
+                        </tab>
+                        <tab heading='Sections'
+                             ng-controller='SectionsController'
+                             ng-if='dataType == "craigslist"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/sections.html"'></div>
+                        </tab>
+                        <tab heading='Source'
+                             ng-controller='StudentSourcesController'
+                             ng-if='dataType === "student"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/source.html"'></div>
+                        </tab>
+                        <tab heading='Date range'
+                             ng-controller='DatesController'
+                             ng-if='dataType == "craigslist" || dataType == "WHOIS" || dataType == "student" || dataType == "healthinsuranceleads"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/dates.html"'></div>
+                        </tab>
+
+                        <tab heading='Age range'
+                             ng-controller='AgeRangeController'
+                             ng-if='dataType == "healthinsuranceleads"'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/age.range.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <tabset ng-show='searchType === "filter"' class='tabset'>
+                        <!--<tab heading='Date range'
+                             ng-controller='DatesController'
+                             ng-if='dataType == "OPT IN"'>
+                            <div ng-include='BASE_URL + "/assets/partials/geographic/dates.html"'></div>
+                        </tab>-->
+                        <tab heading='Make'
+                             ng-controller='MakesController'
+                             ng-if='dataType == "AUTO"'>
+                            <div ng-include='BASE_URL + "/assets/partials/criteria/makes.html"'></div>
+                        </tab>
+                        <tab heading='Model'
+                             ng-controller='ModelsController'
+                             ng-if='dataType == "AUTO"'>
+                            <div ng-include='BASE_URL + "/assets/partials/criteria/models.html"'></div>
+                        </tab>
+                        <tab heading='Year'
+                             ng-controller='YearsController'
+                             ng-if='dataType == "AUTO"'>
+                            <div ng-include='BASE_URL + "/assets/partials/criteria/years.html"'></div>
+                        </tab>
+                        <tab heading='Source'
+                             ng-controller='OptInSourcesController'
+                             ng-if='dataType === "OPT IN"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/optin.source.html"'></div>
+                        </tab>
+                        <tab heading='Age range'
+                             ng-controller='AgeRangeController'
+                             ng-if='dataType == "OPT IN"'>
+                            <div ng-include='BASE_URL + "/assets/partials/demographic2/age.range.html"'></div>
+                        </tab>
+                    </tabset>
+
+                    <div ng-controller='CategoryController'>
+                        <div ng-if='searchType === "category" && dataType !== "instagram2020"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/category.html"'></div>
+                        </div>
+                    </div>
+
+                    <div ng-controller='InstagramCategoryController'>
+                        <div ng-if='searchType === "category" && dataType === "instagram2020"'>
+                            <div ng-include='BASE_URL + "/assets/partials/company/instagram.category.html"'></div>
+                        </div>
+                    </div>
+
+                    <div ng-controller='DashboardListsController'>
+                        <div ng-show='searchType === "lists"'>
+                            <div ng-include='BASE_URL + "/assets/partials/lists/lists.html"'></div>
+                        </div>
+                    </div>
+
+                    <div ng-controller='DashboardUploadedListsController'>
+                        <div ng-show='searchType === "uploaded"'>
+                            <div ng-include='BASE_URL + "/assets/partials/lists/uploaded.lists.html"'></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='info-container'>
+                    <div class='info-container-header margin-bottom-3'>
+                        <div class='labels pointer'
+                             tooltip='Click here to view detailed request information'
+                             ng-click='getCountDetails()'>
+                            <span localized>geographic.count</span>
+                            <span ng-if='!loading'>{{formattedAmount(count)}}</span>
+                        </div>
+                        <img class='margin-left' ng-if='loading' src='/assets/images/loading.gif'>
+
+                        <button class='btn btn-default right capitalize'
+                                ng-disabled="count === 0"
+                                tooltip='Click this button to save requested data to a new list'
+                                tooltip-popup-delay='500'
+                                ng-click='saveList()'
+                                localized>lists.save</button>
+
+                        <div class="custom-btn-group btn-group right margin-right">
+                            <button type="button"
+                                    class="btn btn-default"
+                                    tooltip="Select some search parameters and click this button for getting database records count"
+                                    tooltip-append-to-body="true"
+                                    tooltip-popup-delay="500"
+                                    tooltip-enable="!loading"
+                                    ng-disabled="loading"
+                                    ng-click='getCount()'>Get Count</button>
+                            <button type="button"
+                                    ng-click='menu.expanded = !menu.expanded'
+                                    class="btn btn-default dropdown-toggle"
+                                    id="toggle">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu visible get-count-dropdown"
+                                ng-if='menu.expanded'>
+                                <li tooltip="Click this button for stopping the current data request"
+                                    tooltip-popup-delay="500"
+                                    tooltip-enable="!loading"
+                                    ng-click='stopRequest()'><a>Stop request</a></li>
+                                <li tooltip="Click this button for stopping the current data request and clear all search parameters"
+                                    tooltip-popup-delay="500"
+                                    tooltip-enable="!loading"
+                                    ng-click='clearPage()'><a>Clear Page</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <div class='unique-phone-wrapper left margin-bottom-3'>
+
+                        <div class='col-sm-6 right no-padding'
+                             ng-if='isFilterDNCEnabled'>
+                            <label for='filterDNC'
+                                   tooltip='There are some records with "Do not call" flag, filter DNC will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Filter DNC</label>
+                            <input type='checkbox'
+                                   id='filterDNC'
+                                   class='relative-upper'
+                                   ng-model='config.filterDNC'/>
+                        </div>
+
+                        <div class='col-sm-6 right no-padding'  ng-if='isFilterEmailEnabled && dataType === "consumer"'>
+                            <label for='filterEmail'
+                                   tooltip='There may be records with empty emails, this option will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Records with Email</label>
+                            <input type='checkbox'
+                                   id='filterEmail'
+                                   class='relative-upper'
+                                   ng-model='config.filterEmail'/>
+                        </div>
+
+                        <!--<div class='col-sm-6 right no-padding'  ng-if='isBusinessFilterEmailEnabled && dataType === "business"'>
+                            <label for='filterBusinessEmail'
+                                   tooltip='There may be records with empty emails, this option will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Records with Email</label>
+                            <input type='checkbox'
+                                   id='filterBusinessEmail'
+                                   class='relative-upper'
+                                   ng-model='config.filterBusinessEmail'/>
+                        </div>-->
+
+                        <div class='col-sm-6 right no-padding'  ng-if='isFilterWebsiteEnabled && dataType === "consumer"'>
+                            <label for='filterWebsite'
+                                   tooltip='There may be records with empty website, this option will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Records with website</label>
+                            <input type='checkbox'
+                                   id='filterWebsite'
+                                   class='relative-upper'
+                                   ng-model='config.filterWebsite'/>
+                        </div>
+
+                        <div class='col-sm-6 right no-padding' >
+                            <label for='unique'
+                                   tooltip='There may be duplicate records in 1 househouse for the husband and wife, unique phones will remove one of the records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Unique Phones</label>
+                            <input type='checkbox'
+                                   id='unique'
+                                   class='relative-upper'
+                                   ng-model='unique'/>
+                        </div>
+                        <div ng-if='(dataType == "consumer2018" || dataType == "consumer")' class='col-sm-6 right no-padding'>
+                            <label for='local_numbers'
+                                   tooltip='There may be phone from external state, local phones will remove one of the records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Local Numbers</label>
+                            <input type='checkbox'
+                                   id='local_numbers'
+                                   class='relative-upper'
+                                   ng-model='config.localNumbers'/>
+                        </div>
+                        <div ng-if='(dataType == "facebook" || dataType == "everydata" || dataType === "healthinsuranceleads" || dataType === "phildirectory" )' class='col-sm-6 right no-padding'>
+                            <label for='hispanicName'
+                                   tooltip='There seach all hispanic last names'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Hispanic Last Name</label>
+                            <input type='checkbox'
+                                   id='hispanicName'
+                                   class='relative-upper'
+                                   ng-model='config.fbHispanicLNames'/>
+                        </div>
+                        <div ng-if='getAccauntName() == "admin" && dataType == "Opt-In"' class='col-sm-6 right no-padding'>
+                            <label for='uniqueEmails'
+                                   tooltip='Get rows with name contained in email'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Confirmed Email</label>
+                            <input type='checkbox'
+                                   id='confirmed'
+                                   class='relative-upper'
+                                   ng-model='config.confirmed'/>
+                        </div>
+
+                        <div ng-if='dataType == "business detailed" || dataType == "instagram2020"'
+                             class='col-sm-6 right no-padding' >
+                            <label for='uniqueEmails'
+                                   tooltip='There may be duplicate records with the same email address, unique emails will remove one of the records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Unique Emails</label>
+                            <input type='checkbox'
+                                   id='uniqueEmails'
+                                   class='relative-upper'
+                                   ng-model='config.uniqueEmails'/>
+                        </div>
+
+                        <div class='col-sm-6 right no-padding' ng-if='dataType == "business" || dataType == "directory" || dataType === "business2"'>
+                            <label for='uniqueBusinessName'
+                                   tooltip='There may be records with duplicated company names, unique business name will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Unique Business Name</label>
+                            <input type='checkbox'
+                                   id='uniqueBusinessName'
+                                   class='relative-upper'
+                                   ng-model='config.uniqueBusinessName'/>
+                        </div>
+
+                        <!--<div class='col-sm-6 right no-padding' ng-if='isPhoneTypeEnabled()'>
+                            <label for='mobile_phones'
+                                   class='margin-right pointer'>Mobile Only</label>
+                            <input type='checkbox'
+                                   id='mobile_phones'
+                                   class='relative-upper'
+                                   ng-model='config.mobile'/>
+                        </div>
+
+                        <div class='col-sm-6 right no-padding' ng-if='isPhoneTypeEnabled()'>
+                            <label for='landlines_phones'
+                                   class='margin-right pointer'>Landlines Only</label>
+                            <input type='checkbox'
+                                   id='landlines_phones'
+                                   class='relative-upper'
+                                   ng-model='config.landlines'/>
+                        </div>-->
+                        <div ng-if='(getAccauntName() == "admin" || getAccauntName() == "phil") && (dataType == "business" || dataType == "directory" || dataType === "business2" || dataType === "business detailed")'
+                             class='col-sm-6 right no-padding'>
+                            <label for='remove_corps'
+                                   class='margin-right pointer'>Remove Corps</label>
+                            <input type='checkbox'
+                                   id='remove_corps'
+                                   class='relative-upper'
+                                   ng-model='config.removeCorps'/>
+                        </div>
+                        <div
+                                class='col-sm-6 right no-padding'
+                                ng-if='getAccauntName() == "admin" || getAccauntName() == "phil"'
+                        >
+                            <label for='show_matchs'
+                                   class='margin-right pointer'>Show matchs</label>
+                            <input type='checkbox'
+                                   id='show_matchs'
+                                   class='relative-upper'
+                                   ng-model='config.showMatch'/>
+                        </div>
+                        <div ng-if='config.showMatch'>
+                            <div class='col-sm-6 right no-padding' ng-if='isMatchResponderEnabled'>
+                                <label for='blacklist_match'
+                                       class='margin-right pointer'>Match Responder</label>
+                                <input type='checkbox'
+                                       id='blacklist_match'
+                                       class='relative-upper'
+                                       ng-model='config.blackListMatch'/>
+                            </div>
+
+                            <div ng-if='isMatchConsumersEnabled && dataType != "consumer"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='consumer_match'
+                                       class='margin-right pointer'>Match Consumer</label>
+                                <input type='checkbox'
+                                       id='consumer_match'
+                                       class='relative-upper'
+                                       ng-model='config.consumerMatch'/>
+                            </div>
+
+                            <div ng-if='isMatchCraigslistEnabled && dataType != "craigslist"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='craigslist_match'
+                                       class='margin-right pointer'>Match Craiglist</label>
+                                <input type='checkbox'
+                                       id='craigslist_match'
+                                       class='relative-upper'
+                                       ng-model='config.craigslistMatch'/>
+                            </div>
+
+                            <!-- New Match addeds-->
+                            <div ng-if='isMatchBussinessEnabled&&dataType != "business"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='business_match'
+                                       class='margin-right pointer'>Match Business</label>
+                                <input type='checkbox'
+                                       id='business_match'
+                                       class='relative-upper'
+                                       ng-model='config.businessMatch'/>
+                            </div>
+                            <div ng-if='isMatchBussiness2Enabled && dataType != "business2"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='business2_match'
+                                       class='margin-right pointer'>Match Business2</label>
+                                <input type='checkbox'
+                                       id='business2_match'
+                                       class='relative-upper'
+                                       ng-model='config.businessMatch2'/>
+                            </div>
+                            <div ng-if='isMatchEverydataEnabled && dataType != "everydata"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='everydata_match'
+                                       class='margin-right pointer'>Match Everydata</label>
+                                <input type='checkbox'
+                                       id='everydata_match'
+                                       class='relative-upper'
+                                       ng-model='config.everydataMatch'/>
+                            </div>
+                            <div ng-if='isMatchWhoisEnabled&&dataType != "WHOIS"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='whois_match'
+                                       class='margin-right pointer'>Match Whois</label>
+                                <input type='checkbox'
+                                       id='whois_match'
+                                       class='relative-upper'
+                                       ng-model='config.whoisMatch'/>
+                            </div>
+                            <!--
+                            <div ng-if='dataType != "WHOIS"'
+                                    class='col-sm-6 right no-padding'>
+                                <label for='consumer2019_match'
+                                       class='margin-right pointer'>Match Consumer2019</label>
+                                <input type='checkbox'
+                                       id='consumer2019_match'
+                                       class='relative-upper'
+                                       ng-model='config.Consumer2019Match'/>
+                            </div>
+                            -->
+                            <div ng-if='isMatchInstagramEnabled&&dataType != "instagram2020"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='instagram_match'
+                                       class='margin-right pointer'>Match Instagram</label>
+                                <input type='checkbox'
+                                       id='instagram_match'
+                                       class='relative-upper'
+                                       ng-model='config.instagramMatch'/>
+                            </div>
+                            <!--
+                                                        <div ng-if='dataType != "consumer2018"'
+                                                                class='col-sm-6 right no-padding'>
+                                                            <label for='consumer2018_match'
+                                                                   class='margin-right pointer'>Match Consumer2018</label>
+                                                            <input type='checkbox'
+                                                                   id='consumer2018_match'
+                                                                   class='relative-upper'
+                                                                   ng-model='config.consumer2018Match'/>
+                                                        </div>
+                                                        -->
+
+                            <div ng-if='isMatchHealthbuyersEnabled&&dataType != "healthbuyers"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='health_buyers_match'
+                                       class='margin-right pointer'>Match Health Buyers</label>
+                                <input type='checkbox'
+                                       id='health_buyers_match'
+                                       class='relative-upper'
+                                       ng-model='config.healthBuyersMatch'/>
+                            </div>
+
+                            <div ng-if='isMatchHealthinsuranceleadsEnabled&&dataType != "healthinsuranceleads"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='insurance_leads_match'
+                                       class='margin-right pointer'>Match Health Insurance</label>
+                                <input type='checkbox'
+                                       id='insurance_leads_match'
+                                       class='relative-upper'
+                                       ng-model='config.healthInsuranceMatch'/>
+                            </div>
+
+
+                            <!-- New Match addeds-->
+
+                            <!--
+                                                    <div ng-if='dataType === "Opt-In"'
+                                                         ng-repeat='dataSource in dataSources'
+                                                         class='col-sm-6 right no-padding'>
+                                                        <label for={{dataSource.name}}'_match'
+                                                               class='margin-right pointer'>Match {{dataSource.name}}</label>
+                                                        <input type='checkbox'
+                                                               id={{dataSource.name}}'_match'
+                                                               class='relative-upper'
+                                                               ng-model="matchTable[dataSource.name]"/>
+                                                    </div>
+                            -->
+
+                            <div ng-if='isMatchDirectoryEnabled && dataType != "directory"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='directory_match'
+                                       class='margin-right pointer'>Match Directory</label>
+                                <input type='checkbox'
+                                       id='directory_match'
+                                       class='relative-upper'
+                                       ng-model='config.directoryMatch'/>
+                            </div>
+
+
+
+                            <div ng-if='isMatchBusinessDetailedEnabled && dataType != "business detailed"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='business_detailed_match'
+                                       class='margin-right pointer'>Match Detailed Business</label>
+                                <input type='checkbox'
+                                       id='business_detailed_match'
+                                       class='relative-upper'
+                                       ng-model='config.businessDetailedMatch'/>
+                            </div>
+
+                            <div ng-if='isMatchCallLeadsEnabled && dataType != "callleads"'
+                                 class='col-sm-6 right no-padding'>
+                                <label for='call_leads_match'
+                                       class='margin-right pointer'>Match Call Leads</label>
+                                <input type='checkbox'
+                                       id='call_leads_match'
+                                       class='relative-upper'
+                                       ng-model='config.callLeadsMatch'/>
+                            </div>
+
+
+                            <div ng-if='isMatchOptInEnabled && dataType != "OPT IN" && dataType != "Opt-In"'
+                                 class='col-sm-6 left no-padding'>
+                                <label for='opt_in_match'
+                                       class='margin-right pointer'>Match OptIn</label>
+                                <input type='checkbox'
+                                       id='opt_in_match'
+                                       class='relative-upper'
+                                       ng-model='config.optinMatch'/>
+
+                            </div>
+                            <div ng-if='isMatchFacebookEnable && dataType != "facebook"'
+                                 class='col-sm-6 left no-padding'>
+                                <label for='facebook_match'
+                                       class='margin-right pointer'>Match Facebook</label>
+                                <input type='checkbox'
+                                       id='facebook_match'
+                                       class='relative-upper'
+                                       ng-model='config.facebookMatch'/>
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <div class='panel panel-default left'>
+                            <div class='panel-body'>
+                                <label ng-if='dataType != "consumer" && dataType != "consumer2018"' class='full-width center'>Keyword</label>
+                                <div ng-if='keyword.keyword'
+                                     ng-repeat='keyword in keywords' class='bubble'>
+                                    <span>{{keyword.keyword}}{{generateColumnsString(keyword)}}</span>
+
+                                    <a class='tiny-link pointer'
+                                       ng-click='removeKeyword(keyword)'>×</a>
+                                </div>
+
+                                <label class='full-width center margin-top' localized>dashboard.geographic.title</label>
+
+                                <div ng-if='asArray(selectedTimeZones).length > 0'>
+                                    <label class='full-width margin-top' localized>Time Zones</label>
+                                    <div class='bubble' ng-repeat='timeZone in asArray(selectedTimeZones)'>
+                                        <span>{{timeZone.split("|")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedTimeZones[timeZone] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedStates).length > 0'>
+                                    <label class='full-width margin-top' localized>tabs.states</label>
+                                    <div class='bubble' ng-repeat='state in asArray(selectedStates)'>
+                                        <span>{{state.split("|")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedStates[state] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(omittedStates).length > 0'>
+                                    <label class='full-width margin-top' localized>Omitted State</label>
+                                    <div class='bubble' ng-repeat='state in asArray(omittedStates)'>
+                                        <span>{{state.split("|")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='omittedStates[state] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedCounties).length > 0'>
+                                    <label class='full-width margin-top' localized>tabs.county</label>
+                                    <div class='bubble' ng-repeat='county in asArray(selectedCounties)'>
+                                        <span>{{county.split("_")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedCounties[county] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedCities).length > 0'>
+                                    <label class='full-width margin-top' localized>tabs.city</label>
+                                    <div class='bubble' ng-repeat='county in asArray(selectedCities)'>
+                                        <span>{{county.split("_")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedCities[county] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(omittedCities).length > 0'>
+                                    <label class='full-width margin-top' localized>Omitted city</label>
+                                    <div class='bubble' ng-repeat='city in asArray(omittedCities)'>
+                                        <span>{{city.split("_")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='omittedCities[city] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedZipCodes).length > 0'>
+                                    <label class='full-width margin-top' localized>tabs.zip</label>
+                                    <div class='bubble' ng-repeat='zip in asArray(selectedZipCodes)'>
+                                        <span>{{formatZipCode(zip)}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedZipCodes[zip] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(omittedZipCodes).length > 0'>
+                                    <label class='full-width margin-top' localized>Omitted ZIP</label>
+                                    <div class='bubble' ng-repeat='zipCode in asArray(omittedZipCodes)'>
+                                        <span>{{formatZipCode(zipCode)}}</span>
+                                        <a class='tiny-link pointer' ng-click='omittedZipCodes[zipCode] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedAreaCodes).length > 0'>
+                                    <label class='full-width margin-top' localized>tabs.phones</label>
+                                    <div class='bubble' ng-repeat='areaCode in asArray(selectedAreaCodes)'>
+                                        <span>{{areaCode}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedAreaCodes[areaCode] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(omittedAreaCodes).length > 0'>
+                                    <label class='full-width margin-top' localized>Omitted Area Code</label>
+                                    <div class='bubble' ng-repeat='areaCode in asArray(omittedAreaCodes)'>
+                                        <span>{{areaCode}}</span>
+                                        <a class='tiny-link pointer' ng-click='omittedAreaCodes[areaCode] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedCarriers).length > 0'>
+                                    <label class='full-width margin-top' localized>Carrier</label>
+                                    <div class='bubble' ng-repeat='carrier in asArray(selectedCarriers)'>
+                                        <span>{{carrier}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedCarriers[carrier] = false'>×</a>
+                                    </div>
+                                </div>
+                                <div ng-if='asArray(selectedConsumerCarrierName).length > 0'>
+                                    <label class='full-width margin-top' localized>Carrier</label>
+                                    <div class='bubble' ng-repeat='carrier in asArray(selectedConsumerCarrierName)'>
+                                        <span>{{carrier}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedConsumerCarrierName[carrier] = false'>×</a>
+                                    </div>
+                                </div>
+
+
+
+                                <div ng-if='dataType === "Opt-In"'>
+                                    <label class='full-width center margin-top' localized>dashboard.optin2.title</label>
+
+                                    <div ng-if='asArray(selectedDomainSource).length > 0'>
+                                        <label class='full-width margin-top' localized>Source</label>
+                                        <div class='bubble' ng-repeat='source in asArray(selectedDomainSource)'>
+                                            <span>{{source.split("_")[0]}}</span>
+                                            <a class='tiny-link pointer'
+                                               ng-click='selectedDomainSource[source] = false'>×</a>
+                                        </div>
+                                    </div>
+                                    <div ng-if='asArray(selectedCarriersBrands).length > 0'>
+                                        <label class='full-width margin-top' localized>Carriers</label>
+                                        <div class='bubble' ng-repeat='carrier in asArray(selectedCarriersBrands)'>
+                                            <span>{{carrier.split("_")[0]}}</span>
+                                            <a class='tiny-link pointer'
+                                               ng-click='selectedCarriersBrands[carrier] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedFileDates).length > 0'>
+                                        <label class='full-width margin-top' localized>OptIn Datime</label>
+                                        <div class='bubble' ng-repeat='date in asArray(selectedFileDates)'>
+                                            <span>{{date.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedFileDates[date] = false'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if='dataType === "facebook"'>
+                                    <label class='full-width center margin-top' localized>dashboard.facebook.title</label>
+
+                                    <div ng-if='asArray(selectedFacebookGender).length > 0'>
+                                        <label class='full-width margin-top' localized>Gender</label>
+                                        <div class='bubble' ng-repeat='gender in asArray(selectedFacebookGender)'>
+                                            <span>{{gender.split("|")[1]}}</span>
+                                            <a class='tiny-link pointer'
+                                               ng-click='selectedFacebookGender[gender] = false'>×</a>
+                                        </div>
+                                    </div>
+                                    <div ng-if='asArray(selectedFacebookStatus).length > 0'>
+                                        <label class='full-width margin-top' localized>Carriers</label>
+                                        <div class='bubble' ng-repeat='status in asArray(selectedFacebookStatus)'>
+                                            <span>{{status.split("|")[1]}}</span>
+                                            <a class='tiny-link pointer'
+                                               ng-click='selectedFacebookStatus[status] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedFacebookJob).length > 0'>
+                                        <label class='full-width margin-top' localized>Jobs</label>
+                                        <div class='bubble' ng-repeat='job in asArray(selectedFacebookJob)'>
+                                            <span>{{job}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedFacebookJob[job] = false'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if='dataType === "consumers" || dataType === "consumer2018" || dataType === "consumer"'>
+                                    <label class='full-width center margin-top' localized>dashboard.demographics.title</label>
+                                    <div ng-if='asArray(selectedProperties).length > 0'>
+                                        <label class='full-width margin-top' localized>Properties</label>
+                                        <div class='bubble' ng-repeat='property in asArray(selectedProperties)'>
+                                            <span>{{property.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedProperties[property] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedAges).length > 0'>
+                                        <label class='full-width margin-top' localized>tabs.ages</label>
+                                        <div class='bubble' ng-repeat='age in asArray(selectedAges)'>
+                                            <span>{{age.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedAges[age] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(agesRange).length > 0'>
+                                        <label class='full-width margin-top' localized>Age range</label>
+                                        <div class='bubble' ng-repeat='value in asArray(agesRange)'>
+                                            <span>{{value.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='agesRange[value] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(dobs).length > 0'>
+                                        <label class='full-width margin-top' localized>Date of birth</label>
+                                        <div class='bubble'>
+                                            <span>{{formatDob()}}</span>
+                                            <a class='tiny-link pointer' ng-click='clearDobs()'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedGenders).length > 0'>
+                                        <label class='full-width margin-top' localized>tabs.genders</label>
+                                        <div class='bubble' ng-repeat='gender in asArray(selectedGenders)'>
+                                            <span>{{gender.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedGenders[gender] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMaritalStatuses).length > 0'>
+                                        <label class='full-width margin-top' localized>Marital Status</label>
+                                        <div class='bubble' ng-repeat='status in asArray(selectedMaritalStatuses)'>
+                                            <span>{{status.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMaritalStatuses[status] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEthnicCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Ethnic</label>
+                                        <div class='bubble' ng-repeat='code in asArray(selectedEthnicCodes)'>
+                                            <span>{{code.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEthnicCodes[code] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedLanguageCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Language</label>
+                                        <div class='bubble' ng-repeat='code in asArray(selectedLanguageCodes)'>
+                                            <span>{{code.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedLanguageCodes[code] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEthnicGroups).length > 0'>
+                                        <label class='full-width margin-top' localized>Ethnic Group</label>
+                                        <div class='bubble' ng-repeat='group in asArray(selectedEthnicGroups)'>
+                                            <span>{{group.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEthnicGroups[group] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedReligionCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Religion</label>
+                                        <div class='bubble' ng-repeat='code in asArray(selectedReligionCodes)'>
+                                            <span>{{code.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedReligionCodes[code] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedHispanicCountryCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Hispanic Country</label>
+                                        <div class='bubble' ng-repeat='code in asArray(selectedHispanicCountryCodes)'>
+                                            <span>{{code.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHispanicCountryCodes[code] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedPropertyType).length > 0'>
+                                        <label class='full-width margin-top' localized>Property Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedPropertyType)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPropertyType[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedOwnerType).length > 0'>
+                                        <label class='full-width margin-top' localized>Owner Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedOwnerType)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedOwnerType[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedLengthOfResidence).length > 0'>
+                                        <label class='full-width margin-top' localized>Length Of Residence</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedLengthOfResidence)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedLengthOfResidence[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNumberOfPersonInLivingUnit).length > 0'>
+                                        <label class='full-width margin-top' localized>Number Of Person In Living Unit</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfPersonInLivingUnit)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNumberOfPersonInLivingUnit[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNumberOfChildren).length > 0'>
+                                        <label class='full-width margin-top' localized>Number Of Children</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfChildren)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNumberOfChildren[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedChildrenAgeGender).length > 0'>
+                                        <label class='full-width margin-top' localized>Children Age/Gender</label>
+                                        <div class='bubble'
+                                             ng-repeat='item in asArray(selectedChildrenAgeGender)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedChildrenAgeGender[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedInferredHouseHoldRank).length > 0'>
+                                        <label class='full-width margin-top' localized>Inferred House Hold Rank</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedInferredHouseHoldRank)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedInferredHouseHoldRank[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNumberOfAdults).length > 0'>
+                                        <label class='full-width margin-top' localized>Number Of Adults</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfAdults)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNumberOfAdults[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedGenerationsInHouseHold).length > 0'>
+                                        <label class='full-width margin-top' localized>Generations In House Hold</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedGenerationsInHouseHold)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedGenerationsInHouseHold[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSewer).length > 0'>
+                                        <label class='full-width margin-top' localized>Sewer</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedSewer)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSewer[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedWater).length > 0'>
+                                        <label class='full-width margin-top' localized>Water</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedWater)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedWater[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedOccupationGroups).length > 0'>
+                                        <label class='full-width margin-top' localized>Occupation Groups</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedOccupationGroups)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedOccupationGroups[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedPersonEducations).length > 0'>
+                                        <label class='full-width margin-top' localized>Person Education</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedPersonEducations)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPersonEducations[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedPersonOccupations).length > 0'>
+                                        <label class='full-width margin-top' localized>Person Occupation</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedPersonOccupations)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPersonOccupations[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedBusinessOwners).length > 0'>
+                                        <label class='full-width margin-top' localized>Business Owners</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedBusinessOwners)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedBusinessOwners[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEstimatedIncome).length > 0'>
+                                        <label class='full-width margin-top' localized>Estimated Income</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedEstimatedIncome)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEstimatedIncome[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNetWorthes).length > 0'>
+                                        <label class='full-width margin-top' localized>Net Worth</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedNetWorthes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNetWorthes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedPropertyOwned).length > 0'>
+                                        <label class='full-width margin-top' localized>Property Owned</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedPropertyOwned)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPropertyOwned[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedHomePurchasePrices).length > 0'>
+                                        <label class='full-width margin-top' localized>Home Purchase Price</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedHomePurchasePrices)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHomePurchasePrices[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedHomePurchasedDates.length > 0'>
+                                        <label class='full-width margin-top' localized>Home Purchased Date Range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedHomePurchasedDates)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHomePurchasedDates.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedHomeYearBuilt.length > 0'>
+                                        <label class='full-width margin-top' localized>Home Year Built Range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedHomeYearBuilt)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHomeYearBuilt.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEstimatedCurrentHomeValueCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Estimated Current Home Value</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedEstimatedCurrentHomeValueCodes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEstimatedCurrentHomeValueCodes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMortgageAmountInThousands).length > 0'>
+                                        <label class='full-width margin-top' localized>Mortgage Amount In Thousands</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageAmountInThousands)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMortgageAmountInThousands[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMortgageLenderNames).length > 0'>
+                                        <label class='full-width margin-top' localized>Mortgage Lender Name</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageLenderNames)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMortgageLenderNames[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMortgageRate).length > 0'>
+                                        <label class='full-width margin-top' localized>Mortgage Rate</label>
+                                        <div class='bubble' ng-repeat='item in asSortedArray(selectedMortgageRate)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='cleanSelectedMortgageRateValue(item)'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMortgageRateTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Mortgage Rate Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageRateTypes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMortgageRateTypes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMortgageLoanTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Mortgage Loan Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageLoanTypes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMortgageLoanTypes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedTransactionTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Transaction Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedTransactionTypes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedTransactionTypes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRefinanceAmountInThousands).length > 0'>
+                                        <label class='full-width margin-top' localized>Refinance Amount In Thousands</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceAmountInThousands)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRefinanceAmountInThousands[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRefinanceLeaderNames).length > 0'>
+                                        <label class='full-width margin-top' localized>Refinance Lender Name</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceLeaderNames)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRefinanceLeaderNames[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedDeedDatesOfRefinance.length > 0'>
+                                        <label class='full-width margin-top' localized>Deed Date Of Refinance Range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedDeedDatesOfRefinance)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedDeedDatesOfRefinance.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRefinanceRateTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Refinance Rate Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceRateTypes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRefinanceRateTypes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRefinanceLoanTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Refinance Loan Type</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceLoanTypes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRefinanceLoanTypes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedCensusMedianHouseHoldIncome).length > 0'>
+                                        <label class='full-width margin-top' localized>Census Median House Hold Income</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedCensusMedianHouseHoldIncome)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedCensusMedianHouseHoldIncome[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedCensusMedianHomeValue).length > 0'>
+                                        <label class='full-width margin-top' localized>Census Median Home Value</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedCensusMedianHomeValue)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedCensusMedianHomeValue[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedCraIncomeClassificationCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>CRA Income Classification Code</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedCraIncomeClassificationCodes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedCraIncomeClassificationCodes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedPurchaseMortgageDates.length > 0'>
+                                        <label class='full-width margin-top' localized>Purchase Mortgage Date Range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedPurchaseMortgageDates)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPurchaseMortgageDates.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMostRecentLenderCodes).length > 0'>
+                                        <label class='full-width margin-top' localized>Most Recent Lender Code</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMostRecentLenderCodes)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMostRecentLenderCodes[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedPurchaseLenderNames).length > 0'>
+                                        <label class='full-width margin-top' localized>Purchase Lender Name</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedPurchaseLenderNames)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPurchaseLenderNames[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMostRecentMortgageInterestRates).length > 0'>
+                                        <label class='full-width margin-top' localized>Most Recent Mortgage Interest Rate</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedMostRecentMortgageInterestRates)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMostRecentMortgageInterestRates[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedLoanToValues).length > 0'>
+                                        <label class='full-width margin-top' localized>Loan To Value</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedLoanToValues)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedLoanToValues[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <!--<div ng-if='asArray(selectedPhoneTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Phone types</label>
+                                        <div class='bubble' ng-repeat='phoneType in asArray(selectedPhoneTypes)'>
+                                            <span>{{phoneType.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPhoneTypes[phoneType] = false'>×</a>
+                                        </div>
+                                    </div>-->
+
+                                    <div ng-if='asArray(selectedEducations).length > 0'>
+                                        <label class='full-width margin-top' localized>tabs.education</label>
+                                        <div class='bubble' ng-repeat='education in asArray(selectedEducations)'>
+                                            <span>{{education.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEducations[education] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNetWorth).length > 0'>
+                                        <label class='full-width margin-top' localized>credit.net.worth</label>
+                                        <div class='bubble' ng-repeat='credit in asArray(selectedNetWorth)'>
+                                            <span>{{credit.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNetWorth[credit] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRating).length > 0'>
+                                        <label class='full-width margin-top' localized>credit.rating</label>
+                                        <div class='bubble' ng-repeat='credit in asArray(selectedRating)'>
+                                            <span>{{credit.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRating[credit] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedActiveLines).length > 0'>
+                                        <label class='full-width margin-top' localized>credit.active.lines</label>
+                                        <div class='bubble' ng-repeat='credit in asArray(selectedActiveLines)'>
+                                            <span>{{credit.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedActiveLines[credit] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedRange).length > 0'>
+                                        <label class='full-width margin-top' localized>credit.range.new.credits</label>
+                                        <div class='bubble' ng-repeat='credit in asArray(selectedRange)'>
+                                            <span>{{credit.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedRange[credit] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEthnicityGroup).length > 0'>
+                                        <label class='full-width margin-top' localized>ethnicity.group</label>
+                                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityGroup)'>
+                                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEthnicityGroup[ethnicity] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEthnicityLanguage).length > 0'>
+                                        <label class='full-width margin-top' localized>ethnicity.language</label>
+                                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityLanguage)'>
+                                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEthnicityLanguage[ethnicity] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEthnicityReligion).length > 0'>
+                                        <label class='full-width margin-top' localized>ethnicity.religion</label>
+                                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityReligion)'>
+                                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEthnicityReligion[ethnicity] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedHouseholdSize).length > 0'>
+                                        <label class='full-width margin-top' localized>household.size</label>
+                                        <div class='bubble' ng-repeat='household in asArray(selectedHouseholdSize)'>
+                                            <span>{{household.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHouseholdSize[household] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedHouseholdIncome).length > 0'>
+                                        <label class='full-width margin-top' localized>household.income</label>
+                                        <div class='bubble' ng-repeat='household in asArray(selectedHouseholdIncome)'>
+                                            <span>{{household.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedHouseholdIncome[household] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceVeteran).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.veteran</label>
+                                        <div class='bubble' ng-repeat='household in asArray(selectedResidenceVeteran)'>
+                                            <span>{{household.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceVeteran[household] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceType).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.type.title</label>
+                                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceType)'>
+                                            <span>{{residence.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceType[residence] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceOwnerShip).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.ownership.title</label>
+                                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceOwnerShip)'>
+                                            <span>{{residence.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceOwnerShip[residence] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceLength).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.length.title</label>
+                                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceLength)'>
+                                            <span>{{residence.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceLength[residence] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceMarital).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.marital</label>
+                                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceMarital)'>
+                                            <span>{{residence.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceMarital[residence] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedResidenceChildren).length > 0'>
+                                        <label class='full-width margin-top' localized>residence.number.of.children</label>
+                                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceChildren)'>
+                                            <span>{{residence.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedResidenceChildren[residence] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedInterests).length > 0'>
+                                        <label class='full-width margin-top' localized>tabs.interests</label>
+                                        <div class='bubble' ng-repeat='interest in asArray(selectedInterests)'>
+                                            <span>{{interest.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedInterests[interest] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedNumberOfSources).length > 0'>
+                                        <label class='full-width margin-top' localized>Number Of Sources</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfSources)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedNumberOfSources[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedDPV).length > 0'>
+                                        <label class='full-width margin-top' localized>Delivery Point Verification Code</label>
+                                        <div class='bubble' ng-repeat='item in asArray(selectedDPV)'>
+                                            <span>{{item.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedDPV[item] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedModels).length > 0'>
+                                        <label class='full-width margin-top' localized>Models</label>
+                                        <div class='bubble' ng-repeat='model in asArray(selectedModels)'>
+                                            <span>{{model.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedModels[model] = false'>×</a>
+                                        </div>
+                                    </div>
+                                    <div ng-if='asArray(selectedMakes).length > 0'>
+                                        <label class='full-width margin-top' localized>Makes</label>
+                                        <div class='bubble' ng-repeat='make in asArray(selectedMakes)'>
+                                            <span>{{make.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMakes[make] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    {{$scope.selectedYears}}
+                                    <div ng-if='selectedYears.length > 0'>
+                                        <label class='full-width margin-top' localized>Years range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedYears)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedYears.length = 0'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if='dataType === "directory" || dataType === "craigslist"  || dataType === "WHOIS" || dataType === "student" || dataType === "healthinsuranceleads" || dataType === "phildirectory" || dataType === "everydata"'>
+                                    <label class='full-width center margin-top'>Source Criteria</label>
+
+                                    <div ng-if='asArray(selectedSections).length > 0'>
+                                        <label class='full-width margin-top' localized>Sections</label>
+                                        <div class='bubble' ng-repeat='section in asArray(selectedSections)'>
+                                            <span>{{section}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSections[section] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(agesRange).length > 0'>
+                                        <label class='full-width margin-top' localized>Age range</label>
+                                        <div class='bubble' ng-repeat='value in asArray(agesRange)'>
+                                            <span>{{value.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='agesRange[value] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedDates).length > 0'>
+                                        <label class='full-width margin-top' localized>Date range</label>
+                                        <div class='bubble' ng-repeat='date in asArray(selectedDates)'>
+                                            <span>{{date.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedDates[date] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSources).length > 0'>
+                                        <label class='full-width margin-top' localized>Sources</label>
+                                        <div class='bubble' ng-repeat='source in asArray(selectedSources)'>
+                                            <span>{{formatSourceName(source.split("|")[ 0 ])}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSources[source] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div ng-if='dataType === "OPT IN" || dataType === "AUTO"'>
+                                    <label class='full-width center margin-top'>Filter Criteria</label>
+
+                                    <div ng-if='asArray(selectedDates).length > 0'>
+                                        <label class='full-width margin-top' localized>Date range</label>
+                                        <div class='bubble' ng-repeat='date in asArray(selectedDates)'>
+                                            <span>{{date.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedDates[date] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedModels).length > 0'>
+                                        <label class='full-width margin-top' localized>Models</label>
+                                        <div class='bubble' ng-repeat='model in asArray(selectedModels)'>
+                                            <span>{{model.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedModels[model] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedMakes).length > 0'>
+                                        <label class='full-width margin-top' localized>Makes</label>
+                                        <div class='bubble' ng-repeat='make in asArray(selectedMakes)'>
+                                            <span>{{make.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedMakes[make] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedYears.length > 0'>
+                                        <label class='full-width margin-top' localized>Years range</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedYears)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedYears.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(agesRange).length > 0'>
+                                        <label class='full-width margin-top' localized>Age range</label>
+                                        <div class='bubble' ng-repeat='value in asArray(agesRange)'>
+                                            <span>{{value.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='agesRange[value] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSources).length > 0'>
+                                        <label class='full-width margin-top' localized>Sources</label>
+                                        <div class='bubble' ng-repeat='source in asArray(selectedSources)'>
+                                            <span>{{source.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSources[source] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div ng-if='dataType === "linked in"'>
+                                    <label class='full-width center margin-top'>Title Criteria</label>
+
+                                    <div ng-if='asArray(selectedTitles).length > 0'>
+                                        <label class='full-width margin-top' localized>Titles</label>
+                                        <div class='bubble' ng-repeat='title in asArray(selectedTitles)'>
+                                            <span>{{title}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedTitles[title] = false'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div ng-if='dataType === "business detailed"'>
+                                    <label class='full-width center margin-top'>Company Criteria</label>
+
+                                    <div ng-if='asArray(selectedEmployeeCount).length > 0'>
+                                        <label class='full-width margin-top' localized>Employees on Site</label>
+                                        <div class='bubble' ng-repeat='employeeCount in asArray(selectedEmployeeCount)'>
+                                            <span>{{employeeCount}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEmployeeCount[employeeCount] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSales).length > 0'>
+                                        <label class='full-width margin-top' localized>Revenue at Site</label>
+                                        <div class='bubble' ng-repeat='sales in asArray(selectedSales)'>
+                                            <span>{{sales}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSales[sales] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='selectedYears.length > 0'>
+                                        <label class='full-width margin-top' localized>Year Founded</label>
+                                        <div class='bubble'>
+                                            <span>{{getDatesRangeTitle(selectedYears)}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedYears.length = 0'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedCreditScores).length > 0'>
+                                        <label class='full-width margin-top' localized>Credit Scores</label>
+                                        <div class='bubble' ng-repeat='creditScore in asArray(selectedCreditScores)'>
+                                            <span>{{creditScore}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedCreditScores[creditScore] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedCompanyTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Company Types</label>
+                                        <div class='bubble' ng-repeat='type in asArray(selectedCompanyTypes)'>
+                                            <span>{{type.split('|')[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedCompanyTypes[type] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedTitles).length > 0'>
+                                        <label class='full-width margin-top' localized>Titles</label>
+                                        <div class='bubble' ng-repeat='title in asArray(selectedTitles)'>
+                                            <span>{{title}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedTitles[title] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedIndustries).length > 0'>
+                                        <label class='full-width margin-top' localized>Industry</label>
+                                        <div class='bubble' ng-repeat='industry in asArray(selectedIndustries)'>
+                                            <span>{{industry.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedIndustries[industry] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSics).length > 0 || sicRange.fromSic || sicRange.toSic'>
+                                        <label class='full-width margin-top' localized>SIC code</label>
+                                        <div class='bubble' ng-repeat='sic in asArray(selectedSics)'>
+                                            <span>{{sic}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSics[sic] = false'>×</a>
+                                        </div>
+
+                                        <div class='bubble' ng-if='sicRange.fromSic'>
+                                            <span>>= {{sicRange.fromSic}}</span>
+                                            <a class='tiny-link pointer' ng-click='sicRange.fromSic = undefined'>×</a>
+                                        </div>
+
+                                        <div class='bubble' ng-if='sicRange.toSic'>
+                                            <span><= {{sicRange.toSic}}</span>
+                                            <a class='tiny-link pointer' ng-click='sicRange.toSic = undefined'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if='dataType === "business" || dataType === "business2"'>
+                                    <label class='full-width center margin-top'>Company Criteria</label>
+
+                                    <!--<div ng-if='asArray(selectedPhoneTypes).length > 0'>
+                                        <label class='full-width margin-top' localized>Phone types</label>
+                                        <div class='bubble' ng-repeat='phoneType in asArray(selectedPhoneTypes)'>
+                                            <span>{{phoneType.split("|")[0]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedPhoneTypes[phoneType] = false'>×</a>
+                                        </div>
+                                    </div>-->
+
+                                    <div ng-if='asArray(selectedSales).length > 0'>
+                                        <label class='full-width margin-top' localized>Annual Sales</label>
+                                        <div class='bubble' ng-repeat='sales in asArray(selectedSales)'>
+                                            <span>{{sales}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSales[sales] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedEmployeeCount).length > 0'>
+                                        <label class='full-width margin-top' localized>Employee Count</label>
+                                        <div class='bubble' ng-repeat='employeeCount in asArray(selectedEmployeeCount)'>
+                                            <span>{{employeeCount}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedEmployeeCount[employeeCount] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedTitles).length > 0'>
+                                        <label class='full-width margin-top' localized>Titles</label>
+                                        <div class='bubble' ng-repeat='title in asArray(selectedTitles)'>
+                                            <span>{{title}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedTitles[title] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedIndustries).length > 0'>
+                                        <label class='full-width margin-top' localized>Industry</label>
+                                        <div class='bubble' ng-repeat='industry in asArray(selectedIndustries)'>
+                                            <span>{{industry.split("|")[ 0 ]}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedIndustries[industry] = false'>×</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if='asArray(selectedSics).length > 0 || sicRange.fromSic || sicRange.toSic'>
+                                        <label class='full-width margin-top' localized>SIC code</label>
+                                        <div class='bubble' ng-repeat='sic in asArray(selectedSics)'>
+                                            <span>{{sic}}</span>
+                                            <a class='tiny-link pointer' ng-click='selectedSics[sic] = false'>×</a>
+                                        </div>
+
+                                        <div class='bubble' ng-if='sicRange.fromSic'>
+                                            <span>>= {{sicRange.fromSic}}</span>
+                                            <a class='tiny-link pointer' ng-click='sicRange.fromSic = undefined'>×</a>
+                                        </div>
+
+                                        <div class='bubble' ng-if='sicRange.toSic'>
+                                            <span><= {{sicRange.toSic}}</span>
+                                            <a class='tiny-link pointer' ng-click='sicRange.toSic = undefined'>×</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if='asArray(selectedCategory).length > 0'>
+                                    <label class='full-width center margin-top'>Category</label>
+                                    <div class='bubble' ng-repeat='category in asArray(selectedCategory)'>
+                                        <span>{{category.split("|")[ 0 ]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedCategory[category] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <label class='full-width center margin-top' localized>dashboard.refine.list.title</label>
+
+                                <div ng-if='asArray(selectedLists).length > 0'>
+                                    <div class='bubble' ng-repeat='list in asArray(selectedLists)'>
+                                        <span>{{list.split("|")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedLists[list] = false'>×</a>
+                                    </div>
+                                </div>
+
+                                <label class='full-width center margin-top' localized>Suppress Uploaded List</label>
+
+                                <div ng-if='asArray(selectedUploadedLists).length > 0'>
+                                    <div class='bubble' ng-repeat='list in asArray(selectedUploadedLists)'>
+                                        <span>{{list.split("|")[0]}}</span>
+                                        <a class='tiny-link pointer' ng-click='selectedUploadedLists[list] = false'>×</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,40 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": householdType === "size"}'
+                   ng-click='householdType = "size"' localized>household.size</a>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": householdType === "income"}'
+                   ng-click='householdType = "income"' localized>household.income</a>
+
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": householdType === "veteran"}'
+                   ng-click='householdType = "veteran"' localized>residence.veteran</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='householdType === "size"'>
+            <div class='col-sm-12' ng-repeat='item in sizes'>
+                <input id='{{item.value}}' ng-model='selectedHouseholdSize[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='householdType === "income"'>
+            <div class='col-sm-12' ng-repeat='item in incomes'>
+                <input id='{{item.value}}' ng-model='selectedHouseholdIncome[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='householdType === "veteran"'>
+            <div class='col-sm-12' ng-repeat='item in veterans'>
+                <input id='{{item.value}}' ng-model='selectedResidenceVeteran[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+    </div>
+</div>

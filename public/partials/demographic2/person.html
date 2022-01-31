@@ -1,0 +1,156 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <input class='form-control col-sm-12 margin-bottom'
+               localized-placeholder='Search'
+               ng-model='searchConfig.search'
+               ng-if='searchConfig.show'/>
+
+        <div ng-if='searchConfig.option === "gender"'>
+            <div class='col-sm-12' ng-repeat='item in genders'>
+                <input id='person_{{item.value}}' ng-model='selectedGenders[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "age"'>
+            <input type="text"
+                   class="form-control select-age-input no-margin"
+                   ng-model="ages.rangeStart"
+                   ng-change="onStartChanged()"
+                   placeholder="from"/>
+
+            <input type="text"
+                   class="form-control select-age-input no-margin"
+                   ng-model="ages.rangeEnd"
+                   ng-change="onEndChanged()"
+                   placeholder="to"/>
+        </div>
+
+        <div ng-if='searchConfig.option === "dob"'>
+            <input type="text"
+                   class="form-control add-dob-button"
+                   ng-model="ages.dobFrom"
+                   placeholder="from date"
+                   id="personDobFrom"
+                   datepicker-popup="MM.dd.yyyy"
+                   show-button-bar="false"
+                   ng-change="addDOB()"
+                   is-open="personDobFromOpened"
+                   ng-click='personDobFromOpened = !personDobFromOpened'/>
+
+            <input type="text"
+                   class="form-control add-dob-button"
+                   ng-model="ages.dobTo"
+                   placeholder="to date"
+                   id="personDobTo"
+                   datepicker-popup="MM.dd.yyyy"
+                   show-button-bar="false"
+                   ng-change="addDOB()"
+                   is-open="personDobToOpened"
+                   ng-click='personDobToOpened = !personDobToOpened'/>
+
+            <button class='btn btn-default inline'
+                    ng-disabled='!ages.dobTo && !ages.dobFrom'
+                    ng-click='clearDOB()'
+                    localized>Clear</button>
+
+        </div>
+
+        <div ng-if='searchConfig.option === "maritalStatus"'>
+            <div class='col-sm-12' ng-repeat='item in maritalStatuses'>
+                <input id='person_{{item.value}}' ng-model='selectedMaritalStatuses[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "ethnicCode"'>
+            <div class='col-sm-6' ng-repeat='item in filtered = (ethnicCodes | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='person_{{item.value}}' ng-model='selectedEthnicCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.show && searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "languageCode"'>
+            <div class='col-sm-4' ng-repeat='item in filtered = (languageCodes | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='person_{{item.value}}' ng-model='selectedLanguageCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.show && searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "ethnicGroup"'>
+            <div class='col-sm-6' ng-repeat='item in (ethnicGroups | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='person_{{item.value}}' ng-model='selectedEthnicGroups[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.show && searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "religionCode"'>
+            <div class='col-sm-4' ng-repeat='item in (religionCodes | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='person_{{item.value}}' ng-model='selectedReligionCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.show && searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "hispanicCountryCode"'>
+            <div class='col-sm-4' ng-repeat='item in (hispanicCountryCodes | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='person_{{item.value}}' ng-model='selectedHispanicCountryCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='person_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.show && searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "singleParent"'>
+            <input id='singleParent' ng-model='selectedProperties["Single Parent|singleParent"]' type='checkbox'/>
+            <label class='pointer tiny-label' for='singleParent'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "smoker"'>
+            <input id='smoker' ng-model='selectedProperties["Smoker|smoker"]' type='checkbox'/>
+            <label class='pointer tiny-label' for='smoker'>Yes</label>
+        </div>
+
+    </div>
+</div>

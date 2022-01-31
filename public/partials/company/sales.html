@@ -1,0 +1,6 @@
+<div class='padding-top'>
+    <div class='col-sm-12' ng-repeat='sale in sales'>
+        <input id='{{sale}}' ng-model='selectedSales[ sale.toLowerCase() ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{sale}}'>{{sale.toLowerCase()}}</label>
+    </div>
+</div>

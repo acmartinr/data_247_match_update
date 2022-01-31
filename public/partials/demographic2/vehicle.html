@@ -1,0 +1,22 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='searchConfig.option === "make"' ng-controller='MakesController'>
+            <div ng-include='BASE_URL + "/assets/partials/criteria/makes.html"'></div>
+        </div>
+        <div ng-if='searchConfig.option === "model"' ng-controller='ModelsController'>
+            <div ng-include='BASE_URL + "/assets/partials/criteria/models.html"'></div>
+        </div>
+        <div ng-if='searchConfig.option === "year"' ng-controller='YearsController'>
+            <div ng-include='BASE_URL + "/assets/partials/criteria/years.html"'></div>
+        </div>
+    </div>
+</div>

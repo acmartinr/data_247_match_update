@@ -1,0 +1,52 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm'>
+            <div class='form-group' ng-if='!columns'>
+                <div class='margin-bottom' localized>Select file</div>
+                <input type='file'
+                       ng-disabled='loading'
+                       file-model='params.file'
+                       class='form-control inline-block users-search'/>
+
+                <button class='btn btn-default inline-block users-search-btn'
+                        ng-click='check()'
+                        type='submit'
+                        ng-disabled='!params.file || loading'
+                        localized>Check</button>
+            </div>
+
+            <div class='form-group' ng-if='columns && !more'>
+                <div class='margin-bottom' localized>lists.name</div>
+                <input type='text' class='form-control' id='code'
+                       ng-model='params.name' localized-placeholder='lists.name.placeholder'/>
+            </div>
+
+            <div class='form-group' ng-if='columns'>
+                <div class='margin-bottom' localized>Select phone column</div>
+                <select type='text' class='form-control' id='column' ng-model='params.column'>
+                    <option ng-repeat='col in columns' ng-selected='col === params.column'>{{col}}</option>
+                </select>
+            </div>
+
+            <div class='right-align'>
+                <img class='margin-right' ng-if='loading' src='/assets/images/loading.gif'>
+
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='save()'
+                        class='btn btn-default'
+                        ng-if='!more'
+                        ng-disabled='!params.name || loading'
+                        localized>lists.modal.save</button>
+
+                <button ng-click='save()'
+                        class='btn btn-default'
+                        ng-disabled='loading'
+                        ng-if='more && columns'>Append</button>
+            </div>
+        </form>
+    </div>
+</div>
+

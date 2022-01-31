@@ -1,0 +1,6 @@
+<div class='padding-top'>
+    <div class='col-sm-12' ng-repeat='count in counts'>
+        <input id='{{count}}' ng-model='selectedEmployeeCount[ count.toLowerCase() ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{count}}'>{{count.toLowerCase()}}</label>
+    </div>
+</div>

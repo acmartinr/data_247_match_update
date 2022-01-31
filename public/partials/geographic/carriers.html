@@ -1,0 +1,23 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <input class='form-control col-sm-12'
+                   localized-placeholder='Search carrier by name'
+                   ng-model='params.filter'>
+        </div>
+    </div>
+
+    <div class='padding-top'>
+        <div class='col-sm-6' ng-repeat='carrier in filtered = ( carriers | filter: params.filter ) | limitTo: params.limit'>
+            <input id='{{carrier}}' ng-model='selectedCarriers[carrier]' type='checkbox'/>
+            <label class='pointer tiny-label' for='{{carrier}}'>{{carrier}}</label>
+        </div>
+
+        <div class='center margin-bottom load-more' ng-if='params.limit < filtered.length'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </div>
+
+</div>

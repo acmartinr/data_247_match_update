@@ -1,0 +1,47 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": creditType === "netWorth"}'
+                   ng-click='creditType = "netWorth"' localized>credit.net.worth</a>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": creditType === "rating"}'
+                   ng-click='creditType = "rating"' localized>credit.rating</a>
+                <!--<a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": creditType === "activeLines"}'
+                   ng-click='creditType = "activeLines"' localized>credit.active.lines</a>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": creditType === "rangeNewCredits"}'
+                   ng-click='creditType = "rangeNewCredits"' localized>credit.range.new.credits</a>-->
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='creditType === "netWorth"'>
+            <div class='col-sm-12' ng-repeat='item in netWorth'>
+                <input id='{{item.value}}' ng-model='selectedNetWorth[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='creditType === "rating"'>
+            <div class='col-sm-12' ng-repeat='item in rating'>
+                <input id='{{item.value}}' ng-model='selectedRating[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+        <div ng-if='creditType === "activeLines"'>
+            <div class='col-sm-12' ng-repeat='item in activeLines'>
+                <input id='{{item.value}}' ng-model='selectedActiveLines[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+        <div ng-if='creditType === "rangeNewCredits"'>
+            <div class='col-sm-12' ng-repeat='item in range'>
+                <input id='{{item.value}}' ng-model='selectedRange[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+    </div>
+</div>

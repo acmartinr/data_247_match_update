@@ -1,0 +1,58 @@
+.invoice-panel-wrapper {
+    max-width: 600px;
+    width: 100%;
+    margin: 0px auto;
+    padding: 16px
+}
+
+.invoice-panel {
+    width: 100%;
+}
+
+.invoice-info {
+    display: block;
+    width: 100%;
+}
+
+.invoice-logo {
+    width: 100px;
+    float: right;
+    margin-top: 16px;
+    margin-right: 8px;
+}
+
+.payment-label-content {
+    height: 42px;
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.payment-error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.invoice-info-line {
+    margin: 0px 0px 0px 0px !important;
+}
+
+.invoice-info-note {
+    width: 35px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.invoice-info-line-wrapper {
+    width: calc(100% - 50px);
+    display: inline-block;
+}

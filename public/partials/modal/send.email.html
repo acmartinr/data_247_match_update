@@ -1,0 +1,60 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm' ng-submit='sendEmail()'>
+            <div class='form-group'>
+                <div class='margin-bottom' localized>From</div>
+                <input type='text' class='form-control'
+                       ng-model='model.from' placeholder='Enter from email'/>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Reply to</div>
+                <input type='text' class='form-control'
+                       ng-model='model.reply' placeholder='Enter reply to email'/>
+            </div>
+
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>From name</div>
+                <input type='text' class='form-control'
+                       ng-model='model.fromName' placeholder='Enter from name'/>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Subject</div>
+                <input type='text' class='form-control'
+                       ng-model='model.subject' placeholder='Enter email subject'/>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Body</div>
+                <textarea class='form-control'
+                          ng-model='model.body'
+                          placeholder='Enter email body'
+                          rows="5"></textarea>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Recipients</div>
+                <textarea class='form-control'
+                          ng-model='model.recipients'
+                          placeholder='Enter recipients separated with "new line" symbol'
+                          rows="5"></textarea>
+            </div>
+
+            <div class='right-align'>
+                <img ng-if='loading' class='margin-left' src='/assets/images/loading.gif'>
+
+                <button type="button"
+                        class='btn btn-default'
+                        ng-click="close()"
+                        localized>Cancel</button>
+
+                <button type='submit' class='btn btn-default'
+                        ng-disabled='!model.subject || !model.body || !model.from || !model.fromName || loading'
+                        localized>Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+

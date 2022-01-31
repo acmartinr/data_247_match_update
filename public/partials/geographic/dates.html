@@ -1,0 +1,27 @@
+<div class='padding-top'>
+    <div class='row'>
+        <input type="text" class="form-control select-month-input"
+               placeholder="Choose start month"
+               id="sourceStartDate"
+               datepicker-popup="MM.yyyy"
+               show-button-bar="false"
+               ng-model="config.startDate"
+               ng-change="onStartDateChanged(config.startDate)"
+               is-open="startDateOpened"
+               datepicker-options="{minMode: 'month'}"
+               datepicker-mode="'month'"
+               ng-click='startDateOpened = !startDateOpened'/>
+
+        <input type="text" class="form-control select-month-input"
+               placeholder="Choose end month"
+               id="sourceEndDate"
+               datepicker-popup="MM.yyyy"
+               show-button-bar="false"
+               ng-model="config.endDate"
+               ng-change="onEndDateChanged(config.endDate)"
+               is-open="endDateOpened"
+               datepicker-options="{minMode: 'month'}"
+               datepicker-mode="'month'"
+               ng-click='endDateOpened = !endDateOpened'/>
+    </div>
+</div>

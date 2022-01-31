@@ -1,0 +1,42 @@
+<div class="container-fluid padding-bottom-50">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='nowrap'>Name</th>
+                        <th localized class='lists-actions-column'>lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='dataSource in dataSources'>
+                        <td>{{dataSource.title}}</td>
+                        <td>
+                            <button type='button'
+                                    class='btn btn-default'
+                                    ng-if='dataSource.visible'
+                                    ng-click='changeDataSourceVisible(dataSource)'>
+                                <span class='glyphicon glyphicon-eye-open'></span>
+                            </button>
+
+                            <button type='button'
+                                    class='btn btn-default'
+                                    ng-if='!dataSource.visible'
+                                    ng-click='changeDataSourceVisible(dataSource)'>
+                                <span class='glyphicon glyphicon-eye-close'></span>
+                            </button>
+
+                            <button type='button'
+                                    class='btn btn-default'
+                                    ng-click='openBlockedUsersModal(dataSource)'>
+                                <span class='glyphicon glyphicon-user'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

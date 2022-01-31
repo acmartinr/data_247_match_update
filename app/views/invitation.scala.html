@@ -1,0 +1,272 @@
+@(resellerNumber: Int)
+<!doctype html>
+<html ng-app="consumer_data_base">
+<head>
+    <title>Make My Data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+    <link rel="shortcut icon" href='@routes.Assets.versioned("/images/favicon.png")' type="image/png">
+
+    <link rel="stylesheet" media="screen" href='/assets/stylesheets/login_style.css'>
+
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/main.css")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/style.css")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/angular-toasty.min.css")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/angular-awesome-slider.min.css")'>
+</head>
+<body id='body' ng-controller="LoginController">
+    <div class="wrap">
+        <div class="main-wrapper">
+            <!-- BEGIN CONTENT -->
+            <main class="content">
+                <div class="wrapper">
+                    <div class="head-text text-center visible-xs ">
+                        <div class="h1 font-size-27">DOWNLOAD MARKETING LEADS HERE</div>
+                        <p class="functions-list">• Business Owners
+                            <br> • Homeowners Lists
+                            <br> • Cell Phones & Emails
+                        </p>
+                        <p>
+                            <a href="#" class="link-light">Start Right Now, Get a List in Minutes</a>
+                        </p>
+                    </div>
+                    <div class="container content-top">
+                        <div class="h1 h1__light">Which Type of Leads Do You Need?</div>
+                        <div class="button-center flex margin-bottom-10">
+                            <a ng-click='openRegistrationPopup()' class="btn btn-default btn-elipsis">BUSINESSES</a>
+                            <a ng-click='openRegistrationPopup()' class="btn btn-default btn-elipsis">CONSUMERS</a>
+                        </div>
+                        <div class="button-center flex">
+                            <p class="lists-descriptions">
+                                <span class="bolder">BUSINESS LISTS</span>
+                                •&nbsp;&nbsp; Small Business<br/>
+                                •&nbsp;&nbsp; Opportunity Seekers<br/>
+                                •&nbsp;&nbsp; Large Business & Corporations<br/>
+                                •&nbsp;&nbsp; Search Hundreds of Industry Types:<br/>
+                                •&nbsp;&nbsp; Construction, Medical, or Restaurants<br/>
+                                •&nbsp;&nbsp; Business Owner Emails & Cell Phones<br/>
+                            </p>
+                            <p class="lists-descriptions">
+                                <span class="bolder">HOMEOWNER LISTS</span>
+                                •&nbsp;&nbsp; New Homeowners<br/>
+                                •&nbsp;&nbsp; Hispanic Homeowners<br/>
+                                •&nbsp;&nbsp; Military & Veteran Homeowners<br/>
+                                •&nbsp;&nbsp; Homeowner that Own Businesses<br/>
+                                •&nbsp;&nbsp; Homeowner Age, Income & Credit<br/>
+                                •&nbsp;&nbsp; Homeowner Emails & Cell Phones<br/>
+                            </p>
+                        </div>
+                        <div class="flex line-param">
+                            <div class="free">
+                                <img src="/assets/images/free.png" width="173" height="101" alt="">
+                                <div class="h4">Easy Search</div>
+                                <p>Search and get counts of unlimited lists.</p>
+                            </div>
+                            <div class="lead">
+                                <!--<img src="/assets/images/cut_new.png" width="130" height="130" alt="">-->
+                                <div class="h4">Discount Bulk Pricing</div>
+                                <p class="cutt">Cutting out the data middle-man gives you
+                                     <br>unbeatable prices.</p>
+                            </div>
+                            <div class="database">
+                                <img src="/assets/images/database.png" width="127" height="127" alt="">
+                                <div class="h4">new 2021 databases</div>
+                                <p>Leads that are always fresh, and will
+                                    <br> continue to be updated.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="invert-line">
+                    <div class="wrapper">
+                        <div class="h1 h1__light">Create Your Own High Quality Lists</div>
+                        <div class="container">
+                            <div class="flex item-line">
+                                <div class="item">
+                                    <span class="item-icon icon-1"></span>
+                                    <div>
+                                        <div class="h4">AVOID DUPLICATES</div>
+                                        <p>Upload your own lists to avoid
+                                            <br> buying duplicates</p>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <span class="item-icon icon-2"></span>
+                                    <div>
+                                        <div class="h4">SELECT DEMOGRAPHICS</div>
+                                        <p class="cutt">Choose from a wide selection of Demo-
+                                            <br>graphics and Keywords</p>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <span class="item-icon icon-3"></span>
+                                    <div>
+                                        <div class="h4">ENDLESS COMBINATIONS</div>
+                                        <p>Homeowners, Business Owners,
+                                            <br> and Endless Combinations</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="after-line text-center">
+                    <div class="h3">DO YOU HAVE A QUESTION
+                        <br> AFTER BUSINESS HOURS?</div>
+                    <a ng-click="openFeedbackPopup()" class="btn btn-default btn-elipsis">Send US a message</a>
+                </div>
+                <div class="prefooter flex">
+                    <div>
+                        Click <a ng-click='showChatWindow()'>Live Chat</a> to Speak With Our Helpful
+                        <br> Make My Data Support Team Now
+                    </div>
+                </div>
+                <div class="after-line text-center visible-xs last-content-block">
+                    <div class="h3">Click Below to Start <br>
+                        Making Your Data</div>
+                    <a ng-click='openRegistrationPopup()' class="btn btn-default btn-elipsis">sign up</a>
+                </div>
+
+                <div class="button-center flex">
+                    <div class='marketing-software-wrapper'>
+                        <div class="h1 h1__light ƒ main_title">Need Marketing Software?</div>
+                        <div class="h3 h3__light subtitle">We Can Refer You to Companies that offer these Campaigns:</div>
+
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Press1 Dialer</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; SMS Marketing</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Ringless Voicemail</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Bulk Email Campaign</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Remote Telemarketers</div>
+                    </div>
+
+                    <div class='marketing-software-wrapper'>
+                        <div class="h1 h1__light ƒ main_title">Need Software Services?</div>
+                        <div class="h3 h3__light subtitle">We Can Develop and Design Your own Software:</div>
+
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Custom Data Tool</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Directory Scraping</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; CRM Email Automation</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Mobile App Development</div>
+                        <div class="h3 h3__light list_item">•&nbsp;&nbsp; Reselling & White Labeling</div>
+                    </div>
+                </div>
+
+                <div class='divider'></div>
+                <div ng-if="comments">
+                    <div class='comments' ng-class="{'border-bottom': comments.indexOf(comment) != comments.length - 1}"
+                         ng-repeat="comment in comments">
+                        <h4 class='comment-name'>{{comment.name}}</h4>
+                        <p class='comment-value'>{{comment.comment}}</p>
+                        <p class='comment-date'>{{comment.date | date: 'MM/dd/yyyy HH:mm'}}</p>
+                        <div ng-if='comment.answer' class='comment-answer'>
+                            <h4 class='comment-name'>Seller's response</h4>
+                            <p class='comment-value'>{{comment.answer}}</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- CONTENT EOF   -->
+            <!-- BEGIN HEADER -->
+            <header>
+                <div class="wrapper">
+                    <div class="flex flex-end">
+                        <form ng-submit='login()'>
+                            <div class="form-group">
+                                <input ng-model='loginRequest.username'
+                                       class="form-control text-transform-none" placeholder="EMAIL">
+                            </div>
+                            <div class="form-group">
+                                <input type="password"
+                                       ng-model='loginRequest.password'
+                                       class="form-control" placeholder="password">
+                                <a class='forgot' ng-click='openForgotPasswordPopup()'>FOrgot password?</a>
+                            </div>
+                            <div class="form-group terms-of-use">
+                                <input class='checkbox'
+                                       id="termsAgreed"
+                                       type="checkbox"
+                                       ng-model='loginRequest.termsAgreed'>
+                                <label for="termsAgreed">
+                                    By using MakeMyData software, you agree to the
+                                    <a class='terms-link' target="_blank" href="/#/terms">MakeMyData General Terms & Conditions</a>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="text-right">
+                                    <button type="submit"
+                                            class="btn btn-empty">LOG IN</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex panel-line">
+                        <div class="flex header-panel">
+                            <a href="#"> <img src="/assets/images/logo-main.png" width="447" height="208" alt=""></a>
+                            <div class="head-text text-center">
+                                <div class="h1 font-size-27">DOWNLOAD MARKETING LEADS HERE</div>
+                                <p class="functions-list">• Business Owners
+                                    <br> • Homeowners Lists
+                                    <br> • Cell Phones & Emails
+                                </p>
+                                <p>
+                                    <a ng-click='openRegistrationPopup()' class="link-light">Start Right Now, Get a List in Minutes</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <a ng-click="openFeedbackPopup()" class="btn btn-default panel-btn header-contact">Contact</a>
+                            <a ng-click='openRegistrationPopup()' class="btn btn-default  panel-btn header-up">sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- HEADER EOF   -->
+            <!-- BEGIN FOOTER -->
+            <footer>
+                <div class="wrapper">
+                    <div>
+                        <a href="#" class="footer-logo"><img src="/assets/images/logo-main.png" alt=""></a>
+                    </div>
+                    <div>© MAKE MY DATA 2021</div>
+                </div>
+            </footer>
+            <!-- FOOTER EOF   -->
+        </div>
+    </div>
+
+    <toasty></toasty>
+
+    <script>document.resellerNumber = @resellerNumber;</script>
+
+    <script src='@routes.Assets.versioned("/javascripts/localization/en_US.js")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/lib/angularjs/angular.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/static/angular-cookies.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-resource.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-ui-router.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/md5.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/states.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/area-codes.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/zip-coordinates.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-input-masks-standalone.min.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-toasty.min.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-awesome-slider.min.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/mobile-detect.min.js")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/javascripts/reseller_app.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/login.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/password.recovery.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/localization.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/auth.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/system.js")' type="text/javascript"></script>
+
+    <script type="text/javascript" async="async" defer="defer" data-cfasync="false" src="https://mylivechat.com/chatinline.aspx?hccid=39640536"></script>
+
+</body>
+</html>

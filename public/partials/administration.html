@@ -1,0 +1,87 @@
+<div class="container-fluid padding-bottom-50">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <span class='import-message' ng-if='consumersMessage'>{{consumersMessage}}</span>
+                <span class='import-message' ng-if='businessMessage'>{{businessMessage}}</span>
+
+                <label class='left margin-left-7 list-type-label' localized>dashboard.data.source</label>
+                <select class='form-control left list-type-select margin-right-20'
+                        ng-model='dataType'
+                        ng-change='dataTypeChanged()'>
+                    <option ng-repeat='dataSource in dataSources'
+                            value="{{dataSource.name}}">{{dataSource.title}}</option>
+                </select>
+
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "name" )'>
+                                <span localized>Name</span>
+                                <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "type" )'>
+                                <span localized>Type</span>
+                                <span ng-if='config.sortValue === "type" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "type" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+
+                            <th localized class='actions-column'>lists.actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='table in tables | orderBy : config.sortValue : config.sortDesc'>
+                            <td>{{table.name}}</td>
+                            <td ng-if='table.type === 0'>Consumers</td>
+                            <td ng-if='table.type === 10'>AUTO</td>
+                            <td ng-if='table.type === 11'>Blacklist</td>
+                            <td ng-if='table.type === 1'>Business</td>
+                            <td ng-if='table.type === 18'>Business2</td>
+                            <td ng-if='table.type === 13'>Detailed Business</td>
+                            <td ng-if='table.type === 2'>Directory</td>
+                            <td ng-if='table.type === 3'>Craigslist</td>
+                            <td ng-if='table.type === 4'>WHOIS</td>
+                            <td ng-if='table.type === 5'>Search engine</td>
+                            <td ng-if='table.type === 6'>Consumer2018</td>
+                            <td ng-if='table.type === 9'>Consumer</td>
+                            <td ng-if='table.type === 7'>Instagram</td>
+                            <td ng-if='table.type === 14'>Instagram2020</td>
+                            <td ng-if='table.type === 8'>OPT IN</td>
+                            <td ng-if='table.type === 12'>Linked In</td>
+                            <td ng-if='table.type === 15'>Student</td>
+                            <td ng-if='table.type === 16'>Call Leads</td>
+                            <td ng-if='table.type === 17'>Health Buyers</td>
+                            <td ng-if='table.type === 19'>Health Insurance Leads</td>
+                            <td ng-if='table.type === 20'>Opt-In</td>
+                            <td ng-if='table.type === 21'>Facebook</td>
+                            <td ng-if='table.type === 22'>Phil Directory</td>
+                            <td ng-if='table.type === 23'>Everydata</td>
+                            <td>
+                                <button type='button' class='btn btn-default'
+                                        ng-click='importData( table )'>
+                                    <span class='glyphicon glyphicon-import'></span>
+                                </button>
+                                <button type='button' class='btn btn-default'
+                                        ng-click='editTable( table )'>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-default'
+                                        ng-click='removeTable( table )'>
+                                    <span class='glyphicon glyphicon-remove'></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class='btn btn-default right margin-right-15'
+                        ng-click='addTable()'>Add table</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-4 no-padding-right'>
+            <input class='form-control'
+                   localized-placeholder='ring.radius.zip.code'
+                   ng-model='selectedState.code'>
+        </div>
+
+        <div class='col-sm-4 no-padding-right'>
+            <input class='form-control'
+                   localized-placeholder='ring.radius.distance'
+                   ng-model='selectedState.radius'>
+        </div>
+
+        <div class='col-sm-4'>
+            <button class='btn btn-default left'
+                    ng-click='searchZipCodes()'
+                    ng-disabled='!selectedState.code || !selectedState.radius'
+                    localized>ring.radius.search</button>
+
+            <button class='btn btn-default left margin-left'
+                    ng-click='addToCommonSearch()'
+                    ng-disabled='!searchedZipCode || searchedZipCode.length === 0'
+                    localized>ring.radius.add</button>
+        </div>
+    </div>
+
+    <div ng-if='loading' class='center padding-top'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <div ng-if='emptyError' class='center padding-top'>
+        <span localized>ring.radius.wrong.zip.code</span>
+    </div>
+
+    <div class='padding-top'>
+        <div class='bubble' ng-repeat='zipCode in searchedZipCode | limitTo: selectedState.limit'>
+            <span>{{formatZipCode(zipCode)}}</span>
+            <a class='tiny-link pointer' ng-click='removeCodeFromSearched(zipCode)'>×</a>
+        </div>
+    </div>
+
+    <div class='margin-bottom load-more' ng-if='selectedState.limit < searchedZipCode.length'>
+        <a class='pointer tiny-link padding-link'
+           ng-click='loadMore()'
+           localized>load.more</a>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <div class='margin-bottom'>
+            <input class='form-control inline-block users-search'
+                   ng-model='config.searchValue'
+                   ng-change='searchByValue()'
+                   localized-placeholder='Search users' >
+
+            <button class='btn btn-default inline-block users-search-btn'
+                    ng-disabled='!users || users.length === 0'
+                    ng-click='saveBlockedUsers()'>Save</button>
+        </div>
+
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th ng-if='!datasourceVisibility'>Granted</th>
+                    <th ng-if='datasourceVisibility'>Blocked</th>
+                    <th class='pointer nowrap'
+                        ng-click='sortByField( "username" )'>
+                        <span localized>Username</span>
+                        <span ng-if='config.sortValue === "username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                        <span ng-if='config.sortValue === "username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                    </th>
+                    <th class='pointer nowrap'
+                        ng-click='sortByField( "email" )'>
+                        <span localized>Email</span>
+                        <span ng-if='config.sortValue === "email" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                        <span ng-if='config.sortValue === "email" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat='user in users'>
+                    <td>
+                        <input type='checkbox'
+                               class='pointer'
+                               ng-model='blockedUsers[user.id]'>
+                    </td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div ng-if='users && users.length === 0' class='center'>
+            <span localized>No users found</span>
+        </div>
+
+        <div ng-if='total > config.limit || true' class='right'>
+            <pagination boundary-links='true' class='pagination-sm'
+                        max-size='3'
+                        ng-change='search()'
+                        ng-model='config.page'
+                        total-items='total'
+                        items-per-page='config.limit'
+                        previous-text='&lsaquo;'
+                        next-text='&rsaquo;'
+                        first-text='&laquo;'
+                        last-text='&raquo;'></pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class='padding-top'>
+    <div class='row margin-top margin-bottom'>
+        <div class='col-sm-12'>
+            <input class='form-control col-sm-6'
+                   placeholder='Search section'
+                   ng-model='selectedSection.filter'>
+        </div>
+    </div>
+
+    <div class='col-sm-3'>
+        <input id='sections_all'
+               ng-model='selectedSection.all'
+               ng-change='onAllChanged()'
+               type='checkbox'/>
+        <label class='pointer tiny-label' for='sections_all'>All</label>
+    </div>
+
+    <div class='col-sm-3' ng-repeat='section in filtered = ( sections | filter: selectedSection.filter ) | limitTo: selectedSection.limit'>
+        <input id='{{section}}' ng-model='selectedSections[section]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{section}}'>{{section}} ({{sectionsValues.get(section.toUpperCase())}})</label>
+    </div>
+
+    <div class='center margin-top margin-bottom load-more' ng-if='selectedSection.limit < filtered.length'>
+        <a class='pointer tiny-link'
+           ng-click='loadMore()'
+           localized>load.more</a>
+    </div>
+</div>

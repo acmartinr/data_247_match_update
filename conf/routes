@@ -1,0 +1,251 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+#
+# Note: @controllers syntax signifies the actual controller instance, retrieved via GlobalSettings.getController().
+# ~~~~
+
+# Single endpoint for serving AngularJS
+GET     /                                       @controllers.Application.index
+GET     /philflora                              @controllers.Application.cv
+GET     /:resellerNumber                        @controllers.Application.invitation(resellerNumber: Integer)
+GET     /invoice/:invoiceId                     @controllers.Application.invoice(invoiceId: Integer)
+
+GET     /rest/public/import/counties/cities     @controllers.Application.importCountiesAndCitiesData()
+POST    /rest/public/feedback                   @controllers.Application.sendFeedback()
+GET     /rest/public/support/phone/:userId      @controllers.Application.getSupportPhoneNumber(userId: Integer)
+POST    /rest/public/ssl/:flag                  @controllers.Application.configureSSL( flag: Integer )
+GET     /rest/public/lists/update               @controllers.Application.updateListsHash()
+POST     /rest/public/lists/upload_tmp_file          @controllers.Lists.uploadTempFile()
+GET     /rest/public/user/details/:userId       @controllers.Application.getUserDetails(userId: Integer)
+
+GET     /rest/public/comments/approved          @controllers.Application.getApprovedComments()
+
+GET     /rest/public/import/consumers/message   @controllers.Application.getConsumersImportMessage()
+GET     /rest/public/import/business/message    @controllers.Application.getBusinessImportMessage()
+
+GET     /rest/public/import/tables/:type       @controllers.Application.getTables(type: Integer)
+
+GET     /rest/public/import/all/tables         @controllers.Application.getAllTables()
+GET     /rest/public/import/all/tables/:type   @controllers.Application.getAllTablesByType(type: Integer)
+DELETE  /rest/public/import/tables/:id         @controllers.Application.removeTable( id: Integer )
+POST    /rest/public/import/tables             @controllers.Application.saveTable()
+
+
+GET     /rest/public/update/counties/:tableName  @controllers.Application.updateCounties( tableName: String )
+GET     /rest/public/update/age/:tableName       @controllers.Application.updateAgeCategories( tableName: String )
+GET     /rest/public/update/zip/:tableName       @controllers.Application.updateZipCodes( tableName: String )
+GET     /rest/public/update/phone/:tableName     @controllers.Application.updatePhoneTypes( tableName: String )
+GET     /rest/public/update/mobile/:tableName    @controllers.Application.createMobileUsersData( tableName: String )
+GET     /rest/public/update/landline/:tableName  @controllers.Application.createLandLineUsersData( tableName: String )
+
+GET     /rest/public/status/message              @controllers.Application.message()
+
+GET     /rest/public/administration/backup/:tableName  @controllers.Backup.backupListsData(tableName: String)
+
+GET     /rest/public/import/:type/:path/:name/:skipRecords     @controllers.Application.importData(type: Integer, path: String, name: String, skipRecords: Long)
+
+POST    /rest/public/auth/login                 @controllers.Auth.login()
+GET     /rest/public/auth/login/:token          @controllers.Auth.loginWithToken(token: String)
+POST    /rest/public/auth/logout                @controllers.Auth.logout()
+POST    /rest/public/auth/register/validate     @controllers.Auth.validateRegistration()
+POST    /rest/public/auth/register              @controllers.Auth.register()
+POST    /rest/public/auth/register/mobile       @controllers.Auth.registerMobile()
+POST    /rest/public/auth/register/complete     @controllers.Auth.completeRegistration()
+GET     /rest/public/auth/restricted/:id        @controllers.Auth.checkIfRestricted(id: Integer)
+
+GET     /rest/public/auth/password/recovery/:email @controllers.Auth.recoverPassword(email: String)
+GET     /rest/public/auth/password/check/:token    @controllers.Auth.checkPasswordRecoveryToken(token: String)
+POST    /rest/public/auth/password/change          @controllers.Auth.changePassword()
+
+
+GET     /rest/public/dictionary/domainSources/:domainSource/:tableName  @controllers.Dictionary.sourcesDomain(domainSource: String,tableName: String)
+GET     /rest/public/dictionary/carrierBrand/:tableName  @controllers.Dictionary.carrierBrand(tableName: String)
+GET     /rest/public/dictionary/facebookJobs/:tableName  @controllers.Dictionary.facebookJobs(tableName: String)
+GET     /rest/public/dictionary/facebookHLastName/:strSearch  @controllers.Dictionary.facebookHLastName(strSearch: String)
+
+GET     /rest/public/dictionary/cities/:state   @controllers.Dictionary.cities(state: String)
+GET     /rest/public/dictionary/zip/:state      @controllers.Dictionary.zipCodes(state: String)
+GET     /rest/public/dictionary/code/:state     @controllers.Dictionary.areaCodes(state: String)
+GET     /rest/public/dictionary/counties/:state @controllers.Dictionary.counties(state: String)
+GET     /rest/public/dictionary/industries      @controllers.Dictionary.industries()
+GET     /rest/public/dictionary/categories      @controllers.Dictionary.categories()
+GET     /rest/public/dictionary/everydata_categories      @controllers.Dictionary.everydataCategories()
+GET     /rest/public/dictionary/sources         @controllers.Dictionary.sources()
+GET     /rest/public/dictionary/student/sources @controllers.Dictionary.studentSources()
+GET     /rest/public/dictionary/lenders/:value  @controllers.Dictionary.lenders(value: String)
+GET     /rest/public/dictionary/c2carriersName/:name  @controllers.Dictionary.c2carriersName(name: String)
+GET     /rest/public/dictionary/models          @controllers.Dictionary.autoModels(make: String, search: String, limit: Integer)
+GET     /rest/public/dictionary/makes           @controllers.Dictionary.autoMakes(search: String, limit: Integer)
+POST    /rest/public/dictionary/detailed/business/industries   @controllers.Dictionary.detailedBusinessIndustries()
+POST    /rest/public/dictionary/detailed/business/industries/selected   @controllers.Dictionary.selectedDetailedBusinessIndustries()
+
+POST    /rest/public/dictionary/titles          @controllers.Dictionary.titles()
+POST    /rest/public/dictionary/titles/business @controllers.Dictionary.businessTitles()
+POST    /rest/public/dictionary/categories/instagram @controllers.Dictionary.instagramCategories()
+POST    /rest/public/dictionary/optin/sources   @controllers.Dictionary.optinSources()
+
+POST    /rest/public/data/geographic            @controllers.Data.geographic()
+GET     /rest/public/data/sources/:userId       @controllers.Data.dataSources(userId: Integer)
+POST    /rest/public/data/matching              @controllers.Data.matching()
+GET     /rest/public/data/message/:userId       @controllers.Data.message(userId: Integer)
+POST    /rest/public/data/matching/save         @controllers.Data.saveMatchingList()
+GET     /rest/public/data/matching/reset/:userId @controllers.Data.resetMatching(userId: Integer)
+POST     /rest/public/administration/allmatchlists @controllers.Lists.allMatchLists()
+POST    /rest/public/data/detailed/count        @controllers.Data.getDetailedData()
+
+POST    /rest/public/profile/details            @controllers.Profile.updateDetails()
+POST    /rest/public/profile/password           @controllers.Profile.updatePassword()
+GET     /rest/public/profile/verification/:id   @controllers.Profile.sendVerificationCode(id: Integer)
+POST    /rest/public/profile/verification       @controllers.Profile.verifyPhone()
+POST    /rest/public/profile/payment            @controllers.Profile.doPayment()
+GET     /rest/public/profile/card/holder/:id    @controllers.Profile.getCardHolderDetails(id: Integer)
+GET     /rest/public/profile/balance/:id        @controllers.Profile.getUserBalance(id: Integer)
+GET     /rest/public/profile/stripe/key/public  @controllers.Profile.getStripeKey()
+GET     /rest/public/profile/stripe/key         @controllers.Profile.getMobileStripeKey()
+POST    /rest/public/profile/comment            @controllers.Profile.saveComment()
+PUT     /rest/public/profile/comment            @controllers.Profile.updateComment()
+
+GET     /rest/public/sms                        @controllers.SMS.getSMSList()
+GET     /rest/public/sms/handler                @controllers.SMS.handleIncomeSMS()
+
+GET     /rest/public/lists/purchased/:id/:dataType @controllers.Lists.getPurchasedListsByUserId(id: Integer, dataType: Integer)
+GET     /rest/public/lists/non/purchased/:id       @controllers.Lists.getNonPurchasedListsByUserId(id: Integer)
+
+POST    /rest/public/lists/purchased            @controllers.Lists.getPagedPurchasedLists()
+POST    /rest/public/lists/all/purchased        @controllers.Lists.getPagedAllPurchasedLists()
+POST    /rest/public/lists/non/purchased        @controllers.Lists.getPagedNonPurchasedLists()
+
+
+POST    /rest/public/lists/save/buy             @controllers.Lists.saveAndBuyList()
+GET     /rest/public/lists/price/table/:table/:userId @controllers.Lists.getTableItemPrice(table: String, userId: Integer)
+
+POST    /rest/textalldata/data/geographic       @controllers.Data.geographic()
+POST    /rest/textalldata/lists/save/buy        @controllers.Lists.saveAndBuyListFromApplication()
+POST    /rest/textalldata/lists/purchased       @controllers.Lists.getPurchasedListsByUsername()
+
+POST    /rest/public/lists                      @controllers.Lists.saveList()
+PUT     /rest/public/lists                      @controllers.Lists.updateList()
+DELETE  /rest/public/lists/:id                  @controllers.Lists.deleteList(id: Integer)
+POST    /rest/public/lists/buy                  @controllers.Lists.buyList()
+GET     /rest/public/lists/price/:id            @controllers.Lists.getListItemPrice(id: Integer)
+
+GET     /rest/public/lists/transfer/:id         @controllers.Lists.transferToSuppression(id: Integer)
+
+GET     /rest/public/lists/uploaded/:id         @controllers.Lists.getUploadedListsByUserId(id: Integer)
+GET     /rest/public/lists/uploaded/all/:id     @controllers.Lists.getAllUploadedListsByUserId(id: Integer)
+PUT     /rest/public/lists/uploaded             @controllers.Lists.updateUploadedList()
+DELETE  /rest/public/lists/uploaded/:id         @controllers.Lists.deleteUploadedList(id: Integer)
+POST    /rest/public/lists/uploaded/file        @controllers.Lists.checkFile()
+POST    /rest/public/lists/uploaded             @controllers.Lists.uploadFile()
+
+POST    /rest/public/lists/prepare/download     @controllers.Lists.prepareListForDownloading()
+POST    /rest/public/lists/prepare/email        @controllers.Lists.sendDownloadListEmail()
+POST    /rest/public/lists/download/            @controllers.Lists.downloadListDirectly()
+GET     /rest/public/lists/download/:id/:name   @controllers.Lists.downloadList(name: String, id: Integer)
+GET     /rest/public/lists/prepared/:id         @controllers.Lists.getPreparedCount(id: Integer)
+
+GET     /rest/public/administration/resellers          @controllers.Administration.getResellers()
+POST    /rest/public/administration/users              @controllers.Administration.getUserList()
+GET     /rest/public/administration/users/block/:id    @controllers.Administration.blockUser( id: Integer )
+GET     /rest/public/administration/users/unblock/:id  @controllers.Administration.unblockUser( id:Integer )
+POST    /rest/public/administration/user               @controllers.Administration.updateUser()
+POST    /rest/public/administration/user/note          @controllers.Administration.updateUserNote()
+DELETE  /rest/public/administration/user/:id           @controllers.Administration.deleteUser( id: Integer )
+POST    /rest/public/administration/user/login         @controllers.Administration.loginAsUser()
+POST    /rest/public/administration/user/export        @controllers.Administration.exportUsers()
+POST    /rest/public/administration/regrequest/export  @controllers.Administration.exportRegistrationRequests()
+POST    /rest/public/administration/lists/export       @controllers.Administration.exportLists()
+POST    /rest/public/administration/purchasedlistslogs  @controllers.Lists.getPurchasedListsLogs()
+POST    /rest/public/administration/emailSents  @controllers.Lists.getEmailListSent()
+
+GET     /rest/public/administration/download/:filename @controllers.Administration.downloadFile( filename: String )
+
+POST    /rest/public/administration/comments           @controllers.Administration.getCommentsList()
+PUT     /rest/public/administration/comments           @controllers.Administration.updateComment()
+DELETE  /rest/public/administration/comments/:id       @controllers.Administration.deleteComment(id: Long)
+
+POST    /rest/public/administration/payments           @controllers.Administration.getPaymentList()
+POST    /rest/public/administration/payment            @controllers.Administration.addPayment()
+GET     /rest/public/administration/user/autocomplete  @controllers.Administration.getUserAutocomplete()
+GET     /rest/public/administration/user/payment/autocomplete  @controllers.Administration.getUserPaymentAutocomplete()
+GET     /rest/public/administration/validate/registration/requests @controllers.Administration.getValidateRegistrationRequestsData()
+
+POST    /rest/public/administration/prefixes               @controllers.PhonePrefixes.getPrefixesList()
+POST    /rest/public/administration/prefixes/uploaded/file @controllers.PhonePrefixes.importPrefixesFromCSV()
+DELETE  /rest/public/administration/prefixes/:id           @controllers.PhonePrefixes.deletePhonePrefix( id: Long )
+PUT     /rest/public/administration/prefixes               @controllers.PhonePrefixes.updatePhonePrefix()
+
+GET     /rest/public/administration/datasources                         @controllers.Administration.dataSources()
+GET     /rest/public/administration/datasource/:id/visibility/:visible  @controllers.Administration.updateDataSourceVisibility(id: Integer, visible: Boolean)
+POST    /rest/public/administration/datasource/blocked                  @controllers.Administration.updateDataSourceBlockedUsers()
+POST    /rest/public/administration/datasource/blockedState             @controllers.Administration.updateDataSourceBlockedState()
+GET     /rest/public/administration/datasource/blocked/:id/:state              @controllers.Administration.getBlockedUsersForDataSource(id: Integer,state: Boolean)
+
+GET     /rest/public/administration/prices             @controllers.Administration.getPricesList()
+GET     /rest/public/administration/prices/:id         @controllers.Administration.getPricesListForUser(id: Integer)
+POST    /rest/public/administration/prices             @controllers.Administration.updatePrice()
+
+POST    /rest/public/administration/registration/requests                @controllers.Administration.getRegistrationRequestsList()
+GET     /rest/public/administration/registration/requests/verify/:id     @controllers.Administration.verifyRegistrationRequestManually(id: Integer)
+GET     /rest/public/administration/registration/requests/cancel/:id     @controllers.Administration.cancelRegistrationRequest(id: Integer)
+
+POST    /rest/public/administration/payment/requests         @controllers.Administration.getPaymentRequestsList()
+PUT     /rest/public/administration/payment/requests         @controllers.Administration.addPaymentRequest()
+DELETE  /rest/public/administration/payment/requests/:id     @controllers.Administration.deletePaymentRequest(id: Integer)
+GET     /rest/public/invoice/:id                             @controllers.Administration.getPaymentRequestDetails(id: Integer)
+POST    /rest/public/invoice/pay                             @controllers.Administration.payRequestedPayment()
+
+GET     /rest/public/administration/settings/:key  @controllers.Administration.getSettingsValue(key: String)
+PUT     /rest/public/administration/settings/:key  @controllers.Administration.getSettingsValues(key: String)
+POST    /rest/public/administration/settings       @controllers.Administration.updateSettings()
+POST    /rest/public/administration/email          @controllers.Administration.sendEmail()
+
+#GET     /rest/public/convert/websites         @controllers.DataOperations.convertWebSites()
+#GET     /rest/public/generate/phone           @controllers.DataOperations.generatePhoneList()
+GET     /rest/public/generate/phone/:type      @controllers.DataOperations.generatePhoneListByType(type: Integer)
+#GET     /rest/public/convert                  @controllers.DataOperations.convertZipList()
+#GET     /rest/public/update/dnc               @controllers.DataOperations.updateDNC()
+GET     /rest/public/update/dnc/type/:type     @controllers.DataOperations.updateDNCByDataSourceType(type: Integer)
+GET     /rest/public/update/hotfrog/dnc/type   @controllers.DataOperations.updateHotFrogDNC()
+GET     /rest/public/update/phones/types/:type @controllers.DataOperations.updatePhoneTypesByDataSourceType(type: Integer)
+#GET     /rest/public/move/wrong/phones        @controllers.DataOperations.moveWrongPhones()
+GET     /rest/public/move/wrong/phones/:type   @controllers.DataOperations.moveWrongPhonesForType(type: Integer)
+GET     /rest/public/trim/fields/:type         @controllers.DataOperations.trimStringFields(type: Integer)
+GET     /rest/public/update/hash               @controllers.DataOperations.updateDataHash()
+GET     /rest/public/update/sic               @controllers.DataOperations.updateSicCodes()
+GET     /rest/public/matching                  @controllers.DataOperations.generateMatchedList()
+#GET      /rest/public/update/search/engine     @controllers.DataOperations.updatePhonesForSearchEngine()
+#GET      /rest/public/filter/search/engine     @controllers.DataOperations.filterSearchEngineRecords()
+#GET      /rest/public/custom/matching/:code    @controllers.DataOperations.generateCustomMatchingFile(code: Integer)
+#GET      /rest/public/filter/police/records    @controllers.DataOperations.filterPoliceRecords()
+GET      /rest/public/filter/null/records      @controllers.DataOperations.filterNullRecords()
+GET      /rest/public/filter/closed/records    @controllers.DataOperations.filterClosedRecords()
+GET      /rest/public/update/states/:tableName @controllers.DataOperations.updateStates(tableName: String)
+GET      /rest/public/update/business/owner    @controllers.DataOperations.updateBusinessOwner()
+GET      /rest/public/update/lenders           @controllers.DataOperations.updateLenders()
+GET      /rest/public/update/empty/phones      @controllers.DataOperations.updateEmptyPhones()
+GET      /rest/public/update/instagram/states  @controllers.DataOperations.updateInstagramStates()
+POST     /rest/public/import/business/addon    @controllers.Application.importBusinessAddon()
+POST     /rest/public/import/optin/addon       @controllers.Application.importOptInAddon()
+GET      /rest/public/update/source/criteria   @controllers.DataOperations.updateSourceCriteria()
+GET      /rest/public/update/county/type/:type @controllers.DataOperations.updateCountiesByType(type: Integer)
+GET      /rest/public/update/county/table/:name @controllers.DataOperations.updateCountiesByTableName(name: String)
+GET      /rest/public/update/makes/models       @controllers.DataOperations.updateMakesModels()
+GET      /rest/public/generate/directory/unique @controllers.DataOperations.generateDirectoryUniqueCompanies()
+GET      /rest/public/remove/old/lists/:date    @controllers.DataOperations.removeOldLists(date: Long)
+#GET      /rest/public/update/facebook/directories @controllers.DataOperations.updateFacebookRecords()
+GET      /rest/public/generate/phones/:tableName   @controllers.DataOperations.generatePhoneListByTableName(tableName: String)
+GET      /rest/public/update/type/dnc/:tableName/:offset @controllers.DataOperations.updateTableDNCAndPhoneTypeRecords(tableName: String, offset: Long)
+GET      /rest/public/update/directory/new/sources @controllers.DataOperations.copyDirectoryNewSources()
+GET      /rest/public/generate/matched/list    @controllers.DataOperations.generateBusinessMatchingFile()
+GET      /rest/public/generate/matched/consumers/list @controllers.DataOperations.generateConsumersMatchingList()
+GET      /rest/public/buy/optin/lists          @controllers.Lists.butOptInLists()
+
+
+GET      /rest/public/update/consumers/names   @controllers.DataOperations.updateConsumersNames()
+GET      /rest/public/handle/biz               @controllers.Application.handleBiz()
+
+GET     /video/:fileName                    @controllers.Application.sendVideo(fileName: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

@@ -1,0 +1,25 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm' ng-submit='save()'>
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Count Note</div>
+                <input type='text' class='form-control' id='code'
+                       ng-model='textNote' localized-placeholder='Enter a note for show when count end'
+                       required maxlength="90"/>
+            </div>
+
+            <div class='right-align'>
+                <button type='submit' class='btn btn-default'
+                        ng-disabled='!textNote'
+                        localized>lists.modal.save</button>
+
+                <button class='btn btn-default'
+                        ng-click="close()"
+                        localized>lists.modal.cancel</button>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+

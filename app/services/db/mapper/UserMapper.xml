@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="services.db.mapper.UserMapper">
+
+    <insert id="insertRegistrationRequest">
+        INSERT INTO registrationRequests(uuid, username, email, phone, companyName, address, promoCode, password, ip, resellerId, date)
+        VALUES(#{uuid}, #{username}, #{email}, #{phone}, #{companyName}, #{address}, #{promoCode}, #{password}, #{ip}, #{resellerId}, #{date});
+    </insert>
+
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO users(username, email, phone, companyName, address, promoCode, password, ip, balance, date, status, restriction, resellerId, resellerNumber, domains, role, allowPayments, allowDataSourceItemsPrices, allowTransferToSuppression)
+        VALUES(#{username}, #{email}, #{phone}, #{companyName}, #{address}, #{promoCode}, #{password}, #{ip}, #{balance}, #{date}, #{status}, #{restriction}, #{resellerId}, #{resellerNumber}, #{domains}, #{role}, #{allowPayments}, #{allowDataSourceItemsPrices}, #{allowTransferToSuppression});
+    </insert>
+
+    <select id="getCommentListCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM comments
+    </select>
+
+    <select id="getCommentList" resultType="Comment">
+        SELECT c.id, c.name, c.comment, c.answer, c.approved, c.date, u.username
+        FROM comments c
+        LEFT JOIN users u on c.userId = u.id
+        <if test="sortValue != null">
+            ORDER BY ${sortValue}
+            <if test="sortDesc == true">
+                DESC
+            </if>
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="getUserListCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM users
+        WHERE username != 'system_staff'
+        <if test="searchValue != null">
+            AND ( username ILIKE #{searchValue} OR email ILIKE #{searchValue} OR phone ILIKE #{searchValue} OR status ILIKE #{searchValue} )
+        </if>
+        <if test="resellerId > 0">
+            AND resellerId = #{resellerId}
+        </if>
+    </select>
+
+    <select id="getUserList" resultType="User">
+        SELECT u.id, u.username, r.username as reseller, u.email, u.phone, u.companyName, u.address, u.promoCode, u.verified,
+        u.admin, u.balance, u.date, u.status, u.restriction, u.resellerNumber, u.domains, u.role, u.supportPhone,
+        u.note, u.noteStatus, u.filterDNC, u.filterEmail, u.filterEmptyPhone, u.allowManageMoney,
+        u.validateRegistrationRequests, u.ip, u.invitationDomain, u.resellerId, u.multipleGeographicParametersEnabled,
+        u.allowCarriersSearch, u.allowCustomersKeyword, u.allowBusinessKeyword, u.allowMatchResponder, u.lastActivityDate,
+        u.notificationEmail, u.allowMatchCraigslist, u.allowBusinessEmailFilter, u.allowMatchConsumers,
+        u.allowMatchOptIn, u.allowMatchDirectory, u.allowMatchBusinessDetailed, u.allowMatchingLists,
+        u.allowDetailedBusinessKeywords, u.allowPayments, u.allowDataSourceItemsPrices, u.allowTransferToSuppression,
+        u.listAdditionalCodeEnabled, u.allowedmatcheslist
+        FROM users u
+        LEFT JOIN users r on u.resellerId = r.id
+        WHERE u.username != 'system_staff'
+        <if test="searchValue != null">
+            AND ( u.username ILIKE #{searchValue} OR u.email ILIKE #{searchValue} OR u.phone ILIKE #{searchValue} OR u.status ILIKE #{searchValue} )
+        </if>
+        <if test="resellerId > 0">
+            AND u.resellerId = #{resellerId}
+        </if>
+        <if test="sortValue != null">
+            ORDER BY u.${sortValue}
+            <if test="sortDesc == true">
+                DESC
+            </if>
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="getRegistrationRequestListCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM registrationRequests
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND (username ILIKE #{searchValue} OR email ILIKE #{searchValue} OR phone ILIKE #{searchValue})
+        </if>
+        <if test="resellerId > 0">
+            AND resellerId = #{resellerId}
+        </if>
+    </select>
+
+    <select id="getRegistrationRequestList" resultType="RegistrationRequest">
+        SELECT rr.id, rr.username, r.username as reseller, rr.email, rr.phone, rr.companyName, rr.date, rr.address FROM registrationRequests rr
+        LEFT JOIN users r on rr.resellerId = r.id
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND (rr.username ILIKE #{searchValue} OR rr.email ILIKE #{searchValue} OR rr.phone ILIKE #{searchValue})
+        </if>
+        <if test="resellerId > 0">
+            AND rr.resellerId = #{resellerId}
+        </if>
+        <if test="sortValue != null">
+            ORDER BY ${sortValue}
+            <if test="sortDesc == true">
+                DESC
+            </if>
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit} OFFSET #{offset}
+        </if>
+    </select>
+
+    <update id="updateUser">
+        UPDATE users SET username=#{username}, email=#{email}, phone=#{phone}, companyName=#{companyName},
+        address = #{address}, restriction=#{restriction}, resellerNumber=#{resellerNumber},
+        domains = #{domains}, role=#{role}, admin=#{admin}, supportPhone=#{supportPhone},
+        filterDNC = #{filterDNC}, filterEmail = #{filterEmail}, filterEmptyPhone = #{filterEmptyPhone},
+        allowManageMoney = #{allowManageMoney}, ip = #{ip}, invitationDomain = #{invitationDomain},
+        validateRegistrationRequests = #{validateRegistrationRequests}, resellerId=#{resellerId},
+        multipleGeographicParametersEnabled = #{multipleGeographicParametersEnabled},
+        allowCustomersKeyword = #{allowCustomersKeyword}, allowCarriersSearch = #{allowCarriersSearch},
+        allowMatchResponder = #{allowMatchResponder}, notificationEmail = #{notificationEmail},
+        allowBusinessKeyword = #{allowBusinessKeyword}, allowMatchCraigslist=#{allowMatchCraigslist},
+        allowBusinessEmailFilter = #{allowBusinessEmailFilter}, allowMatchConsumers=#{allowMatchConsumers},
+        allowMatchDirectory=#{allowMatchDirectory}, allowMatchOptIn=#{allowMatchOptIn},
+        allowMatchBusinessDetailed=#{allowMatchBusinessDetailed}, allowMatchingLists=#{allowMatchingLists},
+        allowDetailedBusinessKeywords=#{allowDetailedBusinessKeywords}, allowPayments=#{allowPayments},
+        allowDataSourceItemsPrices=#{allowDataSourceItemsPrices},
+        allowTransferToSuppression=#{allowTransferToSuppression},
+        listAdditionalCodeEnabled=#{listAdditionalCodeEnabled},
+        allowedmatcheslist=#{allowedMatchesList}
+        WHERE id=#{id};
+    </update>
+
+    <select id="getPaymentListCount" resultType="java.lang.Integer">
+        SELECT COUNT(payments.id) FROM payments
+        JOIN users ON payments.userId = users.id
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND ( users.username ILIKE #{searchValue} OR users.email ILIKE #{searchValue} OR payments.strDate ILIKE #{searchValue} OR type ILIKE #{searchValue} )
+        </if>
+        <if test="resellerId != -1">
+            AND (users.resellerId = #{resellerId} OR users.id = #{resellerId})
+        </if>
+    </select>
+
+    <select id="getPaymentList" resultType="Payment">
+        SELECT payments.id, payments.date, users.username,users.email, r.username as reseller, payments.type, payments.amount, payments.manual
+        FROM payments
+        JOIN users ON payments.userId = users.id
+        LEFT JOIN users r ON users.resellerId = r.id
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND ( users.username ILIKE #{searchValue} OR users.email ILIKE #{searchValue} OR payments.strDate ILIKE #{searchValue} OR type ILIKE #{searchValue} )
+        </if>
+        <if test="resellerId != -1">
+            AND (users.resellerId = #{resellerId} OR users.id = #{resellerId})
+        </if>
+        <if test="sortValue != null">
+            ORDER BY ${sortValue}
+            <if test="sortDesc == true">
+                DESC
+            </if>
+        </if>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <insert id="insertPayment">
+        INSERT INTO payments(date, strDate, userId, type, amount, manual)
+        VALUES(#{date}, #{strDate}, #{userId}, #{type}, #{amount}, #{manual});
+    </insert>
+
+    <insert id="saveComment">
+        INSERT INTO comments(userId, name, comment, answer, date, approved)
+        VALUES (#{userId}, #{name}, #{comment}, #{answer}, #{date}, #{approved});
+    </insert>
+
+    <update id="updateComment">
+        UPDATE comments SET name=#{name}, comment=#{comment},
+        answer=#{answer}, date=#{date}, approved=#{approved}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

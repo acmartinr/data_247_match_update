@@ -1,0 +1,26 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='searchConfig.option === "numberOfSources"'>
+            <div class='col-sm-12' ng-repeat='item in numberOfSources'>
+                <input id='number_of_sources_{{item.value}}' ng-model='selectedNumberOfSources[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='number_of_sources_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "dpv"'>
+            <div class='col-sm-12' ng-repeat='item in dpv'>
+                <input id='dpv_{{item.value}}' ng-model='selectedDPV[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='dpv_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-6'>
+            <select class='form-control margin-bottom'
+                    ng-model='selectedState.code'
+                    ng-change='updateCounties()'>
+                <option ng-repeat='state in states'
+                        ng-selected='state.code === selectedState.code'
+                        value='{{state.code}}'>{{state.name}}</option>
+            </select>
+        </div>
+
+        <div class='col-sm-6'>
+            <input class='form-control col-sm-6'
+                   localized-placeholder='counties.search.placeholder'
+                   ng-model='selectedState.filter'>
+        </div>
+    </div>
+
+    <div ng-if='loading' class='center'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <div ng-if='!loading'>
+        <div class='col-sm-6' ng-repeat='county in filtered = ( counties | filter: selectedState.filter ) | limitTo: selectedState.limit'>
+            <input id='{{county.county}}' ng-model='selectedCounties[ county.county + "_" + selectedState.code ]' type='checkbox'/>
+            <label class='pointer tiny-label' for='{{county.county}}'>{{county.county}}</label>
+        </div>
+
+        <div class='center margin-bottom load-more' ng-if='selectedState.limit < filtered.length'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </div>
+
+</div>

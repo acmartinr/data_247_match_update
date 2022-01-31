@@ -1,0 +1,110 @@
+<tabset class='tabset'>
+    <tab ng-repeat='tab in tabs' heading='{{tab.title}}'
+         ng-click='updateActions(tab.value)'
+         ng-controller='FacebookController'>
+        <div class='padding-top ng-scope'>
+
+            <div ng-if='searchConfig.option === "gender"'>
+                <label>Gender: </label>
+                <div class='padding-top'>
+                    <div class='col-sm-12'>
+                        <input id='male' ng-model='selectedFacebookGender[ "M|male" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='male' localized>genders.male</label>
+                    </div>
+
+                    <div class='col-sm-12'>
+                        <input id='female' ng-model='selectedFacebookGender[ "F|female" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='female' localized>genders.female</label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if='searchConfig.option === "status"'>
+                <label>Status: </label>
+                <div class='padding-top'>
+                    <div class='col-sm-12'>
+                        <input id='single' ng-model='selectedFacebookStatus[ "S|single" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='single' localized>Single</label>
+                    </div>
+
+                    <div class='col-sm-12'>
+                        <input id='relationship' ng-model='selectedFacebookStatus[ "R|relationship" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='relationship' localized>In a relationship</label>
+                    </div>
+
+                    <div class='col-sm-12'>
+                        <input id='married' ng-model='selectedFacebookStatus[ "M|married" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='married' localized>Married</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='open_relationship' ng-model='selectedFacebookStatus[ "OR|open relationship" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='open_relationship' localized>In an open relationship</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='complicated' ng-model='selectedFacebookStatus[ "C|complicated" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='complicated' localized>Widowed</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='widowed' ng-model='selectedFacebookStatus[ "DR|Widowed" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='widowed' localized>Widowed</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='separated' ng-model='selectedFacebookStatus[ "S|Separated" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='separated' localized>Separated</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='divorced' ng-model='selectedFacebookStatus[ "DIV|Divorced" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='divorced' localized>Divorced</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='engaged' ng-model='selectedFacebookStatus[ "EN|Engaged" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='engaged' localized>Engaged</label>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input id='civil_union' ng-model='selectedFacebookStatus[ "CU|civil union" ]' type='checkbox'/>
+                        <label class='pointer tiny-label' for='civil_union' localized>In a civil union</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-if='loading' class='center'>
+            <img src='/assets/images/loading.gif'>
+        </div>
+
+        <div ng-if='searchConfig.option === "job"' class='col-sm-4'
+             ng-repeat='job in facebookJobs | limitTo: selectedJob.limit'>
+            <!--            <div class="row">-->
+            <!--                <div class="col-sm-6" ng-if='searchConfig.option === "carrier"'>-->
+            <!--                    <label>Select carriers: </label>-->
+            <!--                </div>-->
+            <input id='omitted_{{job}}' ng-model='selectedFacebookJob[ job ]' type='checkbox'/>
+            <label class='pointer tiny-label' for='omitted_{{job}}'>{{job}}</label>
+        </div>
+
+<!--
+        <div ng-if='searchConfig.option === "last_name"'>
+            <br>
+            <label>Search Last Name: </label>
+            <input type="text"
+                   class="form-control select-value-input padding-top"
+                   placeholder="last name"
+                   ng-model='searchFacebookHLastName["lastHLNameValue"]'
+                   ng-change="updateLastName()"
+            />
+            <br>
+            <div class='col-sm-4'
+                 ng-repeat='last_name in facebookHLastName | limitTo: selectedJob.limit'>
+                <input id='omitted_{{last_name}}' ng-model='selectedFacebookHLastName[ last_name ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='omitted_{{last_name}}'>{{last_name}}</label>
+            </div>
+        </div>
+        -->
+
+        <div class='center margin-bottom load-more' ng-if='selectedJob.limit < facebookJobs.length && searchConfig.option === "job"'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </tab>
+</tabset>

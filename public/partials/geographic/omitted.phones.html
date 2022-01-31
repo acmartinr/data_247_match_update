@@ -1,0 +1,18 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-6'>
+            <select class='form-control margin-bottom'
+                    ng-model='selectedState.code'
+                    ng-change='updateAreaCodes()'>
+                <option ng-repeat='state in states'
+                        ng-selected='state.code === selectedState.code'
+                        value='{{state.code}}'>{{state.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class='col-sm-3' ng-repeat='code in areaCodes'>
+        <input id='omitted_{{code}}' ng-model='omittedAreaCodes[ code ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='omitted_{{code}}'>{{code}}</label>
+    </div>
+</div>

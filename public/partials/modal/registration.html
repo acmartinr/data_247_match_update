@@ -1,0 +1,46 @@
+<div class="popup-cont">
+
+    <div align="right">
+        <a class="close_modal" ng-click="close()">X</a>
+    </div>
+
+    <div>
+        <form autocomplete="off">
+            <p><strong>Registration</strong></p>
+            <p><input
+                    ng-model='registration.username'
+                    type="text" placeholder="Name"></p>
+            <p><input
+                    ng-model='registration.companyName'
+                    type="text" placeholder="Company"></p>
+            <p><input
+                    ng-model='registration.email'
+                    type="text" placeholder="Email (required)"></p>
+            <p><input
+                    ng-model='registration.phone'
+                    type="text" placeholder="Cell Phone (required)"></p>
+            <p><input
+                    ng-model='registration.address'
+                    autocomplete="new-username"
+                    name="2201093747"
+                    type="text" placeholder="State"></p>
+            <p><input
+                    ng-model='registration.password'
+                    autocomplete="new-password"
+                    name="7475820920"
+                    type="password" placeholder="Password (required)"></p>
+            <p><input
+                    ng-model='registration.retypePassword'
+                    type="password" placeholder="Retype password (required)"></p>
+
+            <p><input type="button"
+                      ng-click='register()'
+                      ng-disabled='!registration.username || !registration.email || !registration.phone ||
+                                   !registration.password || registration.password != registration.retypePassword'
+                      value="Sign up"
+                      class="form-submit"></p>
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div ng-if='currentVideoIndex === -1' class='panel-body'>
+        <label>Tutorials:</label>
+        <a class='video-item'
+           ng-repeat='video in videos'
+           ng-click='playVideo(video)'>
+            <span class='glyphicon glyphicon-play'></span>{{video.title}}
+        </a>
+
+        <button class='btn btn-default right'
+                ng-click='cancelClicked()'>Cancel</button>
+    </div>
+
+    <div ng-if='currentVideoIndex != -1' class='panel-body'>
+        <video ng-repeat='video in videos'
+               ng-if='video.url === currentVideoUrl'
+               class='full-width'
+               controls="controls"
+               preload="none"
+               autoplay
+               type="video/mp4">
+            <source ng-src="{{video.url}}">
+        </video>
+
+        <div class="margin-top">
+            <button class='btn btn-default inline'
+                    ng-click='backToListClicked()'>Back to list</button>
+
+            <button class='btn btn-default inline right'
+                    ng-disabled='!nextVideoButtonActive()'
+                    ng-click='nextVideoClicked()'>Next video</button>
+
+            <button class='btn btn-default inline right margin-right'
+                    ng-disabled='!previousVideoButtonActive()'
+                    ng-click='previousVideoClicked()'>Previous video</button>
+        </div>
+    </div>
+</div>
+

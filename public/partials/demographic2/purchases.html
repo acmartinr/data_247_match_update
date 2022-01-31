@@ -1,0 +1,21 @@
+<div class='padding-top'>
+    <div class='col-sm-12'>
+        <input class='form-control col-sm-12 margin-bottom'
+               localized-placeholder='Search'
+               ng-model='searchConfig.search'/>
+
+        <div>
+            <div class='col-sm-6' ng-repeat='item in filtered = (purchases | filter: {title: searchConfig.search}) | limitTo: searchConfig.limit'>
+                <input id='{{item.value}}' ng-model='selectedProperties[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+    </div>
+</div>

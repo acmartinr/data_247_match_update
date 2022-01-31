@@ -1,0 +1,11 @@
+@(name: String, email: String, reseller: String, lines: List[String])
+You've just received a feedback message.<br>
+Name: @name<br>
+Email: @email<br>
+@if(reseller != null) {
+Reseller: @reseller<br>
+}
+Message:<br>
+@for(line <- lines) {
+@line<br>
+}

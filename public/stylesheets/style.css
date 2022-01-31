@@ -1,0 +1,502 @@
+/* New */
+
+body{
+	font-family: 'Open Sans', sans-serif!important;
+	font-size:16px!important;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto !important;
+}
+
+.actions-column {
+    width: 150px;
+    min-width: 150px;
+}
+
+.lists-search {
+    position: relative;
+    top: -5px;
+}
+
+.lists-search-with-button {
+    width: calc(100% - 80px) !important;
+    display: inline-block;
+    top: 0px !important;
+}
+
+.confirm span {
+    display: block;
+    margin: 20px 0px 20px 0px;
+}
+
+.payment-card-number-input {
+    display: inline-block;
+    width: calc(100% - 135px);
+}
+
+.payment-label-width {
+    width: 130px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.payment-cvc-label {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+/*.payment-row-height {
+    height: 107px;
+}*/
+
+.payment-label-content {
+    width: calc(100% - 135px);
+    float: right;
+    height: 42px;
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.payment-label-content.focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.payment-label-content.invalid {
+  border-color: #fa755a;
+}
+
+.payment-error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.tip-span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.top-layer{
+	text-align:center;
+	background:url(../images/business-1.jpg) center -40px no-repeat;
+}
+
+.top-layer-overlay{
+	background:rgba(0,0,0,0.5);
+}
+
+.login-cont{
+	text-align:right;
+	padding:20px 0 0 0;
+	min-height:160px;
+}
+
+.count-loading{
+    width: 20px;
+    margin-left: 5px;
+    vertical-align: top;
+    margin-top: 2px;
+}
+
+.login-box{
+	border-top:2px solid #118ed6;
+	border-right:2px solid #118ed6;
+	border-bottom:2px solid #118ed6;
+	border-left:6px solid #118ed6;
+	border-radius:6px;
+	background:#5a5c57;
+	color:#cececc;
+	padding:7px;
+}
+
+.sign-in{
+	background:#118ed6;
+	padding:10px 20px;
+	color:#fff;
+	border-radius:6px;
+	margin:0 12px 0 0;
+	position:relative;
+	top:15px;
+}
+
+.sign-in:hover{
+	color:#fff;
+}
+
+.sign-up{
+	color:#fff;
+	position:relative;
+	top:15px;
+	padding:10px 20px;
+}
+
+.sign-up:hover{
+	color:#fff;
+}
+
+.big-text{
+	font-size:90px;
+	line-height:100px;
+	font-weight:300;
+	color:#fff;
+	padding:50px 0 40px 0;
+	text-align:right;
+}
+
+.regular-text{
+	font-size:25px;
+	line-height:35px;
+}
+
+.top-layer .regular-text{
+	color:#fff;
+	padding:0 0 20px 0;
+}
+
+.top-white-layer .regular-text{
+	color:#2f2f2f;
+	padding:40px 0;
+}
+
+.top-white-layer{
+	text-align:center;
+}
+
+.big-btns-border{
+	background:url(../images/delimiter.png) center center no-repeat;
+	margin:0 0 50px 0;
+}
+
+.big-btn-left {
+	text-align:right;
+}
+
+.big-btn-left a{
+	background:#118ed6;
+	padding:12px 25px;
+	color:#fff;
+	border-radius:6px;
+	font-size:40px;
+	font-weight:300;
+	position:relative;
+	top:5px;
+	right:40px;
+}
+
+.big-btn-right {
+	text-align:left;
+}
+
+.big-btn-right a{
+	background:#118ed6;
+	padding:12px 25px;
+	color:#fff;
+	border-radius:6px;
+	font-size:40px;
+	font-weight:300;
+	position:relative;
+	top:5px;
+	left:40px;
+}
+
+.big-btn-left a:hover, .big-btn-right a:hover{
+	color:#fff;
+	background:#109ff1;
+	text-decoration:none;
+}
+
+.bottom-layer{
+	text-align:center;
+	background:url(../images/business-2.jpg) center center no-repeat;
+}
+
+.bottom-layer-overlay{
+	background:rgba(0,0,0,0.5);
+}
+
+.bottom-layer p{
+	padding:70px 0;
+}
+
+.bottom-layer a{
+	color:#e2e6e7;
+	font-size:22px;
+}
+
+.bottom-layer a:hover{
+	color:#e2e6e7;
+	text-decoration:underline;
+}
+
+.bottom-white-layer{
+	text-align:center;
+	padding: 45px 0 35px 0;
+}
+
+.bottom-white-layer p{
+	font-size:27px;
+	padding:0 0 15px 0;
+}
+
+.bottom-white-layer a{
+	background:#118ed6;
+	padding:12px 25px;
+	color:#fff;
+	border-radius:6px;
+	font-size:18px;
+}
+
+.bottom-white-layer a:hover{
+	color:#fff;
+}
+
+.footer-layer{
+	text-align: center;
+	background: #e1e1e1;
+	color: #585757;
+	padding: 40px 0;
+	margin-top: 10px;
+}
+
+.footer-layer span{
+	color:#b6b6b6;
+	font-size:30px;
+	font-weight:300;
+}
+
+.footer-layer a{
+	color:#585757;
+}
+
+.footer-layer a:hover{
+	color:#585757;
+}
+
+.registration-modal .modal-content .popup-cont {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+}
+
+.registration-modal .modal-content .close_modal {
+	cursor:pointer;
+	color:#747e80;
+}
+
+.mylivechat_expanded {
+    background: #3167c1 !important;
+}
+
+.inline {
+    display: inline-block !important;
+}
+
+.text-transform-none {
+    text-transform: none !important;
+}
+
+.registration-modal .modal-content input,
+.registration-modal .modal-content textarea {
+	width:350px;
+	padding:5px;
+	border-radius:4px;
+	border:1px solid #ccc;
+}
+
+@media (max-width: 500px) {
+    .registration-modal .modal-content input,
+    .registration-modal .modal-content textarea {
+        width:240px;
+    }
+
+    .registration-modal .modal-dialog {
+        width: 305px;
+        margin: 0.5rem auto;
+    }
+}
+
+.registration-modal .modal-content .form-submit,
+.mobile .form-submit {
+	background:#118ed6;
+	padding:10px;
+	color:#fff;
+}
+
+.custom_hidden {
+    display: none;
+}
+
+.shown {
+    display: block !important;
+}
+
+.restricted {
+    margin-left: 10px !important;
+    cursor: pointer;
+}
+
+.mobile p {
+    margin: 20px 20px 10px 20px;
+}
+
+.mobile .form-submit {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.article-block p{
+	font-size: 18px;
+	text-align:left;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+.big-btns-border{
+	background:none;
+	margin:0 0 50px 0;
+}
+
+.big-btn-left {
+	text-align:center;
+}
+
+.big-btn-left a{
+	top:0px;
+	right:0px;
+	padding:10px 20px;
+	font-size:30px;
+}
+
+.big-btn-right {
+	text-align:center;
+}
+
+.big-btn-right a{
+	top:20px;
+	left:0px;
+	padding:10px 20px;
+	font-size:30px;
+}
+}
+
+@media (max-width: 767px) {
+.big-text {
+    font-size: 60px;
+    line-height: 70px;
+	text-align:center;
+}
+.big-btns-border{
+	background:none;
+	margin:0 0 50px 0;
+}
+
+.big-btn-left {
+	text-align:center;
+}
+
+.big-btn-left a{
+	top:0px;
+	right:0px;
+	padding:10px 20px;
+	font-size:30px;
+}
+
+.big-btn-right {
+	text-align:center;
+}
+
+.big-btn-right a{
+	top:20px;
+	left:0px;
+	padding:10px 20px;
+	font-size:30px;
+}
+}
+
+.user-details .modal-dialog {
+    width: 740px;
+}
+
+.sq-input form {
+    background: red;
+}
+
+.third {
+  float: left;
+  width: calc((100% - 32px) / 3);
+  padding: 0;
+  margin: 0 16px 16px 0;
+}
+
+.third:last-of-type {
+  margin-right: 0;
+}
+
+/* Define how SqPaymentForm iframes should look */
+.sq-input {
+  height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #E0E2E3;
+  background-color: white;
+  border-radius: 6px;
+  display: inline-block;
+  -webkit-transition: border-color .2s ease-in-out;
+     -moz-transition: border-color .2s ease-in-out;
+      -ms-transition: border-color .2s ease-in-out;
+          transition: border-color .2s ease-in-out;
+}
+
+/* Define how SqPaymentForm iframes should look when they have focus */
+.sq-input--focus {
+  border: 1px solid #4A90E2;
+}
+
+/* Define how SqPaymentForm iframes should look when they contain invalid values */
+.sq-input--error {
+  border: 1px solid #E02F2F;
+}
+
+#sq-card-number {
+  margin-bottom: 8px;
+}
+
+/* Customize the "Pay with Credit Card" button */
+.button-credit-card {
+  width: 100%;
+  height: 56px;
+  margin-top: 10px;
+  background: #4A90E2;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: center;
+  -webkit-transition: background .2s ease-in-out;
+     -moz-transition: background .2s ease-in-out;
+      -ms-transition: background .2s ease-in-out;
+          transition: background .2s ease-in-out;
+}
+
+.button-credit-card:hover {
+  background-color: #4281CB;
+}
+
+.payment-requests-search {
+    width: calc(100% - 60px);
+    display: inline-block;
+}
+
+.expired-payment-request {
+    background-color: #ff00002b;
+}

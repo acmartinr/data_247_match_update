@@ -1,0 +1,963 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+footer {
+    text-align: center;
+}
+
+.right {
+    float: right !important;
+}
+
+.top-0 {
+    top: 0px !important;
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}
+
+.checkbox-label {
+    width: calc(100% - 40px);
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.input-marketing-code {
+    width: calc(100% - 200px);
+    display: inline-block;
+    position: relative;
+    top: 1px;
+}
+
+.input-search-field {
+    width: 70%;
+    display: inline-block;
+}
+
+.sic-range-container {
+    margin-top: 10px;
+}
+
+.sic-range-container label {
+    margin-right: 10px;
+}
+
+.sic-range-container input {
+    display: inline-block;
+    width: 100px;
+    margin-right: 5px;
+}
+
+.sic-range-container button {
+    position: relative;
+    top: -2px;
+}
+
+.unique-phone-wrapper {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.unique-phone-wrapper label {
+    font-size: 14px !important;
+    margin-right: 5px !important;
+}
+
+.video-item {
+    display: block;
+    margin-bottom: 5px;
+    color: black !important;
+    cursor: pointer;
+}
+
+.video-item span {
+    margin-right: 10px;
+    font-size: 10px;
+    top: -1px;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.price-input {
+    width: 100px !important;
+}
+
+.push, .footer {
+    height: 50px;
+}
+
+.footer {
+    background-color: #f5f5f5;
+    padding: 15px;
+    text-align: center;
+}
+
+.login {
+    max-width: 550px;
+    margin: 10px auto;
+}
+
+.left {
+    float: left !important;
+}
+
+.list-type-label {
+    width: 110px !important;
+    position: relative;
+    top: 6px;
+}
+
+.list-keyword-label {
+    position: relative;
+    top: 6px;
+}
+
+.list-criteria-label {
+    width: 115px !important;
+    position: relative;
+    top: 6px;
+}
+
+.list-type-select {
+    width: 140px !important;
+}
+
+.list-search-select {
+    width: 180px !important;
+}
+
+.list-type-container {
+    margin-bottom: 10px !important;
+    height: 35px !important;
+}
+
+.login button {
+    margin: 0px 10px 10px 10px;
+    width: 100px;
+}
+
+.padding-left-40 {
+    padding-left: 40px !important;
+}
+
+.recovery-link {
+    text-decoration: none !important;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.center {
+    text-align: center;
+}
+
+.margin-top {
+    margin-top: 10px !important;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.no-padding-left {
+    padding-left: 0px !important;
+}
+
+.active-tiny-link {
+    color: black !important;
+}
+
+.margin-top-30 {
+    margin-top: 30px !important;
+}
+
+.registration {
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.font-16pt {
+    font-size: 16pt !important;
+}
+
+.regular-text {
+    padding-bottom: 20px !important;
+}
+
+.regular-text.title {
+    width: 700px;
+    margin: 0px auto;
+}
+
+.regular-text.desc {
+    width: 730px;
+    margin: 0px auto;
+    text-align: left !important;
+    padding: 10px 0px !important;
+}
+
+.regular-text.desc span {
+    padding-right: 20px;
+}
+
+.padding-bottom-40 {
+    padding-bottom: 40px;
+}
+
+.tabset-container {
+    width: calc(100% - 400px);
+    float: left;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0px !important;
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+
+.state-column {
+    width: 50px;
+}
+
+.state-column-value {
+    width: 50px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.optional-field-wrapper div, optional-fields-wrapper div {
+    display: inline-block;
+}
+
+.optional-field-wrapper {
+    margin: 10px 0px 20px 0px;
+}
+
+.optional-fields-wrapper {
+    margin: 10px 0px 10px 0px;
+}
+
+.select-month-input {
+    width: 160px !important;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.select-age-input {
+    width: 60px !important;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.select-mortgage-input {
+    width: 70px !important;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.dropdown-menu > .active > a {
+    cursor: pointer;
+}
+
+.main-container .dropdown-menu {
+    padding: 0px !important;
+}
+
+.main-container .dropdown-menu table {
+    outline: none !important;
+}
+
+.panel-body .dropdown-menu table {
+    outline: none !important;
+}
+
+.main-container .dropdown-menu .btn {
+    width: 100% !important;
+}
+
+.margin-right-20 {
+    margin-right: 20px !important;
+}
+
+.margin-right-30 {
+    margin-right: 30px !important;
+}
+
+.relative-upper-2 {
+    position: relative;
+    top: -2px;
+}
+
+.margin-top-20 {
+    margin-top: 20px !important;
+}
+
+.margin-top-5 {
+    margin-top: 5px;
+}
+
+.margin-left-7 {
+    margin-left: 7px !important;
+}
+
+.no-padding-right {
+    padding-right: 0px !important;
+}
+
+.raw-zip-codes {
+    width: calc( 100% - 60px );
+    display: inline-block;
+}
+
+.raw-zip-codes-button {
+    width: 55px;
+    float: right;
+}
+
+.load-more {
+    width: 100%;
+    float: left;
+    padding-top: 10px;
+}
+
+.dropdown li a,
+th span,
+.capitalize,
+.btn {
+    text-transform: capitalize;
+}
+
+label {
+    text-transform: capitalize;
+}
+
+.actions-column-2 {
+    width: 110px;
+    min-width: 110px;
+}
+
+.actions-column-3 {
+    width: 165px;
+    min-width: 165px;
+}
+
+.actions-column-4 {
+    width: 190px;
+    min-width: 190px;
+}
+
+.actions-column-5 {
+    width: 235px;
+    min-width: 235px;
+}
+
+.no-margin {
+    margin: 0px !important;
+}
+
+.lender-name {
+    width: calc(100% - 60px) !important;
+    display: inline;
+}
+
+.forgot {
+    cursor: pointer;
+}
+
+.forgot:hover {
+    font-weight: bolder;
+}
+
+.bold {
+    font-weight: bolder !important;
+}
+
+.optional-field-checkbox {
+    vertical-align: top;
+    margin-right: 5px !important;
+    position: relative;
+    top: 1px;
+}
+
+.no-results-label {
+    display: block;
+    margin: 0px auto;
+    padding-top: 8px;
+    padding-bottom: 5px;
+}
+
+.lowercased {
+    text-transform: lowercase !important;
+}
+
+.get-count-dropdown {
+    min-width: 116px !important;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.money-sign {
+    float: left !important;
+    padding: 6px 4px 0px 0px;
+}
+
+.site-label {
+    text-transform: none !important;
+}
+
+.list_size_error {
+    width: 100%;
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    color: red;
+}
+
+.actions-column-small {
+    width: 60px;
+    min-width: 60px;
+}
+
+.actions-column-expanded {
+    width: 200px;
+    min-width: 200px;
+}
+
+.actions-column-large-expanded {
+    width: 240px;
+    min-width: 240px;
+}
+
+.input-as-span {
+    border: none !important;
+    background: white !important;
+    width: 150px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.loading-gif-margin {
+    margin: 0px 5px;
+}
+
+.loading-wrapper {
+    float: left;
+    padding-top: 40px;
+    width: 100%;
+}
+
+.local-path-field {
+    width: calc( 100% - 120px );
+}
+
+.local-path-button {
+    width: 115px;
+}
+
+.confirm {
+    text-align: center;
+}
+
+.registration-modal .modal-dialog {
+    width: 480px;
+}
+
+th span.glyphicon {
+    top: 3px !important;
+}
+
+.padding-bottom-50 {
+    padding-bottom: 50px !important;
+}
+
+.small-payment-input {
+    width: 50px;
+    display: inline-block
+}
+
+.middle-payment-input {
+    width: 60px;
+    display: inline-block
+}
+
+.profile-phone-field {
+    width: calc(100% - 130px);
+    display: inline-block;
+}
+
+.profile-balance-field {
+    width: calc(100% - 105px);
+    display: inline-block;
+}
+
+.profile-verify-phone {
+    width: 125px;
+    display: inline-block;
+}
+
+.profile-balance-payment {
+    width: 100px;
+    display: inline-block;
+}
+
+.profile-balance-payment button {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.info-container {
+    padding: 0px 10px 10px 10px;
+    width: 400px;
+    float: right;
+    position: relative;
+}
+
+.main-container {
+    padding: 0px 20px;
+}
+
+.matching-choose-file {
+    width: 360px;
+    margin-left: 10px;
+}
+
+.matching-choose-fields {
+    width: 318px;
+    margin-left: 10px;
+}
+
+.matching-choose-save-fields {
+    width: 341px;
+    margin-left: 10px;
+}
+
+.hint {
+    display: block;
+    margin-top: 20px;
+    font-size: 12px;
+    margin-left: -15px;
+}
+
+.matching-choose-file-label {
+    position: relative;
+    top: 6px;
+}
+
+.estate-date-span {
+    width: 85px;
+    display: inline-block;
+}
+
+.year-date-span {
+    width: 55px;
+    display: inline-block;
+}
+
+.estate-date-checkbox {
+    margin-left: 15px !important;
+    margin-right: 7px !important;
+    position: relative;
+    top: -1px;
+}
+
+.estate-date-span {
+    font-weight: normal !important;
+    cursor: pointer;
+}
+
+.matching-container {
+    padding: 0px 35px;
+}
+
+.padding-top {
+    padding-top: 10px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.tiny-label {
+    font-weight: normal !important;
+    margin-left: 10px;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
+.tiny-link {
+    text-decoration: none !important;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.info-container-header {
+    height: 40px;
+}
+
+.info-container-header .labels {
+    float: left;
+    padding-top: 10px !important;
+}
+
+.info-container-header .matching-labels {
+    float: left;
+    padding-top: 6px !important;
+}
+
+.info-container-header img {
+    position: relative;
+    top: 3px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-checkbox {
+    position: relative;
+    top: 2px;
+    left: -5px;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.padding-right-20 {
+    padding-right: 20px;
+}
+
+.padding-right-10 {
+    padding-right: 10px;
+}
+
+.inline-form-group-50 {
+    width: 50%;
+    float: left;
+}
+
+.inline-form-group-50-mock {
+    width: 50%;
+    float: left;
+    height: 27px;
+}
+
+.bubble, .bubble-column {
+    margin: 2px;
+    padding: 0 5px;
+    display: inline-block;
+    float: left;
+    height: 26px;
+    line-height: 25px;
+    border: 1px solid #acacac;
+    border-radius: 3px;
+}
+
+.bubble-column {
+    float: none !important;
+}
+
+.bubble span, .bubble-column span {
+   max-width: 265px;
+   display: inline-block;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.bubble a, .bubble-column a {
+    float: right;
+    margin-left: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.visible {
+    display: block !important;
+}
+
+.block {
+    display: block !important;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+.margin-left-important {
+    margin-left: 10px !important;
+}
+
+.margin-left-20 {
+    margin-left: 20px !important;
+}
+
+.nav > li.disabled > a {
+    cursor: pointer !important;
+}
+
+.nav > li > a {
+    cursor: pointer !important;
+}
+
+.all-span {
+    padding-left: 5px;
+}
+
+.padding-link {
+    padding: 5px;
+}
+
+.content-with-max-width {
+    max-width: 800px;
+    margin: 10px auto;
+}
+
+.small-content-with-max-width {
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.big-content-with-max-width {
+    max-width: 1200px;
+    margin: 10px auto;
+}
+
+.huge-content-with-max-width {
+    max-width: 1400px;
+    margin: 10px auto;
+}
+
+.reseller-area {
+    width: 100px;
+    display: inline-block;
+    float: right;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+
+.users-search {
+    width: calc(100% - 74px);
+}
+
+.users-search-small {
+    width: calc(100% - 144px);
+}
+
+.margin-left-5 {
+    margin-left: 5px;
+}
+
+.margin-right-5 {
+    margin-right: 5px;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.add-dob-button {
+    display: inline;
+    margin-right: 5px;
+    width: 125px !important;
+}
+
+.lists-upload {
+    width: calc( 100% - 84px );
+}
+
+.users-search-btn {
+    float: right;
+}
+
+.margin-bottom-3 {
+    margin-bottom: 3px;
+}
+
+.lists-actions-column {
+    width: 110px;
+}
+
+.payments-search {
+    width: calc( 100% - 120px );
+}
+
+.payments-search-btn {
+    float: right;
+}
+
+.keyword-input {
+    width: 165px !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block !important;
+}
+
+.relative-top-minus-1 {
+    position: relative;
+    top: -1px;
+}
+
+.relative-top-minus-2 {
+    position: relative;
+    top: -2px;
+}
+
+.records-count-wrapper {
+    position: relative;
+    top: -5px;
+    padding-right: 0px !important;
+}
+
+.payment-input {
+    width: 70px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.margin-bottom-7 {
+    margin-bottom: 7px !important;
+}
+
+.amount-form-group {
+    padding-left: 135px;
+}
+
+.amount-form-group span {
+    color: red;
+    font-size: 12px;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px !important;
+}
+
+.forgot-password {
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.popup-title {
+    width: 350px !important;
+}
+
+.name-field {
+    width: 250px;
+    margin-right: 10px;
+}
+
+.path-field {
+    width: calc( 100% - 265px );
+}
+
+.import-message {
+    color: green;
+    display: block;
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.business-table-name-select,
+.table-name-select {
+    width: calc( 100% - 350px );
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.business-table-name-select {
+    width: calc( 100% - 330px ) !important;
+}
+
+.load-file-wrapper {
+    margin-bottom: 10px;
+}
+
+.load-file-wrapper input {
+    width: calc(100% - 123px);
+}
+
+.table-name-span {
+    position: relative;
+    top: 4px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-right-15 {
+    margin-right: 15px !important;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.interests-label {
+    width: calc(100% - 30px);
+    display: inline-block;
+}
+
+.bigger {
+    font-size: 30px;
+}
+
+.ivo-container .ivo-hide {
+    display: none !important;
+}
+
+.ivo-container .ivo-bold {
+    font-weight: bold;
+    background: none !important;
+    padding-right: 0px !important;
+}
+
+.ivo-container .ivo-show {
+    display: block !important;
+}
+
+.ivo-show {
+    display: none !important;
+}
+
+.phones-only-wrapper {
+    width: 300px;
+    float: left;
+    text-align: left;
+    padding-top: 5px;
+}
+
+.header-line {
+    text-align: right;
+}

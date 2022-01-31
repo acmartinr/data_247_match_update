@@ -1,0 +1,417 @@
+<div class='panel panel-default no-margin-bottom'>
+    <div class='panel-body'>
+        <tabset class='tabset'>
+            <tab heading='Common'>
+                <form username='profileForm' autocomplete='off'>
+                    <div ng-if='isAdmin()' class='form-group'>
+                        <label>Role</label>
+                        <select class='form-control' ng-model='profile.role'>
+                            <option ng-selected='profile.role == 0' value='0'>user</option>
+                            <option ng-selected='profile.role == 1' value='1'>reseller</option>
+                            <option ng-selected='profile.role == 2' value='2'>manager</option>
+                            <option ng-selected='profile.role == 3' value='3'>administrator</option>
+                        </select>
+                    </div>
+
+                    <div ng-if='isAdmin() && profile.role == 0' class='form-group'>
+                        <label>Reseller</label>
+                        <select class='form-control'
+                                ng-model='profile.resellerId'>
+                            <option ng-selected='profile.resellerId == 0' value='0'>none</option>
+
+                            <option ng-repeat='reseller in resellers'
+                                    ng-selected='profile.resellerId == reseller.id'
+                                    value='{{reseller.id}}'>{{reseller.username}}</option>
+                        </select>
+                    </div>
+
+                    <div ng-if='profile.role == 1' class='form-group'>
+                        <label for='domains' localized>Reseller domains</label>
+                        <input type='text' class='form-control' id='domains'
+                               ng-model='profile.domains' localized-placeholder='Enter domain names separated with comma: domain.com, domain2.com'/>
+                    </div>
+
+                    <div ng-if='profile.role == 1' class='form-group inline-form-group-50 padding-right-10'>
+                        <label for='supportPhone' localized>Reseller support phone number</label>
+                        <input type='text' class='form-control' id='supportPhone'
+                               ng-model='profile.supportPhone' localized-placeholder='Enter support phone number'/>
+                    </div>
+
+                    <!--<div ng-if='profile.role == 1' class='form-group inline-form-group-50 padding-right-10'>
+                        <label for='invitationLinkDomain' localized>Reseller invitation link domain</label>
+                        <select class='form-control' id='invitationLinkDomain'
+                                ng-model='profile.invitationDomain'>
+                            <option value="-1" ng-selected="profile.invitationDomain == -1">none</option>
+                            <option value="0" ng-selected="profile.invitationDomain == 0">makethedata.com</option>
+                            <option value="1" ng-selected="profile.invitationDomain == 1">makemydata.com</option>
+                            <option value="2" ng-selected="profile.invitationDomain == 2">makedatalist.com</option>
+                        </select>
+                    </div>-->
+
+                    <div ng-if='profile.role == 1' class='form-group inline-form-group-50'>
+                        <label for='notificationEmail' localized>Reseller notification email</label>
+                        <input type='text' class='form-control' id='notificationEmail'
+                               ng-model='profile.notificationEmail' localized-placeholder='Enter email for notifications'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='profile.role == 1'>
+                        <label class='pointer' for='allowManageMoney'>Allow manage money</label>
+                        <input type='checkbox' class='restricted' id='allowManageMoney'
+                               ng-model='profile.allowManageMoney'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='profile.role == 1'>
+                        <label class='pointer' for='allowDataSourceItemsPrices'>Allow set data source item price</label>
+                        <input type='checkbox' class='restricted' id='allowDataSourceItemsPrices'
+                               ng-model='profile.allowDataSourceItemsPrices'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='profile.role == 1'>
+                        <label class='pointer' for='validateRegistrationRequests'>Allow validate registration requests</label>
+                        <input type='checkbox' class='restricted' id='validateRegistrationRequests'
+                               ng-disabled='isReseller()'
+                               ng-model='profile.validateRegistrationRequests'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50-mock' ng-if='profile.role == 1'></div>
+
+                    <div class='form-group inline-form-group-50 padding-right-10'>
+                        <label for='username' localized>profile.username</label>
+                        <input type='text' class='form-control' id='username'
+                               autocomplete='off'
+                               ng-disabled='isReseller()'
+                               ng-model='profile.username' localized-placeholder='profile.username.placeholder'
+                               required/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'>
+                        <label for='networkAddress'>IP address</label>
+                        <input type='text' class='form-control' id='networkAddress'
+                               ng-disabled='isReseller()'
+                               ng-model='profile.ip'/>
+                    </div>
+
+                    <div ng-if='isAdmin()' class='form-group'>
+                        <label for='email' localized>New password</label>
+                        <input type='password' class='form-control' id='password'
+                               autocomplete='off'
+                               ng-model='profile.password' localized-placeholder='Enter new password'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50 padding-right-10'>
+                        <label for='email' localized>profile.email</label>
+                        <input type='text' class='form-control' id='email'
+                               ng-disabled='isReseller()'
+                               ng-model='profile.email' localized-placeholder='profile.email.placeholder'
+                               required/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='profile.verified'>
+                        <label for='phoneVerified' localized>profile.phone</label>
+                        <input type='text'
+                               class='form-control'
+                               id='phoneVerified'
+                               ng-model='profile.phone'
+                               ui-us-phone-number
+                               ng-disabled='isReseller()'
+                               localized-placeholder='profile.phone.placeholder'
+                               required/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='!profile.verified'>
+                        <label for='phone' localized>profile.phone</label>
+                        <input type='text'
+                               class='form-control'
+                               id='phone'
+                               ng-model='profile.phone'
+                               ui-us-phone-number
+                               ng-disabled='isReseller()'
+                               localized-placeholder='profile.phone.placeholder'
+                               required/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50 padding-right-10'>
+                        <label for='companyName' localized>profile.company.name</label>
+                        <input type='text' class='form-control' id='companyName'
+                               ng-model='profile.companyName'
+                               ng-disabled='isReseller()'
+                               localized-placeholder='profile.company.name.placeholder'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='isAddress()'>
+                        <label for='address' localized>profile.address</label>
+                        <textarea focus-on='isAddress()'
+                                  type='text' class='form-control' id='address'
+                                  ng-model='profile.address'
+                                  ng-disabled='isReseller()'
+                                  localized-placeholder='profile.address.placeholder'></textarea>
+                    </div>
+
+                    <div class='form-group inline-form-group-50' ng-if='!isAddress()'>
+                        <label for='address' localized>State</label>
+                        <input focus-on='!isAddress()'
+                               type='text' class='form-control' id='state'
+                               ng-model='profile.address'
+                               ng-disabled='isReseller()'
+                               placeholder='Enter your state'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50 padding-right-10'
+                         ng-if='!isReseller() || resellerHasAccess("restriction")'>
+                        <label class='pointer' for='restriction'>Query restricted</label>
+                        <input type='checkbox' class='restricted' id='restriction'
+                               ng-model='profile.restriction'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'>
+                        <label class='pointer' for='filterDNC'>Enable filter DNC</label>
+                        <input type='checkbox' class='restricted' id='filterDNC'
+                               ng-model='profile.filterDNC'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50 padding-right-10'
+                         ng-if='!isReseller() || resellerHasAccess("filterEmptyPhone")'>
+                        <label class='pointer' for='filterEmptyPhone'>Enable filter empty phones</label>
+                        <input type='checkbox' class='restricted' id='filterEmptyPhone'
+                               ng-model='profile.filterEmptyPhone'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='isEnableFilterEmail() || resellerHasAccess("filterEmail")'>
+                        <label class='pointer' for='filterEmail'>Enable customer records with email</label>
+                        <input type='checkbox' class='restricted' id='filterEmail'
+                               ng-model='profile.filterEmail'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("multipleGeographicParametersDisabled")'>
+                        <label class='pointer' for='multipleGeographicParametersEnabled'>Geographic restricted</label>
+                        <input type='checkbox' class='restricted' id='multipleGeographicParametersEnabled'
+                               ng-model='profile.multipleGeographicParametersDisabled'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowCustomersKeyword")'>
+                        <label class='pointer' for='allowCustomersKeyword'>Enable customers keywords</label>
+                        <input type='checkbox' class='restricted' id='allowCustomersKeyword'
+                               ng-model='profile.allowCustomersKeyword'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowBusinessKeyword")'>
+                        <label class='pointer' for='allowBusinessKeyword'>Enable business keywords</label>
+                        <input type='checkbox' class='restricted' id='allowBusinessKeyword'
+                               ng-model='profile.allowBusinessKeyword'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowCarriersSearch")'>
+                        <label class='pointer' for='allowCarriersSearch'>Enable carriers search</label>
+                        <input type='checkbox' class='restricted' id='allowCarriersSearch'
+                               ng-model='profile.allowCarriersSearch'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchResponder")'>
+                        <label class='pointer' for='allowMatchResponder'>Enable match responder</label>
+                        <input type='checkbox' class='restricted' id='allowMatchResponder'
+                               ng-model='profile.allowMatchResponder'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchCraigslist")'>
+                        <label class='pointer' for='allowMatchCraigslist'>Enable match craiglist</label>
+                        <input type='checkbox' class='restricted' id='allowMatchCraigslist'
+                               ng-model='profile.allowMatchCraigslist'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchHealthInsurance")'>
+                        <label class='pointer' for='matchHealthInsurance'>Enable match Health Insurance Leads</label>
+                        <input type='checkbox' class='restricted' id='matchHealthInsurance'
+                               ng-model='matches.matchHealthinsuranceleadsEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchBussiness")'>
+                        <label class='pointer' for='matchBussiness'>Enable Match Bussiness</label>
+                        <input type='checkbox' class='restricted' id='matchBussiness'
+                               ng-model='matches.matchBussinessEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchBussiness2")'>
+                        <label class='pointer' for='matchBussiness2'>Enable Match Bussiness2</label>
+                        <input type='checkbox' class='restricted' id='matchBussiness2'
+                               ng-model='matches.matchBussiness2Enabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchWhois")'>
+                        <label class='pointer' for='matchWhois'>Enable Match Whois</label>
+                        <input type='checkbox' class='restricted' id='matchWhois'
+                               ng-model='matches.matchWhoisEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchHealthbuyers")'>
+                        <label class='pointer' for='matchHealthbuyers'>Enable Match Healthbuyers</label>
+                        <input type='checkbox' class='restricted' id='matchHealthbuyers'
+                               ng-model='matches.matchHealthbuyersEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchInstagram")'>
+                        <label class='pointer' for='matchInstagram'>Enable Match Instagram</label>
+                        <input type='checkbox' class='restricted' id='matchInstagram'
+                               ng-model='matches.matchInstagramEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchFacebook")'>
+                        <label class='pointer' for='matchFacebook'>Enable Match Facebook</label>
+                        <input type='checkbox' class='restricted' id='matchFacebook'
+                               ng-model='matches.matchFacebookEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("matchEverydata")'>
+                        <label class='pointer' for='matchEverydata'>Enable Match Everydata</label>
+                        <input type='checkbox' class='restricted' id='matchEverydata'
+                               ng-model='matches.matchEverydataEnabled'/>
+                    </div>
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowBusinessEmailFilter")'>
+                        <label class='pointer' for='allowBusinessEmailFilter'>Enable business records with email</label>
+                        <input type='checkbox' class='restricted' id='allowBusinessEmailFilter'
+                               ng-model='profile.allowBusinessEmailFilter'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchConsumers")'>
+                        <label class='pointer' for='allowMatchConsumers'>Enable match consumers</label>
+                        <input type='checkbox' class='restricted' id='allowMatchConsumers'
+                               ng-model='profile.allowMatchConsumers'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchOptIn")'>
+                        <label class='pointer' for='allowMatchOptIn'>Enable match optin</label>
+                        <input type='checkbox' class='restricted' id='allowMatchOptIn'
+                               ng-model='profile.allowMatchOptIn'/>
+                    </div>
+
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchDirectory")'>
+                        <label class='pointer' for='allowMatchDirectory'>Enable match directory</label>
+                        <input type='checkbox' class='restricted' id='allowMatchDirectory'
+                               ng-model='profile.allowMatchDirectory'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchBusinessDetailed")'>
+                        <label class='pointer' for='allowMatchBusinessDetailed'>Enable match detailed business</label>
+                        <input type='checkbox' class='restricted' id='allowMatchBusinessDetailed'
+                               ng-model='profile.allowMatchBusinessDetailed'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowMatchingLists")'>
+                        <label class='pointer' for='allowMatchingLists'>Enable matching lists</label>
+                        <input type='checkbox' class='restricted' id='allowMatchingLists'
+                               ng-model='profile.allowMatchingLists'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowDetailedBusinessKeywords")'>
+                        <label class='pointer' for='allowDetailedBusinessKeywords'>Enable detailed business keywords</label>
+                        <input type='checkbox' class='restricted' id='allowDetailedBusinessKeywords'
+                               ng-model='profile.allowDetailedBusinessKeywords'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || allowManageMoney()'>
+                        <label class='pointer' for='allowPayments'>Allow payments</label>
+                        <input type='checkbox' class='restricted' id='allowPayments'
+                               ng-model='profile.allowPayments'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("allowTransferToSuppression")'>
+                        <label class='pointer' for='allowTransferToSuppression'>Enable transfer to suppression</label>
+                        <input type='checkbox' class='restricted' id='allowTransferToSuppression'
+                               ng-model='profile.allowTransferToSuppression'/>
+                    </div>
+
+                    <div class='form-group inline-form-group-50'
+                         ng-if='!isReseller() || resellerHasAccess("listAdditionalCodeEnabled")'>
+                        <label class='pointer' for='listAdditionalCodeEnabled'>Enable lists additional code</label>
+                        <input type='checkbox' class='restricted' id='listAdditionalCodeEnabled'
+                               ng-model='profile.listAdditionalCodeEnabled'/>
+                    </div>
+
+                    <div class='right-align'>
+                        <button class='btn btn-default'
+                                ng-click='close()'
+                                ng-disabled='loading'
+                                localized>lists.modal.cancel</button>
+
+                        <button ng-click='unblock()'
+                                ng-if='profile.status === "BLOCKED"'
+                                class='btn btn-default'
+                                ng-disabled='loading'
+                                localized>Unblock</button>
+
+                        <button ng-click='block()'
+                                ng-if='profile.status != "BLOCKED"'
+                                class='btn btn-default'
+                                ng-disabled='loading'
+                                localized>Block</button>
+
+                        <button ng-click='save()'
+                                class='btn btn-default'
+                                ng-disabled='loading'
+                                localized>Save</button>
+                    </div>
+                </form>
+            </tab>
+            <tab ng-if='isDataSourceItemPriceAllowed()' heading='Data Source Item Price'>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class='small-content-with-max-width'>
+                                <label class='left margin-left-7 list-type-label' localized>dashboard.data.source</label>
+                                <select class='form-control left list-type-select margin-right-20'
+                                        ng-model='config.dataType' ng-change='onDataTypeChanged()'>
+                                    <option ng-repeat='dataSource in dataSources'
+                                            value="{{dataSource.id - 1}}">{{dataSource.title}}</option>
+                                </select>
+
+                                <table class='table'>
+                                    <thead>
+                                    <tr>
+                                        <th class='nowrap'>Source</th>
+                                        <th class='nowrap'>Price</th>
+                                        <th localized class='actions-column-small'>lists.actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat='price in filteredPrices'>
+                                        <td>{{getLocalizedPrice(price)}}</td>
+                                        <td>
+                                            <span class='money-sign'>$</span>
+                                            <input type='text'
+                                                   class='form-control price-input'
+                                                   ng-model='price.price'/>
+                                        </td>
+                                        <td>
+                                            <button type='button' class='btn btn-default' ng-click='savePrice( price )'>
+                                                <span class='glyphicon glyphicon-floppy-disk'></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>
+

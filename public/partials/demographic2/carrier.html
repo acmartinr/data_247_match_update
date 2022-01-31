@@ -1,0 +1,27 @@
+<div ng-if='loading' class='center'>
+    <img src='/assets/images/loading.gif'>
+</div>
+
+<br>
+<label>Search carrier: </label>
+<input type="text"
+       class="form-control select-value-input padding-top"
+       placeholder="carrier name"
+       ng-model='searchConsumerCarrierName["carrierValue"]'
+       ng-change="updateCarrierSources()"
+/>
+<br>
+<div class='col-sm-6'
+     ng-repeat='carrier in c2carriers | limitTo: selectedCarriersLimit.limit'>
+    <!--            <div class="row">-->
+    <!--                <div class="col-sm-6" ng-if='searchConfig.option === "carrier"'>-->
+    <!--                    <label>Select carriers: </label>-->
+    <!--                </div>-->
+    <input id='omitted_{{c2carriers}}' ng-model='selectedConsumerCarrierName[ carrier ]' type='checkbox'/>
+    <label class='pointer tiny-label' for='omitted_{{c2carriers}}'>{{carrier}}</label>
+</div>
+<div class='center margin-bottom load-more' ng-if='selectedCarriersLimit.limit < c2carriers.length'>
+    <a class='pointer tiny-link'
+       ng-click='loadMoreCarriers()'
+       localized>load.more</a>
+</div>

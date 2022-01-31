@@ -1,0 +1,25 @@
+<div class='panel panel-default phone-verification no-margin-bottom'
+     ng-class='{"panel-danger": errorMessage}'>
+    <div class='panel-heading' ng-if='errorMessage'>{{errorMessage}}</div>
+    <div class='panel-body'>
+        <form username='verificationForm' ng-submit='checkCode()'>
+            <div class='form-group'>
+                <div class='margin-bottom' localized>phone.verification.code</div>
+                <input type='text' class='form-control' id='code'
+                       ng-model='code' localized-placeholder='phone.verification.code.placeholder'
+                       required/>
+            </div>
+
+            <div class='right-align'>
+                <button class='btn btn-default'
+                        ng-click="close()"
+                        localized>phone.verification.cancel</button>
+
+                <button type='submit' class='btn btn-default'
+                        ng-disabled='!code'
+                        localized>phone.verification.verify</button>
+            </div>
+        </form>
+    </div>
+</div>
+

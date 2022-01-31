@@ -1,0 +1,314 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <!--<div ng-if='searchConfig.option === "homePurchasePrice"'>
+            <div class='col-sm-12' ng-repeat='item in homePurchasedPrices'>
+                <input id='estate_{{item.value}}' ng-model='selectedHomePurchasePrices[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>-->
+
+        <div ng-if='searchConfig.option === "homeYearBuilt"'>
+            <div class='col-sm-12'>
+                <span class='estate-date-span'>Start Date:</span>
+                <input type="text"
+                       class="form-control select-month-input no-margin"
+                       placeholder="Choose date"
+                       id="startDate"
+                       datepicker-options="{minMode: 'year'}"
+                       datepicker-mode="'year'"
+                       datepicker-popup="yyyy"
+                       show-button-bar="false"
+                       ng-model="values.startDate"
+                       ng-change="onStartDateChanged()"
+                       is-open="startDateOpened"
+                       ng-click='startDateOpened = !startDateOpened'/>
+
+                <input type='checkbox'
+                       ng-model='values.before'
+                       id="before"
+                       ng-disabled="!values.startDate"
+                       ng-change="onStartDateIntervalParamChanged()"
+                       class='estate-date-checkbox'/>
+                <label for='before' class="estate-date-span">Before</label>
+            </div>
+
+            <div class='col-sm-12 margin-top'>
+                <span class='estate-date-span'>End Date:</span>
+                <input type="text"
+                       class="form-control select-month-input no-margin"
+                       placeholder="Choose date"
+                       id="endDate"
+                       datepicker-options="{minMode: 'year'}"
+                       datepicker-mode="'year'"
+                       datepicker-popup="yyyy"
+                       show-button-bar="false"
+                       ng-model="values.endDate"
+                       ng-change="onEndDateChanged()"
+                       is-open="endDateOpened"
+                       ng-click='endDateOpened = !endDateOpened'/>
+
+                <input type='checkbox'
+                       ng-model='values.after'
+                       id="after"
+                       ng-disabled="!values.endDate"
+                       ng-change="onEndDateIntervalParamChanged()"
+                       class='estate-date-checkbox'/>
+                <label for='after' class="estate-date-span">After</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "homePurchasedDate" ||
+                    searchConfig.option === "purchaseMortgageDate" ||
+                    searchConfig.option === "deedDateOfRefinance"'>
+            <div class='col-sm-12'>
+                <span class='estate-date-span'>Start Date:</span>
+                <input type="text"
+                       class="form-control select-month-input no-margin"
+                       placeholder="Choose date"
+                       id="startDate"
+                       datepicker-options="{minMode: 'month'}"
+                       datepicker-mode="'month'"
+                       datepicker-popup="MM.yyyy"
+                       show-button-bar="false"
+                       ng-model="values.startDate"
+                       ng-change="onStartDateChanged()"
+                       is-open="startDateOpened"
+                       ng-click='startDateOpened = !startDateOpened'/>
+
+                <input type='checkbox'
+                       ng-model='values.before'
+                       ng-change="onStartDateIntervalParamChanged()"
+                       ng-disabled="!values.startDate"
+                       id="before"
+                       class='estate-date-checkbox'/>
+                <label for='before' class="estate-date-span">Before</label>
+            </div>
+
+            <div class='col-sm-12 margin-top'>
+                <span class='estate-date-span'>End Date:</span>
+                <input type="text"
+                       class="form-control select-month-input no-margin"
+                       placeholder="Choose date"
+                       id="endDate"
+                       datepicker-options="{minMode: 'month'}"
+                       datepicker-mode="'month'"
+                       datepicker-popup="MM.yyyy"
+                       show-button-bar="false"
+                       ng-model="values.endDate"
+                       ng-change="onEndDateChanged()"
+                       is-open="endDateOpened"
+                       ng-click='endDateOpened = !endDateOpened'/>
+
+                <input type='checkbox'
+                       ng-model='values.after'
+                       ng-change="onEndDateIntervalParamChanged()"
+                       ng-disabled="!values.endDate"
+                       id="after"
+                       class='estate-date-checkbox'/>
+                <label for='after' class="estate-date-span">After</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "estimatedCurrentHomeValueCode"'>
+            <div class='col-sm-12' ng-repeat='item in estimatedCurrentHomeValueCodes'>
+                <input id='estate_{{item.value}}' ng-model='selectedEstimatedCurrentHomeValueCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "mortgageAmountInThousands"'>
+            <div class='col-sm-12' ng-repeat='item in mortgageAmountInThousands'>
+                <input id='estate_{{item.value}}' ng-model='selectedMortgageAmountInThousands[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "mortgageLenderName"'>
+            <div class='row'>
+                <input class='form-control inline-block users-search margin-bottom'
+                       placeholder='Search lender'
+                       ng-model='searchConfig.filter'>
+                <button class='btn btn-default inline-block users-search-btn'
+                        ng-disabled='loading'
+                        ng-click='onSearchChanged()'>Search</button>
+            </div>
+
+            <div class='col-sm-12' ng-repeat='lender in lenders'>
+                <input id='{{lender.lender}}' ng-model='selectedMortgageLenderNames[lender.lender + "|" + lender.lender]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{lender.lender}}'>{{lender.lender}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='notFound'>
+                <span>Nothing was found</span>
+            </div>
+
+        </div>
+
+        <div ng-if='searchConfig.option === "purchaseLenderName"'>
+            <div class='row'>
+                <input class='form-control inline-block users-search margin-bottom'
+                       placeholder='Search lender'
+                       ng-model='searchConfig.filter'>
+                <button class='btn btn-default inline-block users-search-btn'
+                        ng-disabled='loading'
+                        ng-click='onSearchChanged()'>Search</button>
+            </div>
+
+            <div class='col-sm-12' ng-repeat='lender in lenders'>
+                <input id='{{lender.lender}}' ng-model='selectedPurchaseLenderNames[lender.lender + "|" + lender.lender]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{lender.lender}}'>{{lender.lender}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='notFound'>
+                <span>Nothing was found</span>
+            </div>
+
+        </div>
+
+        <div ng-if='searchConfig.option === "refinanceLeaderName"'>
+            <div class='row'>
+                <input class='form-control inline-block users-search margin-bottom'
+                       placeholder='Search lender'
+                       ng-model='searchConfig.filter'>
+                <button class='btn btn-default inline-block users-search-btn'
+                        ng-disabled='loading'
+                        ng-click='onSearchChanged()'>Search</button>
+            </div>
+
+            <div class='col-sm-12' ng-repeat='lender in lenders'>
+                <input id='{{lender.lender}}' ng-model='selectedRefinanceLeaderNames[lender.lender + "|" + lender.lender]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{lender.lender}}'>{{lender.lender}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='notFound'>
+                <span>Nothing was found</span>
+            </div>
+
+        </div>
+
+        <div ng-if='searchConfig.option === "mortgageRate"'>
+            <label>Selected range: </label>
+            <input type="text"
+                   class="form-control select-age-input"
+                   ng-model="values.mortgageRateFrom"
+                   ng-change="updateMortgageRateValue(true)"
+                   placeholder="from"/>
+
+            <input type="text"
+                   class="form-control select-age-input"
+                   ng-model="values.mortgageRateTo"
+                   ng-change="updateMortgageRateValue(false)"
+                   placeholder="to"/>
+
+            <span class='tip-span margin-bottom-5'>* interest rates are 3 digits e.g. 7% = 700, 5.25% = 525</span>
+        </div>
+
+        <div ng-if='searchConfig.option === "mostRecentMortgageInterestRate"'>
+            <label>Selected range: </label>
+            <input type="text"
+                   class="form-control select-age-input"
+                   ng-model="values.mostRecentMortgageInterestRateFrom"
+                   ng-change="updateMostRecentMortgageRateValue(true)"
+                   placeholder="from"/>
+
+            <input type="text"
+                   class="form-control select-age-input"
+                   ng-model="values.mostRecentMortgageInterestRateTo"
+                   ng-change="updateMostRecentMortgageRateValue(false)"
+                   placeholder="to"/>
+
+            <span class='tip-span margin-bottom-5'>* interest rates are 3 digits e.g. 7% = 700, 5.25% = 525</span>
+        </div>
+
+        <div ng-if='searchConfig.option === "censusMedianHomeValue" ||
+                    searchConfig.option === "mostRecentLenderCode" ||
+                    searchConfig.option === "censusMedianHouseHoldIncome"'>
+            <div class='col-sm-12'>
+                <textarea
+                       class="form-control lender-name no-margin"
+                       placeholder="Enter values separated with comma"
+                       ng-model='values.value'></textarea>
+                <button class='btn btn-default right'
+                        ng-click='addValue()'>Add</button>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "loanToValue"'>
+            <input type="text"
+                   class="form-control select-age-input no-margin"
+                   ng-model="values.loanFrom"
+                   ng-change="loanFromChanged()"
+                   placeholder="from"/>
+
+            <input type="text"
+                   class="form-control select-age-input no-margin"
+                   ng-model="values.loanTo"
+                   ng-change="loanToChanged()"
+                   placeholder="to"/>
+
+            <span class='tip-span margin-bottom-5'>* enter 2 or 3 digits e.g 70% = 70, 110% = 110</span>
+        </div>
+
+        <div ng-if='searchConfig.option === "mortgageRateType"'>
+            <div class='col-sm-12' ng-repeat='item in mortgageRateTypes'>
+                <input id='estate_{{item.value}}' ng-model='selectedMortgageRateTypes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "mortgageLoanType"'>
+            <div class='col-sm-12' ng-repeat='item in mortgageLoanTypes'>
+                <input id='estate_{{item.value}}' ng-model='selectedMortgageLoanTypes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "transactionType"'>
+            <div class='col-sm-12' ng-repeat='item in transactionTypes'>
+                <input id='estate_{{item.value}}' ng-model='selectedTransactionTypes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "refinanceAmountInThousands"'>
+            <div class='col-sm-12' ng-repeat='item in refinanceAmountInThousands'>
+                <input id='estate_{{item.value}}' ng-model='selectedRefinanceAmountInThousands[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "refinanceRateType"'>
+            <div class='col-sm-12' ng-repeat='item in mortgageRateTypes'>
+                <input id='estate_{{item.value}}' ng-model='selectedRefinanceRateTypes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "refinanceLoanType"'>
+            <div class='col-sm-12' ng-repeat='item in mortgageLoanTypes'>
+                <input id='estate_{{item.value}}' ng-model='selectedRefinanceLoanTypes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "craIncomeClassificationCode"'>
+            <div class='col-sm-12' ng-repeat='item in craIncomeClassificationCodes'>
+                <input id='estate_{{item.value}}' ng-model='selectedCraIncomeClassificationCodes[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='estate_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+    </div>
+</div>

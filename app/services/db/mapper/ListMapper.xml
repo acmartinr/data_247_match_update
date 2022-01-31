@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="services.db.mapper.ListMapper">
+
+    <insert id="saveList" parameterType="ListEntity" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO lists(userId, cnt, name, date, request, type, tableName, savedColumns)
+        VALUES(#{userId}, #{cnt}, #{name}, #{date}, #{request}, #{type}, #{tableName}, #{savedColumns})
+    </insert>
+
+    <insert id="savePurchaseList" parameterType="ListEntity" >
+        INSERT INTO purchase_tables(name, request, userid, date, cnt, type, tableName,savedcolumns)
+        VALUES( #{name}, #{request},#{userId}, #{date},#{cnt}, #{type}, #{tableName}, #{savedColumns})
+    </insert>
+
+    <insert id="saveSentEmailList" parameterType="ListEntity" >
+        INSERT INTO sent_email(date, name, useremail, sentemail)
+        VALUES( #{date}, #{name},#{emailout}, #{emailin})
+    </insert>
+
+    <insert id="insertBoughtListItems" parameterType="BuyListRequest">
+        INSERT INTO purchasedUserListsItems(id,listId,itemId,data,hash)
+        SELECT id, #{newListId}, itemId, data, hash FROM userListsItems t
+        WHERE t.listId = #{listId}
+        ORDER BY random() LIMIT #{total}
+    </insert>
+
+    <delete id="deleteBoughtListItems" parameterType="BuyListRequest">
+        DELETE FROM userListsItems WHERE id IN (
+            SELECT id FROM purchasedUserListsItems t WHERE t.listId = #{newListId} )
+    </delete>
+
+    <select id="findListsByUserIdAndState" resultType="ListEntity">
+        SELECT * FROM lists WHERE
+        userId = #{userId} AND ( state = 1 OR state = #{state} )
+        <if test="dataType != -1">
+            AND type=#{dataType}
+        </if>
+        ORDER BY date DESC
+    </select>
+
+    <select id="getPagedLists" resultType="ListEntity">
+        SELECT lists.id, u.username, u.email as userEmail, r.username as reseller, u.phone as userPhone, lists.userId,
+        lists.cnt, lists.pcnt, lists.date, lists.name, lists.request, lists.state, lists.type, lists.tableName,
+        lists.savedColumns, u.balance as userBalance
+        FROM lists
+        LEFT JOIN users u ON u.id = lists.userId
+        LEFT JOIN users r ON r.id = u.resellerId
+        WHERE ( state = 1 OR state = #{state} )
+        <if test="request.userId != -1">
+            AND userId = #{request.userId}
+        </if>
+        <if test="request.resellerId != 0">
+            AND (u.resellerId = #{request.resellerId} OR u.id = #{request.resellerId})
+        </if>
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} )
+        </if>
+        <if test="request.sortValue != null">
+            ORDER BY ${request.sortValue}
+            <if test="request.sortDesc == true">
+                DESC
+            </if>
+        </if>
+        <if test="request.limit != -1">
+            LIMIT #{request.limit} OFFSET #{request.offset}
+        </if>
+    </select>
+    <select id="getPagedPurchasedListsLogs" resultType="ListEntity">
+        SELECT name,request,userid,date,cnt,type,tablename,matched,savedcolumns
+        FROM purchase_tables
+        where 1 = 1
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} )
+        </if>
+        <if test="request.limit != -1">
+            LIMIT #{request.limit} OFFSET #{request.offset}
+        </if>
+    </select>
+
+    <select id="getPagedSentListsLogs" resultType="ListEntity">
+        SELECT name,date,userEmail,sentEmail
+        FROM sent_email
+        where 1 = 1
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} or useremail ILIKE #{request.searchValue} )
+        </if>
+        <if test="request.limit != -1">
+            LIMIT #{request.limit} OFFSET #{request.offset}
+        </if>
+    </select>
+
+    <select id="getPagedListsCount" resultType="Integer">
+        SELECT count(l.id) FROM lists l
+        LEFT JOIN users u ON u.id = l.userId
+        WHERE ( state = 1 OR state = #{state} )
+        <if test="request.userId != -1">
+            AND userId = #{request.userId}
+        </if>
+        <if test="request.resellerId != 0">
+            AND (u.resellerId = #{request.resellerId} OR u.id = #{request.resellerId})
+        </if>
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} )
+        </if>
+    </select>
+    <select id="getPagedPurchaseListsLogsCount" resultType="Integer">
+        SELECT count(id) FROM purchase_tables
+        where 1 = 1
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} )
+        </if>
+    </select>
+    <select id="getMatchTables" resultType="ListEntity">
+        SELECT name,type,cnt,date FROM matchfiles
+    </select>
+    <select id="getPagedSentListsCount" resultType="Integer">
+        SELECT count(id) FROM sent_email
+        where 1 = 1
+        <if test="request.searchValue != null">
+            AND ( name ILIKE #{request.searchValue} or useremail ILIKE #{request.searchValue} )
+        </if>
+    </select>
+
+    <update id="updateHashForConsumersListItems" parameterType="ListEntity">
+        UPDATE userListsItems SET hash = md5( phone )
+            FROM consumers
+        WHERE userListsItems.itemId = consumers.id AND
+            userListsItems.listId=#{id} AND
+            userListsItems.hash IS NULL;
+    </update>
+
+    <update id="updateHashForBusinessListItems" parameterType="ListEntity">
+        UPDATE userListsItems SET hash = md5( phone )
+            FROM business
+        WHERE userListsItems.itemId = business.id AND
+            userListsItems.listId=#{id} AND
+            userListsItems.hash IS NULL;
+    </update>
+
+    <update id="updateHashForPurchasedConsumersListItems" parameterType="ListEntity">
+        UPDATE purchasedUserListsItems SET hash = md5( phone )
+            FROM consumers
+        WHERE purchasedUserListsItems.itemId = consumers.id AND
+            purchasedUserListsItems.listId=#{id} AND
+            purchasedUserListsItems.hash IS NULL;
+    </update>
+
+    <update id="updateHashForPurchasedBusinessListItems" parameterType="ListEntity">
+        UPDATE purchasedUserListsItems SET hash = md5( phone )
+            FROM business
+        WHERE purchasedUserListsItems.itemId = business.id AND
+            purchasedUserListsItems.listId=#{id} AND
+            purchasedUserListsItems.hash IS NULL;
+    </update>
+
+    <select id="getAllUploadedLists" resultType="ListEntity">
+        SELECT uploadedLists.id, userId, username, name, cnt, uploadedLists.date FROM uploadedLists
+                                                                                          JOIN users ON uploadedLists.userId = users.id AND users.username != 'system_staff'
+    </select>
+
+    <select id="getUploadedListsByUserId" resultType="ListEntity">
+        SELECT uploadedLists.id, userId, username, name, cnt, uploadedLists.date FROM uploadedLists
+                                                                                          JOIN users ON uploadedLists.userId = users.id AND users.id = #{userId}
+    </select>
+
+    <insert id="insertUploadedList" parameterType="ListEntity" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO uploadedLists(userId, cnt, name, date )
+        VALUES(#{userId}, #{cnt}, #{name}, #{date} )
+    </insert>
+
+    <insert id="insertUploadedListItems">
+        INSERT INTO uploadedListsItems( listId, phone ) VALUES
+        <foreach item="item" index="index" collection="items"
+                 open="" separator="," close="">
+            (#{item.listId}, #{item.phone})
+        </foreach>
+    </insert>
+
+    <insert id="insertUploadedTmpFileItems">
+        INSERT INTO ${tableName} (
+        <foreach item="column" index="index" collection="columns"
+                 open="" separator="," close="">
+            "${column}"
+        </foreach>
+        )
+
+        VALUES
+        <foreach item="row" index="key" collection="rows"
+                 open="" separator="," close="">
+            (
+            <foreach item="element" collection="row"
+                     open="" separator="," close="">
+                #{element}
+            </foreach>
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertMatchFiles">
+            insert into matchfiles (name,cnt,type,userid,date) values('${tableName}',#{count},1,1,${date});
+    </insert>
+    <update id="createGenericTempTable">
+        CREATE TABLE ${tableName} (
+        id serial NOT NULL CONSTRAINT ${tableName}_pr_key PRIMARY KEY
+        <foreach item="column" index="index" collection="columns"
+                 open="" separator="" close="">
+            ,"${column}" varchar(200)
+        </foreach>
+        );
+
+        <foreach item="column" index="index" collection="columns"
+                 open="" separator=" " close="">
+            CREATE INDEX "${tableName}${column}_id_indx" ON ${tableName}("${column}", id);
+        </foreach>
+
+    </update>
+
+
+    <insert id="copyPhonesToUploadedList">
+        INSERT INTO uploadedListsItems( listId, phone )
+        SELECT #{uploadedListId}, phone FROM lists l
+                                                 JOIN userListsItems uli on l.id = uli.listId
+                                                 JOIN ${tableName} on uli.itemId = ${tableName}.id
+        WHERE l.id = #{listId}
+    </insert>
+
+</mapper>

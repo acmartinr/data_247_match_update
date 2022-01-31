@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="main-container">
+                <div class='margin-bottom'>
+					<button type='button left'
+							class='btn btn-default' ng-click='back()'>Back</button>
+
+					<input class='form-control lists-search'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           placeholder='Search list' >
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "name" )'>
+                            <span>Name</span>
+                            <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+						<th class='pointer nowrap'
+                            ng-click='sortByField( "pcnt" )'>
+                            <span>Count</span>
+                            <span ng-if='config.sortValue === "pcnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "pcnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th localized
+                            class='actions-column'>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='list in lists'>
+                        <td><span class='lists-name'>{{list.name}}<span></td>
+                        <td class='pointer nowrap'>{{list.pcnt}}</td>
+                        <td>
+                            <button ng-if='!downloadingInProgress || downloadListId != list.id'
+                                    ng-disabled='hideDownloadButton(list) || downloadingInProgress || isOriginallyReseller()'
+                                    type='button' class='btn btn-default' ng-click='downloadList( list )'>
+                                <span class='glyphicon glyphicon-envelope'></span>
+                            </button>
+                            <img class='loading-gif-margin margin-right-10'
+                                 ng-if='downloadingInProgress && downloadListId == list.id' src='/assets/images/loading.gif'>
+
+                            <button type='button'
+                                    class='btn btn-default' ng-click='removeList(list)'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='lists && lists.length === 0' class='center'>
+                    <span localized>No purchased lists were found</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id='hidden_frame' style='display:none'></div>
+</div>

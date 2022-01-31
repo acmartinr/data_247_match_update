@@ -1,0 +1,66 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": residenceType === "type"}'
+                   ng-click='residenceType = "type"' localized>residence.type</a>
+
+                <a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": residenceType === "ownership"}'
+                   ng-click='residenceType = "ownership"' localized>residence.ownership</a>
+
+                <!--<a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": residenceType === "length"}'
+                   ng-click='residenceType = "length"' localized>residence.length</a>-->
+
+                <!--<a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": residenceType === "marital"}'
+                   ng-click='residenceType = "marital"' localized>residence.marital</a>-->
+
+                <!--<a class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": residenceType === "children"}'
+                   ng-click='residenceType = "children"' localized>residence.number.of.children</a>-->
+
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='residenceType === "type"'>
+            <div class='col-sm-12' ng-repeat='item in types'>
+                <input id='{{item.value}}' ng-model='selectedResidenceType[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='residenceType === "ownership"'>
+            <div class='col-sm-12' ng-repeat='item in ownerships'>
+                <input id='{{item.value}}' ng-model='selectedResidenceOwnerShip[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='residenceType === "length"'>
+            <div class='col-sm-12' ng-repeat='item in lengths'>
+                <input id='{{item.value}}' ng-model='selectedResidenceLength[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='residenceType === "marital"'>
+            <div class='col-sm-12' ng-repeat='item in maritals'>
+                <input id='{{item.value}}' ng-model='selectedResidenceMarital[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+        <div ng-if='residenceType === "children"'>
+            <div class='col-sm-12' ng-repeat='item in children'>
+                <input id='{{item.value}}' ng-model='selectedResidenceChildren[ item.title ]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{getLocalized(item.value)}}</label>
+            </div>
+        </div>
+
+
+    </div>
+</div>

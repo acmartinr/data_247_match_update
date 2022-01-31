@@ -1,0 +1,10 @@
+<div class='padding-top'>
+    <div class='col-sm-12'>
+        <div>
+            <div class='col-sm-6' ng-repeat='item in contributors'>
+                <input id='{{item.value}}' ng-model='selectedProperties[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <div class='margin-bottom'>
+                    <input class='form-control inline-block users-search'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='Search prefix' >
+
+                    <button class='btn btn-default inline-block users-search-btn'
+                            ng-click='importPrefixes()'>Import</button>
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "prefix" )'>
+                            <span localized>Prefix</span>
+                            <span ng-if='config.sortValue === "prefix" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "prefix" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "type" )'>
+                            <span localized>Type</span>
+                            <span ng-if='config.sortValue === "type" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "type" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th localized class='actions-column'>lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='prefix in prefixes'>
+                        <td>{{prefix.prefix}}</td>
+                        <td>{{prefix.type == 0 ? 'Landline' : 'Mobile'}}</td>
+                        <td>
+                            <button type='button' class='btn btn-default' ng-click='editPrefix( prefix )'>
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </button>
+
+                            <button type='button' class='btn btn-default' ng-click='removePrefix( prefix )'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='prefixes && prefixes.length === 0' class='center'>
+                    <span localized>No phone prefixes found</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

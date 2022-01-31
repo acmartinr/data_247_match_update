@@ -1,0 +1,90 @@
+<div stripe></div>
+<div squareup></div>
+<div class='panel panel-default phone-verification no-margin-bottom'
+     ng-class='{"panel-danger": errorMessage}'>
+    <div class='panel-heading' ng-if='errorMessage'>{{errorMessage}}</div>
+    <div class='panel-body'>
+        <form id="paymentForm">
+            <input id="token" name="token" type="hidden" value="">
+
+            <div class='center'>
+                <label localized>payment.card.information</label>
+            </div>
+
+            <div class='form-group' ng-class='{"margin-bottom-5": payment.amount < 100}'>
+                <label class='payment-label-width' localized>payment.amount</label>
+
+                <input type="text"
+                        ng-model='payment.amount'
+                        ng-disabled='loading'
+                        ng-keypress='filterValue( $event )'
+                        class="form-control payment-input">
+
+                <div class="btn-group" role="group">
+                    <!--<button type="button"
+                            ng-click='setAmount(25)'
+                            ng-disabled='loading || payment.amount == 25'
+                            class="btn btn-default">$25</button>
+                    <button type="button"
+                            ng-click='setAmount(50)'
+                            ng-disabled='loading || payment.amount == 50'
+                            class="btn btn-default">$50</button>
+                    <button type="button"
+                            ng-click='setAmount(100)'
+                            ng-disabled='loading || payment.amount == 100'
+                            class="btn btn-default">$100</button>-->
+                    <button type="button"
+                            ng-click='setAmount(100)'
+                            ng-disabled='loading || payment.amount == 100'
+                            class="btn btn-default">$100</button>
+                    <button type="button"
+                            ng-click='setAmount(300)'
+                            ng-disabled='loading || payment.amount == 300'
+                            class="btn btn-default">$300</button>
+                    <button type="button"
+                            ng-click='setAmount(1000)'
+                            ng-disabled='loading || payment.amount == 1000'
+                            class="btn btn-default">$1000</button>
+                </div>
+            </div>
+
+            <div class='form-group amount-form-group margin-bottom-7' ng-if='payment.amount < 100'>
+                <span>Amount should be at least $100</span>
+            </div>
+
+            <div class='form-group payment-row-height'>
+                <label class='payment-label-width margin-top margin-bottom' localized>Payment info</label>
+
+                <div class='payment-label-content payment-row-height'>
+                    <div id="card-element">
+                    </div>
+
+                    <!--<div id="form-container">
+                        <div id="sq-card-number"></div>
+                        <div class="third" id="sq-expiration-date"></div>
+                        <div class="third" id="sq-cvv"></div>
+                        <div class="third" id="sq-postal-code"></div>
+                    </div>-->
+
+                    <!-- Used to display form errors -->
+                    <div id="card-errors" role="alert" class='payment-error-message'></div>
+                </div>
+            </div>
+
+            <div class='right-align padding-top'>
+                <img ng-if='loading' class='margin-left' src='/assets/images/loading.gif'>
+
+                <button type='button' class='btn btn-default'
+                        ng-click="close()"
+                        ng-disabled='loading'
+                        localized>payment.cancel</button>
+
+                <button type='submit' class='btn btn-default'
+                        ng-click='doPayment()'
+                        ng-disabled='payment.amount < 100 || loading'
+                        localized>payment.pay</button>
+            </div>
+        </form>
+    </div>
+</div>
+

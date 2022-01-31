@@ -1,0 +1,17 @@
+<div class='padding-top'>
+    <div>
+        <input class='form-control lists-search margin-bottom'
+               placeholder='Search category'
+               ng-model='searchConfig.filter'>
+    </div>
+
+    <div class='col-sm-6' ng-repeat='category in filtered = (categories | filter: searchConfig.filter)'>
+        <input id='{{category}}' ng-model='selectedCategory[category + "|" + category]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{category}}'>{{category}}</label>
+    </div>
+
+    <div class='center margin-bottom load-more'
+         ng-if='filtered.length == 0'>
+        <span>Nothing was found</span>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form>
+            <div class='form-group'>
+                <label>Name</label>
+                <input type='text'
+                       class='form-control'
+                       ng-model='table.name'
+                       localized-placeholder='enter table name'/>
+            </div>
+
+            <div class='form-group'>
+                <label>Type</label>
+                <select class='form-control'
+                        ng-disabled='table.id'
+                        ng-model='table.type'>
+                    <option ng-selected='table.type == 0' value='0'>consumers</option>
+                    <option ng-selected='table.type == 10' value='10'>AUTO</option>
+                    <option ng-selected='table.type == 11' value='11'>blacklist</option>
+                    <option ng-selected='table.type == 1' value='1'>business</option>
+                    <option ng-selected='table.type == 18' value='18'>Business2</option>
+                    <option ng-selected='table.type == 13' value='13'>detailed business</option>
+                    <option ng-selected='table.type == 2' value='2'>directory</option>
+                    <option ng-selected='table.type == 3' value='3'>craigslist</option>
+                    <option ng-selected='table.type == 4' value='4'>WHOIS</option>
+                    <option ng-selected='table.type == 5' value='5'>search engine</option>
+                    <option ng-selected='table.type == 6' value='6'>consumer2018</option>
+                    <option ng-selected='table.type == 9' value='9'>consumer</option>
+                    <option ng-selected='table.type == 7' value='7'>instagram</option>
+                    <option ng-selected='table.type == 14' value='7'>instagram2020</option>
+                    <option ng-selected='table.type == 8' value='8'>OPTIN</option>
+                    <option ng-selected='table.type == 12' value='12'>Linked In</option>
+                    <option ng-selected='table.type == 15' value='15'>Student</option>
+                    <option ng-selected='table.type == 16' value='16'>Call Leads</option>
+                    <option ng-selected='table.type == 17' value='17'>Health Buyers</option>
+                    <option ng-selected='table.type == 19' value='19'>Health Insurance Leads</option>
+                    <option ng-selected='table.type == 20' value='20'>Opt-In</option>
+                    <option ng-selected='table.type == 21' value='21'>Facebook</option>
+                    <option ng-selected='table.type == 22' value='22'>Phil Directory</option>
+                    <option ng-selected='table.type == 23' value='23'>Everydata</option>
+                </select>
+            </div>
+
+            <div class='form-group'>
+                <label for='visible' class='margin-right-20 pointer'>Visible</label>
+                <input type='checkbox'
+                       id='visible'
+                       ng-model='table.visible'/>
+            </div>
+
+            <div class='right-align'>
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='save()'
+                        class='btn btn-default'
+                        ng-disabled='!table.name'
+                        localized>Save</button>
+            </div>
+        </form>
+    </div>
+</div>

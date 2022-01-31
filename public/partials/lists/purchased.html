@@ -1,0 +1,179 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div ng-class='{"huge-content-with-max-width": allPurchased, "content-with-max-width": !allPurchased}'>
+                <div class='margin-bottom'>
+                    <input class='form-control lists-search'
+                           ng-class='{"lists-search": !allPurchased || !isAdmin(), "lists-search-with-button": allPurchased && isAdmin()}'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='dashboard.lists.search.list' >
+
+                    <button class='btn btn-default inline-block users-search-btn'
+                            ng-if='allPurchased && isAdmin()'
+                            ng-click='exportLists()'>Export</button>
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "name" )'>
+                            <span localized>lists.name</span>
+                            <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "u.username" )'
+                            ng-if='allPurchased'>
+                            <span localized>Username</span>
+                            <span ng-if='config.sortValue === "u.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "u.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "u.email" )'
+                            ng-if='allPurchased'>
+                            <span localized>User email</span>
+                            <span ng-if='config.sortValue === "u.email" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "u.email" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "u.phone" )'
+                            ng-if='allPurchased'>
+                            <span localized>User phone</span>
+                            <span ng-if='config.sortValue === "u.phone" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "u.phone" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "u.balance" )'
+                            ng-if='allPurchased && isAdmin()'>
+                            <span localized>User balance</span>
+                            <span ng-if='config.sortValue === "u.balance" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "u.balance" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "r.username" )'
+                            ng-if='allPurchased && isAdmin()'>
+                            <span localized>Reseller</span>
+                            <span ng-if='config.sortValue === "r.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "r.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "type" )'>
+                            <span localized>lists.type</span>
+                            <span ng-if='config.sortValue === "type" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "type" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "tableName" )'>
+                            <span localized>Table name</span>
+                            <span ng-if='config.sortValue === "tableName" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "tableName" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "pcnt" )'>
+                            <span localized>lists.count</span>
+                            <span ng-if='config.sortValue === "pcnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "pcnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "date" )'>
+                            <span localized>lists.date</span>
+                            <span ng-if='config.sortValue === "date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th localized
+                            ng-class='{"actions-column-5": allPurchased && isAdmin(), "actions-column-4": !allPurchased || !isAdmin()}' localized>lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='list in lists'>
+                        <td>{{list.name}}</td>
+                        <td ng-if='allPurchased'>{{list.username}}</td>
+                        <td ng-if='allPurchased'>{{list.userEmail}}</td>
+                        <td ng-if='allPurchased'>
+                            <input type='text'
+                                   class='input-as-span'
+                                   ng-model='list.userPhone'
+                                   ui-us-phone-number
+                                   disabled/>
+                        </td>
+                        <td ng-if='allPurchased && isAdmin()'>${{list.userBalance.toFixed(2)}}</td>
+                        <td ng-if='allPurchased && isAdmin()'>{{list.reseller}}</td>
+                        <td>{{getLocalizedListType(list)}}</td>
+                        <td>{{getFormattedTableName(list.tableName)}}</td>
+                        <td class='pointer'
+                            tooltip-append-to-body="true"
+                            tooltip='Click here to view detailed request information'
+                            tooltip-popup-delay='500'
+                            ng-click="getCountDetails(list)">{{list.pcnt}}</td>
+                        <td>{{getDate(list.date) | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                        <td>
+                            <button ng-if='allPurchased && isAdmin()'
+                                    type='button' class='btn btn-default' ng-click='loginAsUser(list)'>
+                                <span class='glyphicon glyphicon-log-in'></span>
+                            </button>
+                            <button ng-if='!downloadingInProgress || downloadListId != list.id'
+                                    tooltip='Click this button to download your list'
+                                    tooltip-popup-delay='500'
+                                    ng-disabled='hideDownloadButton(list) || downloadingInProgress || isOriginallyReseller()'
+                                    type='button' class='btn btn-default' ng-click='downloadList( list, false )'>
+                                <span class='glyphicon glyphicon-download-alt'></span>
+                            </button>
+                            <img class='loading-gif-margin'
+                                 ng-if='downloadingInProgress && downloadListId == list.id' src='/assets/images/loading.gif'>
+                            <button tooltip="Click this button to send this list's link to your email"
+                                    tooltip-popup-delay='500'
+                                    ng-disabled='hideDownloadButton(list) || isOriginallyReseller()'
+                                    type='button' class='btn btn-default' ng-click='downloadEmailList( list, true )'>
+                                <span class='glyphicon glyphicon-envelope'></span>
+                            </button>
+                            <button type='button'
+                                    tooltip='Click this button to rename your list and view search parameters'
+                                    tooltip-popup-delay='500'
+                                    class='btn btn-default' ng-click='editList( list )'>
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </button>
+                            <button type='button'
+                                    tooltip='Click this button to remove this list'
+                                    tooltip-popup-delay='500'
+                                    class='btn btn-default' ng-click='removeList( list )'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='lists && lists.length === 0' class='center'>
+                    <span localized>No purchased lists were found</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id='hidden_frame' style='display:none'></div>
+</div>

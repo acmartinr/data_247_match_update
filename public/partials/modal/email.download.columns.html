@@ -1,0 +1,76 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <label>Default Fields</label>
+        <div class='row'>
+            <div class='col-sm-3' ng-repeat='field in requiredFields'>
+                <label class='pointer tiny-label'>{{field.name}}</label>
+            </div>
+        </div>
+
+        <!--<label>Optional fields</label>-->
+        <!--<input type='text' class='form-control margin-top-5' id='optionalField'
+               ng-model='selectedOptionalField'
+               typeahead-on-select='onSelectedOptionalField()'
+               typeahead="field.name for field in optionalFields | filter:$viewValue:filterAutoCompleteValues | limitTo:5"
+               localized-placeholder='Start enter optional field name'/>-->
+
+        <div class='optional-fields-wrapper'>
+            <div ng-if='asArray(selectedOptionalFields).length > 0 || config.code'>
+                <div ng-if='config.code' class='bubble'>
+                    <span>Additional Code: {{config.code}}</span>
+                    <a class='tiny-link pointer' ng-click='config.code = ""'>×</a>
+                </div>
+
+                <div class='bubble-column' ng-repeat='item in asArray(selectedOptionalFields)'>
+                    <span class="capitalize">{{item}}</span>
+                    <a class='tiny-link pointer' ng-click='selectedOptionalFields[item] = false'>×</a>
+                </div>
+            </div>
+        </div>
+
+        <div class='left'>
+            <label for = 'inputEmail'>Email address to send list</label>
+        </div>
+        <br>
+        <br>
+        <div class='left'>
+            <input  style="width: 300px" id='inputEmail'
+                   type='text'
+                   ng-model='config.emailAddress'
+            />
+
+        </div>
+        <br>
+        <br>
+        <label style="visibility: hidden;color: red" id="errorField"> Email address is incorrect</label>
+        <br>
+
+        <div class='row margin-top-10'>
+            <div class='col-sm-12'>
+                <button class='btn btn-default left'
+                        ng-click='previewAll()'
+                        localized>Add Extra Fields</button>
+            </div>
+        </div>
+
+        <div class='right-align margin-top-10'>
+            <div class='phones-only-wrapper'>
+                <input id='phones_only'
+                       class='margin-left-important pointer'
+                       ng-model='config.phonesOnly'
+                       ng-change='onPhonesOnlyChanged()'
+                       type='checkbox'/>
+                <label class='pointer tiny-label' for='phones_only'>Download Phones Only</label>
+            </div>
+
+            <button class='btn btn-default'
+                    ng-click='close()'
+                    localized>lists.modal.cancel</button>
+
+            <button ng-click='save()'
+                    class='btn btn-default'
+                    localized>OK</button>
+        </div>
+    </div>
+</div>
+

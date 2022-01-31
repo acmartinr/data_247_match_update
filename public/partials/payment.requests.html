@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="huge-content-with-max-width">
+                <div class='margin-bottom'>
+                    <input class='form-control inline-block payment-requests-search'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='Search payment requests' >
+
+                    <button class='btn btn-default inline-block users-search-btn'
+                            ng-click='addNewPaymentRequest()'>Add</button>
+
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='nowrap'><span localized>Created</span></th>
+                        <th class='nowrap'><span localized>Amount</span></th>
+                        <th class='nowrap'><span localized>Due</span></th>
+                        <th class='nowrap'><span localized>Note</span></th>
+                        <th class='nowrap'><span localized>Paid</span></th>
+                        <th class='nowrap'><span localized>Link</span></th>
+                        <th class='actions-column-2'>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-class="{'expired-payment-request': !paymentRequest.paid && paymentRequest.dueDate < currentTime}"
+                        ng-repeat='paymentRequest in paymentRequests'>
+                        <td>{{getFormattedDate(paymentRequest.date, true)}}</td>
+                        <td>${{paymentRequest.amount.toFixed(2)}}</td>
+                        <td>{{getFormattedDate(paymentRequest.dueDate)}}</td>
+                        <td>{{paymentRequest.note}}</td>
+                        <td>{{paymentRequest.paid ? "Yes" : "No"}}</td>
+                        <td>https://www.makemydata.com/invoice/{{paymentRequest.id}}</td>
+                        <td>
+                            <button type='button' class='btn btn-default'
+                                    ng-disabled='paymentRequest.paid'
+                                    ng-click='editPaymentRequest(paymentRequest)'>
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </button>
+
+                            <button type='button' class='btn btn-default' ng-click='removePaymentRequest(paymentRequest)'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='paymentRequests && paymentRequests.length === 0' class='center'>
+                    <span localized>There are no payment requests yet</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

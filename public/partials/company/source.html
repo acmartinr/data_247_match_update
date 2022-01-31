@@ -1,0 +1,25 @@
+<div class='padding-top'>
+    <div ng-if='loading' class='center margin-top'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <!--<div class='col-sm-6'>
+        <input id='source_all' ng-model='selectedSource.all' ng-change='selectAll()' type='checkbox'/>
+        <label class='pointer tiny-label' for='source_all'>All</label>
+    </div>-->
+
+    <div class='col-sm-6'
+         ng-if='!source.disabled || isAdmin() || isAccessGranted()'
+         ng-repeat='source in filtered = ( sources | filter: selectedSource.filter ) | limitTo: selectedSource.limit'>
+        <input id='{{source.name}}'
+               ng-model='selectedSources[ source.name.toLowerCase() + "|" + source.name ]' type='checkbox'/>
+        <label class='pointer tiny-label'
+               for='{{source.name}}'>{{formatSourceName(source.name)}}</label>
+    </div>
+
+    <div class='center margin-bottom margin-top load-more' ng-if='selectedSource.limit < filtered.length'>
+        <a class='pointer tiny-link'
+           ng-click='loadMore()'
+           localized>load.more</a>
+    </div>
+</div>

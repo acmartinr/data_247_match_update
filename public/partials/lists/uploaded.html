@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <div class='margin-bottom'>
+                    <input class='form-control inline-block lists-upload'
+                           ng-model='config.searchValue'
+                           localized-placeholder='dashboard.lists.search.list' >
+
+                    <button tooltip='Click this button to upload new phones list'
+                            tooltip-popup-delay='500'
+                            class='btn btn-default inline-block users-search-btn'
+                            ng-click='uploadList()'>Upload</button>
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "name" )'>
+                            <span localized>lists.name</span>
+                            <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th ng-if='isAdmin() || isManager()' class='pointer nowrap'
+                            ng-click='sortByField( "username" )'>
+                            <span>User</span>
+                            <span ng-if='config.sortValue === "username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "cnt" )'>
+                            <span localized>lists.count</span>
+                            <span ng-if='config.sortValue === "cnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "cnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "date" )'>
+                            <span localized>lists.date</span>
+                            <span ng-if='config.sortValue === "date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th localized class='actions-column'>lists.actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='list in lists | filter : { name: config.searchValue } | orderBy : config.sortValue : config.sortDesc'>
+                        <td>{{list.name}}</td>
+                        <td ng-if='isAdmin() || isManager()'>{{list.username}}</td>
+                        <td ng-if='list.cnt > -1'>{{list.cnt}}</td>
+                        <td ng-if='list.cnt === -1'>indexing</td>
+                        <td>{{getDate(list.date) | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                        <td>
+                            <button tooltip='Click this button to rename this list'
+                                    tooltip-popup-delay='500'
+                                    type='button' class='btn btn-default' ng-click='editList(list)'>
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </button>
+                            <button tooltip='Click this button to upload additional phones to this list'
+                                    tooltip-popup-delay='500'
+                                    type='button' class='btn btn-default' ng-click='uploadMore(list)'>
+                                <span class='glyphicon glyphicon-plus'></span>
+                            </button>
+                            <button tooltip='Click this button to remove this list'
+                                    tooltip-popup-delay='500'
+                                    type='button' class='btn btn-default' ng-click='removeList(list)'>
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='lists && lists.length === 0' class='center'>
+                    <span>There are no lists yes. Use "Upload" button to upload your first list.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

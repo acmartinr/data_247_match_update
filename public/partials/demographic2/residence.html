@@ -1,0 +1,123 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <div ng-if='searchConfig.option === "propertyType"'>
+            <div class='col-sm-12' ng-repeat='item in propertyTypes'>
+                <input id='residence_{{item.value}}' ng-model='selectedPropertyType[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "ownerShip"'>
+            <div class='col-sm-12' ng-repeat='item in ownerTypes'>
+                <input id='residence_{{item.value}}' ng-model='selectedOwnerType[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "lengthOfResidence"'>
+            <div class='col-sm-12' ng-repeat='item in lengthOfResidences'>
+                <input id='residence_{{item.value}}' ng-model='selectedLengthOfResidence[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "homeSwimmingPoolIndicator"'>
+            <input id='swimmingPoolIndicator' ng-model='selectedProperties[tabs[3].title + "|" + tabs[3].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='swimmingPoolIndicator'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "numberOfPersonInLivingUnit"'>
+            <div class='col-sm-12' ng-repeat='item in personNumbers'>
+                <input id='residence_{{item.value}}' ng-model='selectedNumberOfPersonInLivingUnit[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "presenceOfChildren"'>
+            <input id='presenceOfChildren' ng-model='selectedProperties[tabs[5].title + "|" + tabs[5].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='presenceOfChildren'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "numberOfChildren"'>
+            <div class='col-sm-12' ng-repeat='item in childrenNumbers'>
+                <input id='residence_{{item.value}}' ng-model='selectedNumberOfChildren[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "childrenAgeGender"'>
+            <div class='col-sm-12'
+                 ng-repeat='item in childrenAgeGender'
+                 ng-if='!item.visible || item.visible()'
+                 ng-class='{"margin-left-20": item.visible}'>
+                <input id='children_age_gander_{{item.value}}' ng-model='selectedChildrenAgeGender[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='children_age_gander_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "inferredHouseHoldRank"'>
+            <div class='col-sm-12' ng-repeat='item in ranks'>
+                <input id='residence_{{item.value}}' ng-model='selectedInferredHouseHoldRank[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "numberOfAdults"'>
+            <div class='col-sm-12' ng-repeat='item in adultNumbers'>
+                <input id='residence_{{item.value}}' ng-model='selectedNumberOfAdults[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "generationsInHouseHold"'>
+            <div class='col-sm-12' ng-repeat='item in generations'>
+                <input id='residence_{{item.value}}' ng-model='selectedGenerationsInHouseHold[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "veteranInHouseHold"'>
+            <input id='veteranInHouseHold' ng-model='selectedProperties[tabs[11].title + "|" + tabs[11].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='veteranInHouseHold'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "seniorAdultInHouseHold"'>
+            <input id='seniorAdultInHouseHold' ng-model='selectedProperties[tabs[12].title + "|" + tabs[12].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='seniorAdultInHouseHold'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "airConditioning"'>
+            <input id='airConditioning' ng-model='selectedProperties[tabs[13].title + "|" + tabs[13].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='airConditioning'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "homeHeatIndicator"'>
+            <input id='homeHeat' ng-model='selectedProperties[tabs[14].title + "|" + tabs[14].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='homeHeat'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "sewer"'>
+            <div class='col-sm-12' ng-repeat='item in sewers'>
+                <input id='residence_{{item.value}}' ng-model='selectedSewer[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "water"'>
+            <div class='col-sm-12' ng-repeat='item in waters'>
+                <input id='residence_{{item.value}}' ng-model='selectedWater[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='residence_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+    </div>
+</div>

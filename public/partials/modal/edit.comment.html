@@ -1,0 +1,47 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm' ng-submit='save()'>
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Visible name</div>
+                <input type='text' class='form-control'
+                       ng-model='comment.name' placeholder='Enter visible name'
+                       required/>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Comment</div>
+                <textarea class='form-control'
+                          ng-model='comment.comment'
+                          placeholder='Enter your comment'
+                          rows="6"
+                          required></textarea>
+            </div>
+
+            <div class='form-group'>
+                <div class='margin-bottom' localized>Comment</div>
+                <textarea class='form-control'
+                          ng-model='comment.answer'
+                          placeholder='Enter your answer'
+                          rows="6"></textarea>
+            </div>
+
+            <div class='form-group'>
+                <label class='pointer' for='approved'>Approved</label>
+                <input type='checkbox' class='restricted' id='approved'
+                       ng-model='comment.approved'/>
+            </div>
+
+            <div class='right-align'>
+                <button type="button"
+                        class='btn btn-default'
+                        ng-click="close()"
+                        localized>Cancel</button>
+
+                <button type='submit' class='btn btn-default'
+                        ng-disabled='!comment.name || !comment.comment'
+                        localized>Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+

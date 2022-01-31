@@ -1,0 +1,35 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form>
+            <div class='form-group'>
+                <label>Absolute path</label>
+                <input type='text'
+                       class='form-control'
+                       ng-model='path'
+                       ng-disabled='loading'
+                       localized-placeholder='administration.consumers.local.path.placeholder'/>
+            </div>
+
+            <div class='form-group'>
+                <label>Skip records</label>
+                <input type='text'
+                       class='form-control'
+                       ng-model='skipRecords'
+                       ng-disabled='loading'
+                       localized-placeholder='enter skipped records count'/>
+            </div>
+
+            <div class='right-align'>
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        ng-disabled='loading'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='import()'
+                        class='btn btn-default'
+                        ng-disabled='!path || loading'
+                        localized>Import data</button>
+            </div>
+        </form>
+    </div>
+</div>

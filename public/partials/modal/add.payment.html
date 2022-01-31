@@ -1,0 +1,45 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='profileForm' autocomplete='off'>
+            <div class='form-group'>
+                <div>
+                    <label for='username' localized>Select user</label>
+
+                    <input type='checkbox'
+                           id='allUsers'
+                           class='right margin-left-important pointer'
+                           ng-model='payment.allUsers'>
+                    <label for='allUsers' class='right pointer'>All users</label>
+                </div>
+
+                <input type='text' class='form-control' id='username'
+                       ng-model='payment.username'
+                       typeahead="userAutoComplete for userAutoComplete in userAutoCompletes | filter:$viewValue | limitTo:5"
+                       localized-placeholder='Enter username or email'/>
+            </div>
+
+            <div class='form-group'>
+                <label for='amount' localized>Amount</label>
+                <input type='text' class='form-control' id='amount'
+                       ng-model='payment.amount'
+                       type='number'
+                       localized-placeholder='Enter amount'/>
+            </div>
+
+            <div class='right-align'>
+                <img ng-if='loading' src='/assets/images/loading.gif'>
+
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        ng-disabled='loading'
+                        localized>Cancel</button>
+
+                <button ng-click='addPayment()'
+                        class='btn btn-default'
+                        ng-disabled='loading'
+                        localized>Add payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+

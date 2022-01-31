@@ -1,0 +1,27 @@
+<div class='padding-top'>
+    <div class='col-sm-12 margin-bottom'>
+        <input class='form-control'
+               placeholder='Search industry'
+               ng-model='selectedIndustry.filter'>
+    </div>
+
+    <div class='col-sm-6'>
+        <input id='industry_all' ng-model='selectedIndustry.all' ng-change='selectAll()' type='checkbox'/>
+        <label class='pointer tiny-label' for='industry_all'>All</label>
+    </div>
+
+    <div class='col-sm-6' ng-repeat='industry in filtered = ( industries | filter: selectedIndustry.filter ) | limitTo: selectedIndustry.limit'>
+        <input id='{{industry}}' ng-model='selectedIndustries[ industry.toLowerCase() + "|" + industry ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{industry}}'>{{industry.toLowerCase()}}</label>
+    </div>
+
+    <div class='center margin-bottom margin-top load-more' ng-if='selectedIndustry.limit < filtered.length'>
+        <a class='pointer tiny-link'
+           ng-click='loadMore()'
+           localized>load.more</a>
+    </div>
+
+    <div ng-if='loading' class='center'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+</div>

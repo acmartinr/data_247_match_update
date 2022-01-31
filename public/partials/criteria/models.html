@@ -1,0 +1,38 @@
+<div class='padding-top'>
+    <div class='row'>
+        <div class='col-sm-6'>
+            <select class='form-control margin-bottom'
+                    ng-model='searchConfig.make'
+                    ng-change='updateData()'>
+                <option ng-repeat='make in makes'
+                        ng-selected='searchConfig.make === make'
+                        value='{{make}}'>{{make}}</option>
+            </select>
+        </div>
+
+        <div class='col-sm-6'>
+            <input class='form-control col-sm-6'
+                   localized-placeholder='Search model by name'
+                   ng-model='searchConfig.search'
+                   ng-change='updateData()'>
+        </div>
+    </div>
+
+    <div ng-if='loading' class='center'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <div ng-if='!loading'>
+        <div class='col-sm-4' ng-repeat='model in models'>
+            <input id='model_{{model}}' ng-model='selectedModels[model + "|" + model]' type='checkbox'/>
+            <label class='pointer tiny-label' for='model_{{model}}'>{{model}}</label>
+        </div>
+
+        <div class='center margin-bottom load-more' ng-if='searchConfig.limit < total'>
+            <a class='pointer tiny-link'
+               ng-click='loadMore()'
+               localized>load.more</a>
+        </div>
+    </div>
+
+</div>

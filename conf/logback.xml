@@ -1,0 +1,80 @@
+<configuration>
+
+  <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
+
+  <logger name="play" level="INFO" />
+  <logger name="application" level="DEBUG" />
+  <!--<logger name="services.db.mapper.DataMapper" level="DEBUG" />-->
+
+  <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${application.home:-.}/logs/errors.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${application.home:-.}/logs/errors-%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>10</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%date [%level] %logger - %message%n%xException</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${application.home:-.}/logs/warnings.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${application.home:-.}/logs/warnings-%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>10</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%date [%level] %logger - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${application.home:-.}/logs/info.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${application.home:-.}/logs/info-%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>10</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%date [%level] %logger - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${application.home:-.}/logs/debug.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>DEBUG</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${application.home:-.}/logs/debug-%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>10</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%date [%level] from %logger in %thread - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="FILE_ERROR" />
+    <appender-ref ref="FILE_WARN" />
+    <appender-ref ref="FILE_INFO" />
+    <appender-ref ref="FILE_DEBUG" />
+  </root>
+
+</configuration>

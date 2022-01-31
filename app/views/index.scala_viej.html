@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en" ng-app="consumer_data_base">
+<head ng-controller="HeaderController">
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+    <link rel="shortcut icon" href='@routes.Assets.versioned("/images/favicon.png")' type="image/png">
+
+    <link ng-if='!isLoggedIn()' rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/login_style.css?timestamp=1589805552695")'>
+    <link ng-if='!isLoggedIn()' rel="stylesheet" href='@routes.Assets.versioned("stylesheets/bootstrap.css?timestamp=1589805552696")'>
+    <link ng-if='isLoggedIn()' rel="stylesheet" href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.css?timestamp=1589805552695")'>
+
+    <link ng-if='!isMobile()' rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/style.css?timestamp=1589805552695")'>
+    <link ng-if='isMobile()' rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/style_mobile.css?timestamp=1589805552695")'>
+
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/main.css?timestamp=1589805552695")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/angular-toasty.min.css?timestamp=1589805552695")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/angular-awesome-slider.min.css?timestamp=1589805552695")'>
+</head>
+<body id='body' ng-cloak>
+    <div class="wrap">
+        <div ng-controller="HeaderController">
+            <nav ng-show='isLoggedIn() && !isMobile()'
+                 ng-class='{ "shown": isLoggedIn() && !isMobile() }'
+                 class="navbar navbar-inverse navbar-static-top custom_hiddenUpdate">
+                <div class="container-fluid">
+                    <ul class='nav navbar-nav'>
+                        <li ng-class='{selected: isActive( "dashboard" )}'>
+                            <a ui-sref='main' localized>header.dashboard</a>
+                        </li>
+
+                        <li class='dropdown' ng-if='isLoggedIn()'>
+                            <a class='dropdown-toggle'
+                               ng-click='listsMenu.expanded = !listsMenu.expanded'>
+                                <span localized>Lists</span>
+                                <span class='caret'></span>
+                            </a>
+                            <ul class='dropdown-menu visible' ng-if='listsMenu.expanded'>
+                                <li ng-class='{selected: isActive( "purchased" )}'>
+                                    <a ng-click='listsMenu.expanded = false'
+                                       ui-sref='purchased' localized>header.purchased.lists</a>
+                                </li>
+                                <li ng-if='isAdmin() || isManager() || isReseller()'
+                                    ng-class='{selected: isActive( "all_purchased" )}'>
+                                    <a ng-click='listsMenu.expanded = false'
+                                       ui-sref='all_purchased' localized>All users' purchased lists</a>
+                                </li>
+                                <li ng-class='{selected: isActive( "non_purchased" )}'>
+                                    <a ng-click='listsMenu.expanded = false'
+                                       ui-sref='non_purchased' localized>header.non.purchased.lists</a>
+                                </li>
+                                <li ng-class='{selected: isActive( "uploaded" )}'>
+                                    <a ng-click='listsMenu.expanded = false'
+                                       ui-sref='uploaded' localized>Suppressions</a>
+                                </li>
+                                <li ng-if='ifUploadListsISAvailable()'
+                                    ng-class='{selected: isActive( "uploaded" )}'>
+                                    <a ng-click='listsMenu.expanded = false'
+                                       ui-sref='uploadForMatching' localized>Upload List For Matching</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class='dropdown' ng-if='isReseller() && isLoggedIn()'>
+                            <a class='dropdown-toggle'
+                               ng-click='administrationMenu.expanded = !administrationMenu.expanded'>
+                                <span localized>Administration</span>
+                                <span class='caret'></span>
+                            </a>
+                            <ul class='dropdown-menu visible' ng-if='administrationMenu.expanded'>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='users' localized>Users</a>
+                                </li>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='registrationRequests' localized>Registration requests</a>
+                                </li>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='payments' localized>Payments</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='dataSources' localized>Data sources</a>
+                                </li>
+                                <li ng-if='isDataSourceItemPriceAllowed()' ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='prices' localized>Data source item price</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li ng-if='isReseller() && isLoggedIn() && !isMobile()'>
+                            <a>Invitation Link: https://www.{{getResellerInvitationDomain()}}/{{getFormattedResellerNumber()}}</a>
+                        </li>
+
+                        <li class='dropdown' ng-if='(isAdmin() || isManager()) && isLoggedIn()'>
+                            <a class='dropdown-toggle'
+                               ng-click='administrationMenu.expanded = !administrationMenu.expanded'>
+                                <span localized>Administration</span>
+                                <span class='caret'></span>
+                            </a>
+                            <ul class='dropdown-menu visible' ng-if='administrationMenu.expanded'>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='users' localized>Users</a>
+                                </li>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='registrationRequests' localized>Registration requests</a>
+                                </li>
+                                <li ng-if='isAdmin()'
+                                    ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='paymentRequests' localized>Payments requests</a>
+                                </li>
+                                <li ng-if='isAdmin()'
+                                    ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='comments' localized>Comments</a>
+                                </li>
+                                <li ng-click='administrationMenu.expanded = false'>
+                                    <a ui-sref='payments' localized>Payments</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='administration' localized>Tables</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                    ui-sref='all_purchased_tables_logs' localized>Purchase tables</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                    ui-sref='all_lists_sent' localized>All list sent</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='dataSources' localized>Data sources</a>
+                                </li>
+                                <!--<li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='prefixes' localized>Phone prefixes</a>
+                                </li>
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='update' localized>Update data</a>
+                                </li>-->
+                                <li>
+                                    <a ng-click='administrationMenu.expanded = false'
+                                       ui-sref='prices' localized>Data source item price</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class='nav navbar-nav navbar-right' ng-if='isLoggedIn()'>
+                        <li ng-if='shouldShowTutorial()' class='padding-right-40'><a ng-click='showTutorials()'>Video Tutorials</a></li>
+                        <li class='padding-right-40'><a ng-if='supportPhone'>For Support, Call {{supportPhone}}</a></li>
+
+                        <li class='dropdown'>
+                            <a class='dropdown-toggle'
+                               ng-click='menu.expanded = !menu.expanded'>
+                                <span localized>header.username</span>
+                                <span>{{getUserName()}}</span>
+                                <span class='caret'></span>
+                            </a>
+                            <ul class='dropdown-menu visible' ng-if='menu.expanded'>
+                                <li><a ng-click='profile()' localized>header.profile</a></li>
+                                <li ng-if='isMainService()'><a ng-click='comment()' localized>Comment</a></li>
+                                <li><a ng-click='logout()' localized>header.logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <nav ng-show='isLoggedIn() && isMobile()'
+                 ng-class='{ "shown": isLoggedIn() && !isMobile() }'
+                 class="navbar navbar-inverse navbar-static-top">
+                <div class="container-fluid">
+                    <!--<ul class='nav navbar-nav left'>
+                        <li>
+                            <a ng-click='doPayment()' class='gray'>${{getUserBalance()}}<span class='add-credit'>Add Credit</span></a>
+                        </li>
+                    </ul>-->
+
+                    <ul class='nav navbar-nav navbar-right right' ng-if='isLoggedIn()'>
+                        <li class='dropdown'>
+                            <a class='dropdown-toggle gray'>
+                                <span>{{getUserName()}}</span>
+                                <!--<span class='caret'></span>-->
+                            </a>
+                            <ul class='dropdown-menu visible' ng-if='menu.expanded'>
+                                <li><a ng-if='!registered()' ng-click='register()' localized>Sign Up</a></li>
+                                <li><a ng-if='registered()' ng-click='profile()' localized>Profile</a></li>
+                                <li><a ng-if='registered()' ng-click='lists()' localized>Purchases</a></li>
+                                <li><a ng-click='logout()' localized>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div ui-view></div>
+    </div>
+
+    <div ng-controller="HeaderController">
+        <footer ng-if='isLoggedIn() && !isMobile()' class="footer-layer" ng-class='{"ivo-container": ivoSite}' >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p ng-if='!isMobile()' class='ivo-hide'><span>Make my data</span></p>
+                        <p class='ivo-hide'>© 2021 Make my data</p>
+
+                        <p class='ivo-show'><span>Rei data list</span></p>
+                        <p class='ivo-show'>© 2021 Rei data list</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <toasty></toasty>
+
+    <script src='@routes.Assets.versioned("/javascripts/localization/en_US.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/lib/angularjs/angular.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/static/jquery-3.2.1.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/bootstrap.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/static/angular-cookies.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-resource.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-ui-router.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/md5.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/jquery.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/states.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/timezones.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/area-codes.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/zip-coordinates.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-input-masks-standalone.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-toasty.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-awesome-slider.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/mobile-detect.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/carriers-data.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/carriers-keys.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/javascripts/app.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/javascripts/controller/header.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/login.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/dashboard.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/geographic.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/demographic.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/demographic2.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/newoptin.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/facebookController.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/company.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/profile.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/profile_mobile.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/password.recovery.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/lists.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/lists_mobile.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/uploaded.lists.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/administration.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/all_purchased_tables_logs.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/all_list_sent_controller.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/users.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/comments.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/payment.requests.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/registration.requests.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/prices.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/payments.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/update.data.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/prefixes.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/mobile.js?timestamp=1557317577528")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/backup.lists.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/controller/data.sources.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/javascripts/service/localization.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/auth.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/dictionary.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/data.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/profile.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/lists.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/confirm.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/alert.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/system.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/javascripts/service/administration.js?timestamp=1589805552695")' type="text/javascript"></script>
+</body>
+</html>

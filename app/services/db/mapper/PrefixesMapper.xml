@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="services.db.mapper.PrefixesMapper">
+
+    <select id="getPrefixListCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM phonePrefixes
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND prefix ILIKE #{searchValue}
+        </if>
+    </select>
+
+    <select id="getPrefixList" resultType="PhonePrefix">
+        SELECT id, prefix, type FROM phonePrefixes
+        WHERE 1 = 1
+        <if test="searchValue != null">
+            AND prefix ILIKE #{searchValue}
+        </if>
+        <if test="sortValue != null">
+            ORDER BY ${sortValue}
+            <if test="sortDesc == true">
+                DESC
+            </if>
+        </if>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <insert id="insertPrefixes">
+        INSERT INTO phonePrefixes(prefix, type) VALUES
+        <foreach item="item" collection="prefixes"
+                 open="" separator="," close="">
+            ( #{item.prefix}, #{item.type} )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,8 @@
+<div class='padding-top'>
+    <div class='col-sm-12' ng-repeat='creditScore in creditScores'>
+        <input id='credit_score_{{creditScore}}'
+               ng-model='selectedCreditScores[creditScore]' type='checkbox'/>
+        <label class='pointer tiny-label'
+               for='credit_score_{{creditScore}}'>{{creditScore}}</label>
+    </div>
+</div>

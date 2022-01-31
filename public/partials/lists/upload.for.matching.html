@@ -1,0 +1,176 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='row matching-container'>
+                <div class='tabset-container'>
+                    <div class='row margin-bottom'>
+                        <label class='left list-type-label' localized>dashboard.data.source</label>
+                        <select class='form-control left list-type-select margin-right-20'
+                                ng-model='dataType'
+                                ng-change='dataTypeChanged()'>
+                            <option ng-repeat='dataSource in dataSources'
+                                    value="{{dataSource.name}}">{{dataSource.title}}</option>
+                        </select>
+
+                        <label class='left list-type-label'>Table name:</label>
+                        <select class='form-control left list-search-select margin-right-20'
+                                ng-model='tableName'
+                                ng-options="table as table.name for table in tables track by table.name" >
+                        </select>
+                    </div>
+
+                    <div class='row margin-top margin-bottom' >
+                        <label class='left matching-choose-file-label'>Select file for matching:</label>
+                        <input type='file'
+                               id='matching-upload-file'
+                               file-model='params.file'
+                               class='form-control inline-block matching-choose-file'/>
+                    </div>
+
+                    <div class='row margin-top margin-bottom'>
+                        <label class='left matching-choose-file-label'>Select columns for matching:</label>
+                        <input type='text' class='form-control inline-block matching-choose-fields' id='fields'
+                           ng-model='selectedField'
+                           typeahead-on-select='onSelectedField()'
+                           typeahead="field.name for field in fields | filter:$viewValue | limitTo:5"
+                           localized-placeholder='Start enter column name'/>
+                    </div>
+
+                    <div class='row margin-top margin-bottom'>
+                        <label class='left matching-choose-file-label'>Select columns for saving:</label>
+                        <input type='text' class='form-control inline-block matching-choose-save-fields' id='saveFields'
+                               ng-model='savedField'
+                               typeahead-on-select='onSavedField()'
+                               typeahead="field for field in headerFields | filter:$viewValue | limitTo:5"
+                               localized-placeholder='Start enter column name'/>
+                    </div>
+
+                    <span class='hint'>Please note you should select columns in the same order as in your file</span>
+                    <div ng-if='asArray(selectedFields).length > 0' class='row margin-top margin-bottom'>
+                        <div>
+                            <div class='bubble' ng-repeat='item in asArray(selectedFields)'>
+                                <span class="capitalize">{{item}}</span>
+                                <a class='tiny-link pointer' ng-click='deselectField(item)'>×</a>
+                            </div>
+                        </div>
+                    </div>
+<br>
+                    <table class='table'>
+                        <thead>
+                        <tr>
+                            <th class='pointer nowrap'>
+                                <span localized>Select</span>
+                                <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "name" )'>
+                                <span localized>lists.name</span>
+                                <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "tableName" )'>
+                                <span localized>Datasource</span>
+                                <span ng-if='config.sortValue === "tableName" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "tableName" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "cnt" )'>
+                                <span localized>lists.count</span>
+                                <span ng-if='config.sortValue === "cnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "cnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+
+                            <th class='pointer nowrap'
+                                ng-click='sortByField( "date" )'>
+                                <span localized>lists.date</span>
+                                <span ng-if='config.sortValue === "date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                <span ng-if='config.sortValue === "date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                            </th>
+                            <th class='pointer nowrap'>
+                                <span localized>Actions</span>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat='list in matchLists'>
+                            <td><input type="checkbox"  ng-click='select_table( list )' /></td>
+                            <td>{{list.name}}</td>
+                            <td>{{getLocalizedListType(list)}}</td>
+                            <td class='pointer'
+                                tooltip-append-to-body="true"
+                                tooltip='Click here to view detailed request information'
+                                tooltip-popup-delay='500'>{{list.cnt}}</td>
+                            <td>{{getDate(list.date) | date:'MM/dd/yyyy HH:mm'}}</td>
+                            <td>
+                                <button type='button'
+                                        tooltip='Click this button to remove this list'
+                                        tooltip-popup-delay='500'
+                                        class='btn btn-default' ng-click='removeMatchList( list )'>
+                                    <span class='glyphicon glyphicon-trash'></span>
+                                </button>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class='info-container top-0'>
+                    <div class='info-container-header margin-bottom-3'>
+                        <div class='matching-labels'>
+                            <span localized>geographic.count</span>
+                            <span ng-if='!loading'>{{formattedAmount(count)}}</span>
+                        </div>
+                        <img class='margin-left' ng-if='loading' src='/assets/images/loading.gif'>
+
+                        <button class='btn btn-default right'
+                                ng-click='saveList()'
+                                tooltip='Click this button to save requested data to a new list'
+                                tooltip-popup-delay='500'
+                                ng-disabled="count === 0"
+                                localized>lists.save</button>
+
+                        <button class='btn btn-default right margin-right'
+                                tooltip="Click this button for stopping the current matching request"
+                                tooltip-popup-delay="500"
+                                ng-click='reset()'
+                                type='button'
+                                ng-if='loading'
+                                localized>Reset</button>
+
+                        <button class='btn btn-default right margin-right'
+                                tooltip='Click this button to get matched records count'
+                                tooltip-popup-delay='500'
+                                ng-click='getCount()'
+                                ng-if='!loading'
+                                localized>geographic.count.button</button>
+
+                        <button class='btn btn-default right margin-right'
+                                tooltip='Click this button to import list'
+                                tooltip-popup-delay='500'
+                                ng-click='importFile()'
+                                localized>Import List</button>
+                    </div>
+                    <div class='unique-phone-wrapper margin-bottom-3'>
+                        <div class='col-sm-12 no-padding' ng-if='isFilterDNCEnabled'>
+                            <label for='filterDNC'
+                                   tooltip='There are some records with "Do not call" flag, filter DNC will remove this records'
+                                   tooltip-popup-delay="500"
+                                   class='margin-right pointer'>Filter DNC</label>
+                            <input type='checkbox'
+                                   id='filterDNC'
+                                   class='relative-upper'
+                                   ng-model='config.filterDNC'/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

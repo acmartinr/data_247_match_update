@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <div class='margin-bottom'>
+                    <input class='form-control lists-search'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='dashboard.lists.search.list' >
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "name" )'>
+                            <span localized>List Name</span>
+                            <span ng-if='config.sortValue === "name" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "name" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "tableName" )'>
+                            <span localized>Date</span>
+                            <span ng-if='config.sortValue === "tableName" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "tableName" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "cnt" )'>
+                            <span localized>Email</span>
+                            <span ng-if='config.sortValue === "cnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "cnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "cnt" )'>
+                            <span localized>Email sent</span>
+                            <span ng-if='config.sortValue === "cnt" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "cnt" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='list in lists'>
+                        <td>{{list.name}}</td>
+                        <td>{{getDate(list.date) | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                        <td>{{getUserEmail(list)}}</td>
+                        <td>{{getSentEmail(list)}}</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='lists && lists.length === 0' class='center'>
+                    <span localized>sentlists.empty.message</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

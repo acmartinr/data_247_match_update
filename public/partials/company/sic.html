@@ -1,0 +1,30 @@
+<div class='padding-top'>
+    <div>
+        <textarea ng-model='selectedState.rawSicCodes'
+                  class='form-control raw-zip-codes'
+                  placeholder='Enter or insert SIC codes separated by comma'></textarea>
+        <button class='btn btn-default raw-zip-codes-button'
+                ng-disabled='!selectedState.rawSicCodes'
+                ng-click='addRawSicCodes()'
+                localized>zip.codes.add</button>
+    </div>
+
+    <div class='sic-range-container'>
+        <label>Range:</label>
+        <input type='text'
+               ng-model='selectedState.fromSic'
+               placeholder='from'
+               class='form-control'>
+        <input type='text'
+               ng-model='selectedState.toSic'
+               placeholder='to'
+               class='form-control'>
+        <button class='btn btn-default'
+                ng-disabled='!selectedState.fromSic || !selectedState.toSic'
+                ng-click='addSicCodesRange()'
+                localized>zip.codes.add</button>
+    </div>
+
+    <span class='tip-span'>* SIC code must be 6 digits</span>
+
+</div>

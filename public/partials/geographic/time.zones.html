@@ -1,0 +1,7 @@
+<div class='padding-top'>
+    <div class='col-sm-12' ng-repeat='timeZone in timeZones'>
+        <input id='{{timeZone.name}}' ng-model='selectedTimeZones[ timeZone.name + "|" + timeZone.abbreviation ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{timeZone.name}}'>{{timeZone.name}} ({{timeZone.abbreviation}})</label>
+    </div>
+
+</div>

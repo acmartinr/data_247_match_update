@@ -1,0 +1,12 @@
+logs
+target
+public/uploaded
+/.idea
+/out
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+.DS_Store
+data

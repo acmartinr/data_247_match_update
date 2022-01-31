@@ -1,0 +1,30 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm'>
+            <div class='form-group'>
+                <label class='margin-bottom' localized>Select phone prefixes file</label>
+                <input type='file'
+                       ng-disabled='loading'
+                       file-model='params.file'
+                       class='form-control'/>
+            </div>
+
+            <div class='right-align'>
+                <img class='loading-gif-margin inline margin-right-15'
+                     ng-if='loading'
+                     src='/assets/images/loading.gif'>
+
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        ng-disabled='loading'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='import()'
+                        class='btn btn-default'
+                        ng-disabled='!params.file || loading'
+                        localized>Import</button>
+            </div>
+        </form>
+    </div>
+</div>
+

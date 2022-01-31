@@ -1,0 +1,76 @@
+<tabset class='tabset'>
+    <tab ng-repeat='tab in tabs' heading='{{tab.title}}'
+         ng-click='updateActions(tab.value)'
+         ng-controller='OptInController'>
+        <div class='padding-top ng-scope'>
+
+            <div ng-if='searchConfig.option === "source"'>
+                <label>Search domain: </label>
+                <input type="text"
+                       class="form-control select-value-input padding-top"
+                       ng-model="values.SourceFrom"
+                       ng-change="updateSourceValue(true)"
+                       placeholder="url"/>
+                <div class='padding-top ng-scope'>
+                    <div ng-if='!loading'>
+                        <div class='col-sm-4' ng-repeat='source in sources | limitTo: selectedDomain.limit'>
+                            <input id='omitted_{{source}}' ng-model='selectedDomainSource[ source ]' type='checkbox'/>
+                            <label class='pointer tiny-label' for='omitted_{{source}}'>{{source}}</label>
+                        </div>
+                    </div>
+                    <div class='center margin-bottom load-more' ng-if='selectedDomain.limit < sources.length'>
+                        <a class='pointer tiny-link'
+                           ng-click='loadMore()'
+                           localized>load.more</a>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if='searchConfig.option === "datime"' ng-controller='DatesOptInController'>
+                <label>Select by date: </label>
+                <input type="text" class="form-control select-month-input"
+                       placeholder="Choose start month"
+                       id="datimeOptInStartDate"
+                       datepicker-popup="MM.yyyy"
+                       show-button-bar="false"
+                       ng-model="config.startDate"
+                       ng-change="onStartDateChanged(config.startDate)"
+                       is-open="startDateOpened"
+                       datepicker-options="{minMode: 'month'}"
+                       datepicker-mode="'month'"
+                       ng-click='startDateOpened = !startDateOpened'/>
+
+                <input type="text" class="form-control select-month-input"
+                       placeholder="Choose end month"
+                       id="datimeOptInEndDate"
+                       datepicker-popup="MM.yyyy"
+                       show-button-bar="false"
+                       ng-model="config.endDate"
+                       ng-change="onEndDateChanged(config.endDate)"
+                       is-open="endDateOpened"
+                       datepicker-options="{minMode: 'month'}"
+                       datepicker-mode="'month'"
+                       ng-click='endDateOpened = !endDateOpened'/>
+            </div>
+        </div>
+
+        <div ng-if='loading' class='center'>
+            <img src='/assets/images/loading.gif'>
+        </div>
+
+        <div ng-if='searchConfig.option === "carrier"' class='col-sm-4'
+             ng-repeat='carrier in carriers | limitTo: selectedCarriersLimit.limit'>
+            <!--            <div class="row">-->
+            <!--                <div class="col-sm-6" ng-if='searchConfig.option === "carrier"'>-->
+            <!--                    <label>Select carriers: </label>-->
+            <!--                </div>-->
+            <input id='omitted_{{carrier}}' ng-model='selectedCarriersBrands[ carrier ]' type='checkbox'/>
+            <label class='pointer tiny-label' for='omitted_{{carrier}}'>{{carrier}}</label>
+        </div>
+        <div class='center margin-bottom load-more' ng-if='selectedCarriersLimit.limit < carriers.length'>
+            <a class='pointer tiny-link'
+               ng-click='loadMoreCarriers()'
+               localized>load.more</a>
+        </div>
+    </tab>
+</tabset>

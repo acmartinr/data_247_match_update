@@ -1,0 +1,39 @@
+<div class='padding-top'>
+    <!--<div class='col-sm-4'>
+        <input id='all'
+               ng-model='config.all'
+               ng-change='onAllStatesChanged()'
+               type='checkbox'/>
+        <label class='pointer tiny-label' for='all' localized>state.all</label>
+    </div>-->
+
+    <div class='col-sm-4'>
+        <div ng-repeat='state in states.slice(0,18)'>
+            <input id='{{state.code}}'
+                   ng-model='selectedStates[ state.name + "|" + state.code ]'
+                   ng-change='onSelectedChanged(state)'
+                   type='checkbox'/>
+            <label class='pointer tiny-label' for='{{state.code}}'>{{state.name}}</label>
+        </div>
+    </div>
+
+    <div class='col-sm-4'>
+        <div ng-repeat='state in states.slice(18,36)'>
+            <input id='{{state.code}}'
+                   ng-model='selectedStates[ state.name + "|" + state.code ]'
+                   ng-change='onSelectedChanged(state)'
+                   type='checkbox'/>
+            <label class='pointer tiny-label' for='{{state.code}}'>{{state.name}}</label>
+        </div>
+    </div>
+
+    <div class='col-sm-4'>
+        <div ng-repeat='state in states.slice(36,54)'>
+            <input id='{{state.code}}'
+                   ng-model='selectedStates[ state.name + "|" + state.code ]'
+                   ng-change='onSelectedChanged(state)'
+                   type='checkbox'/>
+            <label class='pointer tiny-label' for='{{state.code}}'>{{state.name}}</label>
+        </div>
+    </div>
+</div>

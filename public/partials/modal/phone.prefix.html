@@ -1,0 +1,33 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='profileForm'>
+            <div class='form-group'>
+                <label for='prefix' localized>Phone prefix</label>
+                <input type='text' class='form-control' id='prefix'
+                       ng-model='prefix.prefix' localized-placeholder='enter phone prefix'
+                       required/>
+            </div>
+
+            <div class='form-group'>
+                <label for='type' localized>Type</label>
+                <select id='type' ng-model='prefix.type' class='form-control'>
+                    <option value="0" ng-selected="prefix.type == 0">landline</option>
+                    <option value="1" ng-selected="prefix.type == 1">mobile</option>
+                </select>
+            </div>
+
+            <div class='right-align'>
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        ng-disabled='loading'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='save()'
+                        class='btn btn-default'
+                        ng-disabled='loading'
+                        localized>Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+

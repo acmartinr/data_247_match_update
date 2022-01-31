@@ -1,0 +1,49 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <!--<input type='text' class='form-control input-search-field margin-top-5' id='optionalField'
+               ng-model='config.search'
+               localized-placeholder='Search field by name'/>-->
+
+        <div class='header-line'>
+            <input type='text'
+                   ng-show='isAdditionalCodeEnabled'
+                   class='form-control input-marketing-code margin-top-5' id='marketingCode'
+                   ng-model='config.code'
+                   localized-placeholder='Additional code'/>
+
+            <button class='btn btn-default'
+                    ng-click='select()'
+                    localized>Apply selected</button>
+
+            <button class='btn btn-default'
+                    ng-click='cancel()'
+                    localized>lists.modal.cancel</button>
+        </div>
+
+
+        <div class='optional-field-wrapper'>
+            <div class="full-width">
+
+                <div class='bubble' ng-if="currentDataType==9" ng-repeat='item in filtered = ( optionalFields | filter: {type: "type1"} )'><!--( optionalFields | filter: config.search ) -->
+                    <input type="checkbox" class="optional-field-checkbox" ng-model="item.selected">
+                    <span class="capitalize pointer" ng-click="item.selected = !item.selected">{{item.name}}</span>
+                </div>
+
+                <div class='bubble' ng-if="currentDataType!=9" ng-repeat='item in filtered = ( optionalFields | filter: config.search )'>
+                    <input type="checkbox" class="optional-field-checkbox" ng-model="item.selected">
+                    <span class="capitalize pointer" ng-click="item.selected = !item.selected">{{item.name}}</span>
+                </div>
+
+                <div class='center full-width' ng-if='filtered.length == 0'>
+                    <span class='no-results-label'>Nothing found</span>
+                </div>
+            </div>
+            <a class='pointer tiny-link'
+               ng-if="currentDataType==9"
+               ng-click='loadinteresrsFields()'
+               localized>Show Interests</a>
+        </div>
+
+    </div>
+</div>
+

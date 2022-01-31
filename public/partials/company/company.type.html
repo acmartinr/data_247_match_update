@@ -1,0 +1,8 @@
+<div class='padding-top'>
+    <div class='col-sm-12' ng-repeat='type in types'>
+        <input id='{{type.name}}'
+               ng-model='selectedCompanyTypes[ type.name + "|" + type.value ]' type='checkbox'/>
+        <label class='pointer tiny-label'
+               for='{{type.name}}'>{{type.name}}</label>
+    </div>
+</div>

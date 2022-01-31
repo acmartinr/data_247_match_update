@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class='content-with-max-width'>
+                <div class='margin-bottom'>
+                    <input class='form-control inline-block'
+                           ng-class='{"payments-search": isAdmin() || isManager() || allowManageMoney()}'
+                           ng-model='config.searchValue'
+                           ng-change='searchByValue()'
+                           localized-placeholder='Search payments' >
+
+                    <button class='btn btn-default inline-block payments-search-btn'
+                            ng-if='isAdmin() || isManager() || allowManageMoney()'
+                            ng-click='addPayment()'>Add payment</button>
+                </div>
+
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "payments.date" )'>
+                            <span localized>Date</span>
+                            <span ng-if='config.sortValue === "payments.date" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "payments.date" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "users.username" )'>
+                            <span localized>Username</span>
+                            <span ng-if='config.sortValue === "users.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "users.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+                        <th class='pointer nowrap'>
+                            <span localized>Email</span>
+                        </th>
+                        <th class='pointer nowrap'
+                            ng-if='isAdmin()'
+                            ng-click='sortByField( "r.username" )'>
+                            <span localized>Reseller</span>
+                            <span ng-if='config.sortValue === "r.username" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "r.username" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "type" )'>
+                            <span localized>Payment type</span>
+                            <span ng-if='config.sortValue === "type" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "type" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+
+                        <th class='pointer nowrap'
+                            ng-click='sortByField( "amount" )'>
+                            <span localized>Amount</span>
+                            <span ng-if='config.sortValue === "amount" && config.sortDesc' class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                            <span ng-if='config.sortValue === "amount" && !config.sortDesc' class="glyphicon glyphicon-sort-by-attributes"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='payment in payments'
+                        ng-class='{ "danger": payment.type === "SPEND", "success": payment.type === "ADD_FUNDS" }'>
+                        <td>{{payment.date | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+                        <td>{{payment.username}}</td>
+                        <td>{{payment.email}}</td>
+                        <td ng-if='isAdmin()'>{{payment.reseller ? payment.reseller : 'none'}}</td>
+                        <td>{{getLocalizedType(payment)}}</td>
+                        <td>${{payment.amount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if='payments && payments.length === 0' class='center'>
+                    <span localized>No payments found</span>
+                </div>
+
+                <div ng-if='total > config.limit || true' class='right'>
+                    <pagination boundary-links='true' class='pagination-sm'
+                                max-size='3'
+                                ng-change='search()'
+                                ng-model='config.page'
+                                total-items='total'
+                                items-per-page='config.limit'
+                                previous-text='&lsaquo;'
+                                next-text='&rsaquo;'
+                                first-text='&laquo;'
+                                last-text='&raquo;'></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

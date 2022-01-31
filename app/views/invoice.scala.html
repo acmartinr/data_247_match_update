@@ -1,0 +1,84 @@
+@(invoiceNumber: Int)
+<!doctype html>
+<html lang="en" ng-app="consumer_data_base_invoice">
+<head>
+    <meta charset="utf-8">
+    <title>MakeMyData Invoice</title>
+
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+    <link rel="shortcut icon" href='@routes.Assets.versioned("/images/favicon.png")' type="image/png">
+
+    <link rel="stylesheet" href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css?timestamp=1589805552695")'>
+    <link rel="stylesheet" href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.css?timestamp=1589805552695")'>
+
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/invoice_style.css?timestamp=1589805552695")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/main.css?timestamp=1589805552695")'>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/angular-toasty.min.css?timestamp=1589805552695")'>
+</head>
+<body id='body' ng-cloak ng-controller='InvoiceController'>
+    <div class='invoice-panel-wrapper'>
+        <div stripe></div>
+        <div class='panel panel-default invoice-panel' ng-class='{"panel-danger": errorMessage}'>
+            <img ng-if='paymentRequest.id' class='invoice-logo' src="/assets/images/logo-main.png" alt="">
+
+            <div class='panel-heading' ng-if='errorMessage'>{{errorMessage}}</div>
+            <div class='panel-body'>
+                <form id="paymentForm">
+                    <input id="token" name="token" type="hidden" value="">
+
+                    <div ng-show='paymentRequest.id'>
+                        <label localized>Invoice information:</label>
+                    </div>
+
+                    <span class='invoice-info' ng-show='paymentRequest.id'>Amount: ${{paymentRequest.amount.toFixed(2)}}</span>
+                    <span class='invoice-info' ng-show='paymentRequest.id'>Due date: {{formatDate(paymentRequest.dueDate)}}</span>
+                    <span class='invoice-info invoice-info-note' ng-show='paymentRequest.id'>Note:</span>
+                    <div class='invoice-info-line-wrapper'>
+                        <p class='invoice-info-line' ng-repeat='line in lines'>{{line}}</p>
+                    </div>
+
+                    <div ng-show='paymentRequest.id' class='margin-top-10'>
+                        <label localized>Payment information:</label>
+                    </div>
+
+                    <div ng-show='paymentRequest.id && !paymentRequest.paid' class='form-group payment-row-height'>
+                        <div class='payment-label-content payment-row-height'>
+                            <div id="card-element">
+                            </div>
+
+                            <!-- Used to display form errors -->
+                            <div id="card-errors" role="alert" class='payment-error-message'></div>
+                        </div>
+                    </div>
+
+                    <div ng-show='paymentRequest.id' class='right-align padding-top'>
+                        <img ng-if='loading' class='margin-left' src='/assets/images/loading.gif'>
+
+                        <button type='submit' class='btn btn-default'
+                                ng-click='doPayment()'
+                                ng-disabled='loading'
+                                localized>Pay</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+    <toasty></toasty>
+
+    <script>document.invoiceNumber = @invoiceNumber;</script>
+
+    <script src='@routes.Assets.versioned("/lib/angularjs/angular.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-resource.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js?timestamp=1589805552695")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("/static/angular-toasty.min.js?timestamp=1589805552695")' type="text/javascript"></script>
+
+    <script src='@routes.Assets.versioned("/javascripts/invoice_app.js?timestamp=1589805552695")' type="text/javascript"></script>
+</body>
+</html>

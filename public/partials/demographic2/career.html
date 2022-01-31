@@ -1,0 +1,108 @@
+<div class='padding-top'>
+    <div class='col-sm-4 no-padding-left'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <a ng-repeat='tab in tabs' class='pointer block tiny-link'
+                   ng-class='{"active-tiny-link": searchConfig.option === tab.value}'
+                   ng-click='searchConfig.option = tab.value'>{{tab.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <input class='form-control col-sm-12 margin-bottom'
+               localized-placeholder='Search'
+               ng-model='searchConfig.search'
+               ng-if='searchConfig.show'/>
+
+        <div ng-if='searchConfig.option === "occupationGroup"'>
+            <div class='col-sm-12' ng-repeat='item in groups | orderBy: "title" '>
+                <input id='career_{{item.value}}' ng-model='selectedOccupationGroups[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='career_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "personOccupation"'>
+            <div class='col-sm-6' ng-repeat='item in filtered = (occupations | filter: {title: searchConfig.search}) | orderBy: "title" | limitTo: searchConfig.limit'>
+                <input id='career_{{item.value}}' ng-model='selectedPersonOccupations[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='career_{{item.value}}'>{{item.title}}</label>
+            </div>
+
+            <div class='center margin-bottom load-more'
+                 ng-if='searchConfig.limit < filtered.length'>
+                <a class='pointer tiny-link'
+                   ng-click='loadMore()'
+                   localized>load.more</a>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "personEducation"'>
+            <div class='col-sm-12' ng-repeat='item in educations'>
+                <input id='career_{{item.value}}' ng-model='selectedPersonEducations[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='career_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "businessOwner"'>
+            <div class='col-sm-12' ng-repeat='item in businessOwners'>
+                <input id='career_{{item.value}}' ng-model='selectedBusinessOwners[item.title + "|" + item.value]' type='checkbox'/>
+                <label class='pointer tiny-label' for='career_{{item.value}}'>{{item.title}}</label>
+            </div>
+        </div>
+
+        <div ng-if='searchConfig.option === "opportunitySeekers"'>
+            <input id='opportunitySeeker' ng-model='selectedProperties[tabs[4].title + "|" + tabs[4].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='opportunitySeeker'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "highTechLeader"'>
+            <input id='highTechLeader' ng-model='selectedProperties[tabs[5].title + "|" + tabs[5].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='highTechLeader'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "careerImprovement"'>
+            <input id='careerImprovement' ng-model='selectedProperties[tabs[6].title + "|" + tabs[6].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='careerImprovement'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "workingWoman"'>
+            <input id='workingWoman' ng-model='selectedProperties[tabs[7].title + "|" + tabs[7].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='workingWoman'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "africanAmericanProfessionals"'>
+            <input id='africanAmericanProfessionals' ng-model='selectedProperties[tabs[8].title + "|" + tabs[8].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='africanAmericanProfessionals'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "career"'>
+            <input id='career' ng-model='selectedProperties[tabs[9].title + "|" + tabs[9].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='career'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "educationOnline"'>
+            <input id='educationOnline' ng-model='selectedProperties[tabs[10].title + "|" + tabs[10].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='educationOnline'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "computingHomeOfficeGeneral"'>
+            <input id='computingHomeOfficeGeneral' ng-model='selectedProperties[tabs[11].title + "|" + tabs[11].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='computingHomeOfficeGeneral'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "electronicsComputingAndHomeOffice"'>
+            <input id='electronicsComputingAndHomeOffice' ng-model='selectedProperties[tabs[12].title + "|" + tabs[12].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='electronicsComputingAndHomeOffice'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "telecommunications"'>
+            <input id='telecommunications' ng-model='selectedProperties[tabs[13].title + "|" + tabs[13].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='telecommunications'>Yes</label>
+        </div>
+
+        <div ng-if='searchConfig.option === "selfImprovement"'>
+            <input id='selfImprovement' ng-model='selectedProperties[tabs[14].title + "|" + tabs[14].value]' type='checkbox'/>
+            <label class='pointer tiny-label' for='selfImprovement'>Yes</label>
+        </div>
+
+    </div>
+</div>

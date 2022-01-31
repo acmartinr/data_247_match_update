@@ -1,0 +1,51 @@
+<div class='padding-top'>
+    <div class='load-file-wrapper'>
+        <span>Load from file:</span>
+        <input type='file'
+               file-model='params.file'
+               class='form-control inline-block matching-choose-file'/>
+    </div>
+
+    <div>
+        <textarea ng-model='selectedState.rawZipCodes'
+                  class='form-control raw-zip-codes'
+                  localized-placeholder='zip.codes.enter.raw.zip.codes'></textarea>
+        <button class='btn btn-default raw-zip-codes-button'
+                ng-disabled='!selectedState.rawZipCodes'
+                ng-click='addRawZipCodes()'
+                localized>zip.codes.add</button>
+    </div>
+
+    <div class='row margin-top'>
+        <div class='col-sm-6'>
+            <select class='form-control margin-bottom'
+                    ng-model='selectedState.code'
+                    ng-change='updateZipCodes()'>
+                <option ng-repeat='state in states'
+                        ng-selected='state.code === selectedState.code'
+                        value='{{state.code}}'>{{state.name}}</option>
+            </select>
+        </div>
+
+        <div class='col-sm-6'>
+            <input class='form-control col-sm-6'
+                   localized-placeholder='zip.codes.search.placeholder'
+                   ng-model='selectedState.filter'>
+        </div>
+    </div>
+
+    <div ng-if='loading' class='center'>
+        <img src='/assets/images/loading.gif'>
+    </div>
+
+    <div class='col-sm-3' ng-repeat='zip in filtered = ( zipCodes | filter: { code : selectedState.filter } ) | limitTo: selectedState.limit'>
+        <input id='{{zip.code}}' ng-model='selectedZipCodes[ zip.code ]' type='checkbox'/>
+        <label class='pointer tiny-label' for='{{zip.code}}'>{{formatZipCode(zip.code)}}</label>
+    </div>
+
+    <div class='center margin-bottom load-more' ng-if='selectedState.limit < filtered.length'>
+        <a class='pointer tiny-link'
+           ng-click='loadMore()'
+           localized>load.more</a>
+    </div>
+</div>

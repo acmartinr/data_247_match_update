@@ -1,0 +1,828 @@
+<div class='panel panel-default phone-verification no-margin-bottom'>
+    <div class='panel-body'>
+        <form username='verificationForm'>
+            <div class='form-group'>
+                <div class='margin-bottom' localized>lists.name</div>
+                <input type='text' class='form-control' id='code'
+                       ng-model='name' localized-placeholder='lists.name.placeholder'/>
+            </div>
+
+            <div ng-if='!uploaded'>
+                <div ng-if='asArray(selectedTimeZones).length > 0'>
+                    <label class='full-width margin-top' localized>Time Zones</label>
+                    <div class='bubble' ng-repeat='timeZone in asArray(selectedTimeZones)'>
+                        <span>{{timeZone.split("|")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedStates).length > 0'>
+                    <label class='full-width margin-top' localized>tabs.states</label>
+                    <div class='bubble' ng-repeat='state in asArray(selectedStates)'>
+                        <span>{{state.split("|")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(omittedStates).length > 0'>
+                    <label class='full-width margin-top' localized>Omitted State</label>
+                    <div class='bubble' ng-repeat='state in asArray(omittedStates)'>
+                        <span>{{state.split("|")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedCounties).length > 0'>
+                    <label class='full-width margin-top' localized>tabs.county</label>
+                    <div class='bubble' ng-repeat='county in asArray(selectedCounties)'>
+                        <span>{{county.split("_")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedCities).length > 0'>
+                    <label class='full-width margin-top' localized>tabs.city</label>
+                    <div class='bubble' ng-repeat='county in asArray(selectedCities)'>
+                        <span>{{county.split("_")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(omittedCities).length > 0'>
+                    <label class='full-width margin-top' localized>Omitted city</label>
+                    <div class='bubble' ng-repeat='city in asArray(omittedCities)'>
+                        <span>{{city.split("_")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedZipCodes).length > 0'>
+                    <label class='full-width margin-top' localized>tabs.zip</label>
+                    <div class='bubble' ng-repeat='zip in asArray(selectedZipCodes)'>
+                        <span>{{formatZipCode(zip)}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(omittedZipCodes).length > 0'>
+                    <label class='full-width margin-top' localized>Omitted ZIP</label>
+                    <div class='bubble' ng-repeat='zipCode in asArray(omittedZipCodes)'>
+                        <span>{{formatZipCode(zipCode)}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedAreaCodes).length > 0'>
+                    <label class='full-width margin-top' localized>tabs.phones</label>
+                    <div class='bubble' ng-repeat='areaCode in asArray(selectedAreaCodes)'>
+                        <span>{{areaCode}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(omittedAreaCodes).length > 0'>
+                    <label class='full-width margin-top' localized>Omitted Area Code</label>
+                    <div class='bubble' ng-repeat='areaCode in asArray(omittedAreaCodes)'>
+                        <span>{{areaCode}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedCarriers).length > 0'>
+                    <label class='full-width margin-top' localized>Carrier</label>
+                    <div class='bubble' ng-repeat='carrier in asArray(selectedCarriers)'>
+                        <span>{{carrier}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='dataType === "consumers" || dataType === "consumer2018" || dataType === "consumer"'>
+                    <div ng-if='asArray(selectedProperties).length > 0'>
+                        <label class='full-width margin-top' localized>Properties</label>
+                        <div class='bubble' ng-repeat='property in asArray(selectedProperties)'>
+                            <span>{{property.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedAges).length > 0'>
+                        <label class='full-width margin-top' localized>tabs.ages</label>
+                        <div class='bubble' ng-repeat='age in asArray(selectedAges)'>
+                            <span>{{age.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(agesRange).length > 0'>
+                        <label class='full-width margin-top' localized>Age range</label>
+                        <div class='bubble' ng-repeat='value in asArray(agesRange)'>
+                            <span>{{value.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(dobs).length > 0'>
+                        <label class='full-width margin-top' localized>Date of birth</label>
+                        <div class='bubble'>
+                            <span>{{formatDob()}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedGenders).length > 0'>
+                        <label class='full-width margin-top' localized>tabs.genders</label>
+                        <div class='bubble' ng-repeat='gender in asArray(selectedGenders)'>
+                            <span>{{gender.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMaritalStatuses).length > 0'>
+                        <label class='full-width margin-top' localized>Marital Status</label>
+                        <div class='bubble' ng-repeat='status in asArray(selectedMaritalStatuses)'>
+                            <span>{{status.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEthnicCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Ethnic</label>
+                        <div class='bubble' ng-repeat='code in asArray(selectedEthnicCodes)'>
+                            <span>{{code.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedLanguageCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Language</label>
+                        <div class='bubble' ng-repeat='code in asArray(selectedLanguageCodes)'>
+                            <span>{{code.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEthnicGroups).length > 0'>
+                        <label class='full-width margin-top' localized>Ethnic Group</label>
+                        <div class='bubble' ng-repeat='group in asArray(selectedEthnicGroups)'>
+                            <span>{{group.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedReligionCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Religion</label>
+                        <div class='bubble' ng-repeat='code in asArray(selectedReligionCodes)'>
+                            <span>{{code.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedHispanicCountryCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Hispanic Country</label>
+                        <div class='bubble' ng-repeat='code in asArray(selectedHispanicCountryCodes)'>
+                            <span>{{code.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedPropertyType).length > 0'>
+                        <label class='full-width margin-top' localized>Property Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedPropertyType)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedOwnerType).length > 0'>
+                        <label class='full-width margin-top' localized>Owner Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedOwnerType)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedLengthOfResidence).length > 0'>
+                        <label class='full-width margin-top' localized>Length Of Residence</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedLengthOfResidence)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNumberOfPersonInLivingUnit).length > 0'>
+                        <label class='full-width margin-top' localized>Number Of Person In Living Unit</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfPersonInLivingUnit)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNumberOfChildren).length > 0'>
+                        <label class='full-width margin-top' localized>Number Of Children</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfChildren)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedChildrenAgeGender).length > 0'>
+                        <label class='full-width margin-top' localized>Children Age/Gender</label>
+                        <div class='bubble'
+                             ng-repeat='item in asArray(selectedChildrenAgeGender)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedInferredHouseHoldRank).length > 0'>
+                        <label class='full-width margin-top' localized>Inferred House Hold Rank</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedInferredHouseHoldRank)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNumberOfAdults).length > 0'>
+                        <label class='full-width margin-top' localized>Number Of Adults</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfAdults)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedGenerationsInHouseHold).length > 0'>
+                        <label class='full-width margin-top' localized>Generations In House Hold</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedGenerationsInHouseHold)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedSewer).length > 0'>
+                        <label class='full-width margin-top' localized>Sewer</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedSewer)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedWater).length > 0'>
+                        <label class='full-width margin-top' localized>Water</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedWater)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedOccupationGroups).length > 0'>
+                        <label class='full-width margin-top' localized>Occupation Groups</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedOccupationGroups)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedPersonEducations).length > 0'>
+                        <label class='full-width margin-top' localized>Person Education</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedPersonEducations)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedPersonOccupations).length > 0'>
+                        <label class='full-width margin-top' localized>Person Occupation</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedPersonOccupations)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedBusinessOwners).length > 0'>
+                        <label class='full-width margin-top' localized>Business Owners</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedBusinessOwners)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEstimatedIncome).length > 0'>
+                        <label class='full-width margin-top' localized>Estimated Income</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedEstimatedIncome)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNetWorthes).length > 0'>
+                        <label class='full-width margin-top' localized>Net Worth</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedNetWorthes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedPropertyOwned).length > 0'>
+                        <label class='full-width margin-top' localized>Property Owned</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedPropertyOwned)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedHomePurchasePrices).length > 0'>
+                        <label class='full-width margin-top' localized>Home Purchase Price</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedHomePurchasePrices)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedHomePurchasedDates.length > 0'>
+                        <label class='full-width margin-top' localized>Home Purchased Date Range</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedHomePurchasedDates)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedHomeYearBuilt.length > 0'>
+                        <label class='full-width margin-top' localized>Home Year Built Range</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedHomeYearBuilt)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEstimatedCurrentHomeValueCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Estimated Current Home Value</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedEstimatedCurrentHomeValueCodes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMortgageAmountInThousands).length > 0'>
+                        <label class='full-width margin-top' localized>Mortgage Amount In Thousands</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageAmountInThousands)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMortgageLenderNames).length > 0'>
+                        <label class='full-width margin-top' localized>Mortgage Lender Name</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageLenderNames)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMortgageRate).length > 0'>
+                        <label class='full-width margin-top' localized>Mortgage Rate</label>
+                        <div class='bubble' ng-repeat='item in asSortedArray(selectedMortgageRate)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMortgageRateTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Mortgage Rate Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageRateTypes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMortgageLoanTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Mortgage Loan Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMortgageLoanTypes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedTransactionTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Transaction Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedTransactionTypes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRefinanceAmountInThousands).length > 0'>
+                        <label class='full-width margin-top' localized>Refinance Amount In Thousands</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceAmountInThousands)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRefinanceLeaderNames).length > 0'>
+                        <label class='full-width margin-top' localized>Refinance Lender Name</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceLeaderNames)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedDeedDatesOfRefinance.length > 0'>
+                        <label class='full-width margin-top' localized>Deed Date Of Refinance Range</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedDeedDatesOfRefinance)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRefinanceRateTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Refinance Rate Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceRateTypes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRefinanceLoanTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Refinance Loan Type</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedRefinanceLoanTypes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedCensusMedianHouseHoldIncome).length > 0'>
+                        <label class='full-width margin-top' localized>Census Median House Hold Income</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedCensusMedianHouseHoldIncome)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedCensusMedianHomeValue).length > 0'>
+                        <label class='full-width margin-top' localized>Census Median Home Value</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedCensusMedianHomeValue)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedCraIncomeClassificationCodes).length > 0'>
+                        <label class='full-width margin-top' localized>CRA Income Classification Code</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedCraIncomeClassificationCodes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedPurchaseMortgageDates.length > 0'>
+                        <label class='full-width margin-top' localized>Purchase Mortgage Date Range</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedPurchaseMortgageDates)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMostRecentLenderCodes).length > 0'>
+                        <label class='full-width margin-top' localized>Most Recent Lender Code</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMostRecentLenderCodes)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedPurchaseLenderNames).length > 0'>
+                        <label class='full-width margin-top' localized>Purchase Lender Name</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedPurchaseLenderNames)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMostRecentMortgageInterestRates).length > 0'>
+                        <label class='full-width margin-top' localized>Most Recent Mortgage Interest Rate</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedMostRecentMortgageInterestRates)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedLoanToValues).length > 0'>
+                        <label class='full-width margin-top' localized>Loan To Value</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedLoanToValues)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <!--<div ng-if='asArray(selectedPhoneTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Phone types</label>
+                        <div class='bubble' ng-repeat='phoneType in asArray(selectedPhoneTypes)'>
+                            <span>{{phoneType.split("|")[0]}}</span>
+                            <a class='tiny-link pointer' ng-click='selectedPhoneTypes[phoneType] = false'>×</a>
+                        </div>
+                    </div>-->
+
+                    <div ng-if='asArray(selectedEducations).length > 0'>
+                        <label class='full-width margin-top' localized>tabs.education</label>
+                        <div class='bubble' ng-repeat='education in asArray(selectedEducations)'>
+                            <span>{{education.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNetWorth).length > 0'>
+                        <label class='full-width margin-top' localized>credit.net.worth</label>
+                        <div class='bubble' ng-repeat='credit in asArray(selectedNetWorth)'>
+                            <span>{{credit.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRating).length > 0'>
+                        <label class='full-width margin-top' localized>credit.rating</label>
+                        <div class='bubble' ng-repeat='credit in asArray(selectedRating)'>
+                            <span>{{credit.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedActiveLines).length > 0'>
+                        <label class='full-width margin-top' localized>credit.active.lines</label>
+                        <div class='bubble' ng-repeat='credit in asArray(selectedActiveLines)'>
+                            <span>{{credit.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedRange).length > 0'>
+                        <label class='full-width margin-top' localized>credit.range.new.credits</label>
+                        <div class='bubble' ng-repeat='credit in asArray(selectedRange)'>
+                            <span>{{credit.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEthnicityGroup).length > 0'>
+                        <label class='full-width margin-top' localized>ethnicity.group</label>
+                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityGroup)'>
+                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEthnicityLanguage).length > 0'>
+                        <label class='full-width margin-top' localized>ethnicity.language</label>
+                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityLanguage)'>
+                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEthnicityReligion).length > 0'>
+                        <label class='full-width margin-top' localized>ethnicity.religion</label>
+                        <div class='bubble' ng-repeat='ethnicity in asArray(selectedEthnicityReligion)'>
+                            <span>{{ethnicity.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedHouseholdSize).length > 0'>
+                        <label class='full-width margin-top' localized>household.size</label>
+                        <div class='bubble' ng-repeat='household in asArray(selectedHouseholdSize)'>
+                            <span>{{household.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedHouseholdIncome).length > 0'>
+                        <label class='full-width margin-top' localized>household.income</label>
+                        <div class='bubble' ng-repeat='household in asArray(selectedHouseholdIncome)'>
+                            <span>{{household.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceVeteran).length > 0'>
+                        <label class='full-width margin-top' localized>residence.veteran</label>
+                        <div class='bubble' ng-repeat='household in asArray(selectedResidenceVeteran)'>
+                            <span>{{household.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceType).length > 0'>
+                        <label class='full-width margin-top' localized>residence.type.title</label>
+                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceType)'>
+                            <span>{{residence.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceOwnerShip).length > 0'>
+                        <label class='full-width margin-top' localized>residence.ownership.title</label>
+                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceOwnerShip)'>
+                            <span>{{residence.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceLength).length > 0'>
+                        <label class='full-width margin-top' localized>residence.length.title</label>
+                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceLength)'>
+                            <span>{{residence.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceMarital).length > 0'>
+                        <label class='full-width margin-top' localized>residence.marital</label>
+                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceMarital)'>
+                            <span>{{residence.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedResidenceChildren).length > 0'>
+                        <label class='full-width margin-top' localized>residence.number.of.children</label>
+                        <div class='bubble' ng-repeat='residence in asArray(selectedResidenceChildren)'>
+                            <span>{{residence.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedInterests).length > 0'>
+                        <label class='full-width margin-top' localized>tabs.interests</label>
+                        <div class='bubble' ng-repeat='interest in asArray(selectedInterests)'>
+                            <span>{{interest.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedNumberOfSources).length > 0'>
+                        <label class='full-width margin-top' localized>Number Of Sources</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedNumberOfSources)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedDPV).length > 0'>
+                        <label class='full-width margin-top' localized>Delivery Point Verification Code</label>
+                        <div class='bubble' ng-repeat='item in asArray(selectedDPV)'>
+                            <span>{{item.split("|")[0]}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if='dataType === "directory" || dataType === "craigslist"  || dataType === "WHOIS"'>
+                    <div ng-if='asArray(selectedSections).length > 0'>
+                        <label class='full-width margin-top' localized>Sections</label>
+                        <div class='bubble' ng-repeat='section in asArray(selectedSections)'>
+                            <span>{{section}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedDates).length > 0'>
+                        <label class='full-width margin-top' localized>Date range</label>
+                        <div class='bubble' ng-repeat='date in asArray(selectedDates)'>
+                            <span>{{date.split('|')[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedSources).length > 0'>
+                        <label class='full-width margin-top' localized>Sources</label>
+                        <div class='bubble' ng-repeat='source in asArray(selectedSources)'>
+                            <span>{{formatSourceName(source.split("|")[ 0 ])}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div ng-if='dataType === "OPT IN" || dataType === "AUTO"'>
+                    <div ng-if='asArray(selectedDates).length > 0'>
+                        <label class='full-width margin-top' localized>Date range</label>
+                        <div class='bubble' ng-repeat='date in asArray(selectedDates)'>
+                            <span>{{date.split('|')[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedModels).length > 0'>
+                        <label class='full-width margin-top' localized>Models</label>
+                        <div class='bubble' ng-repeat='model in asArray(selectedModels)'>
+                            <span>{{model.split('|')[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedMakes).length > 0'>
+                        <label class='full-width margin-top' localized>Makes</label>
+                        <div class='bubble' ng-repeat='make in asArray(selectedMakes)'>
+                            <span>{{make.split('|')[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedYears.length > 0'>
+                        <label class='full-width margin-top' localized>Years range</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedYears)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(agesRange).length > 0'>
+                        <label class='full-width margin-top' localized>Age range</label>
+                        <div class='bubble' ng-repeat='value in asArray(agesRange)'>
+                            <span>{{value.split("|")[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedSources).length > 0'>
+                        <label class='full-width margin-top' localized>Sources</label>
+                        <div class='bubble' ng-repeat='source in asArray(selectedSources)'>
+                            <span>{{source.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div ng-if='dataType === "business detailed"'>
+                    <div ng-if='selectedEmployeeCount.length > 0'>
+                        <label class='full-width margin-top' localized>Employees on Site</label>
+                        <div class='bubble' ng-repeat='employeeCount in selectedEmployeeCount'>
+                            <span>{{employeeCount}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedSales.length > 0'>
+                        <label class='full-width margin-top' localized>Revenue at Site</label>
+                        <div class='bubble' ng-repeat='sales in selectedSales'>
+                            <span>{{sales}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedYears.length > 0'>
+                        <label class='full-width margin-top' localized>Year Founded</label>
+                        <div class='bubble'>
+                            <span>{{getDatesRangeTitle(selectedYears)}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedCreditScores.length > 0'>
+                        <label class='full-width margin-top' localized>Credit Scores</label>
+                        <div class='bubble' ng-repeat='creditScore in selectedCreditScores'>
+                            <span>{{creditScore}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedCompanyTypes.length > 0'>
+                        <label class='full-width margin-top' localized>Company Types</label>
+                        <div class='bubble' ng-repeat='type in selectedCompanyTypes'>
+                            <span>{{type.split('|')[0]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='selectedTitles.length > 0'>
+                        <label class='full-width margin-top' localized>Titles</label>
+                        <div class='bubble' ng-repeat='title in selectedTitles'>
+                            <span>{{title}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedSics).length > 0 || sicRange.fromSic || sicRange.toSic'>
+                        <label class='full-width margin-top' localized>SIC code</label>
+                        <div class='bubble' ng-repeat='sic in asArray(selectedSics)'>
+                            <span>{{sic}}</span>
+                        </div>
+
+                        <div class='bubble' ng-if='sicRange.fromSic'>
+                            <span>>= {{sicRange.fromSic}}</span>
+                        </div>
+
+                        <div class='bubble' ng-if='sicRange.toSic'>
+                            <span><= {{sicRange.toSic}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if='dataType === "business" || dataType === "business detailed"'>
+                    <!--<div ng-if='asArray(selectedPhoneTypes).length > 0'>
+                        <label class='full-width margin-top' localized>Phone types</label>
+                        <div class='bubble' ng-repeat='phoneType in asArray(selectedPhoneTypes)'>
+                            <span>{{phoneType.split("|")[0]}}</span>
+                            <a class='tiny-link pointer' ng-click='selectedPhoneTypes[phoneType] = false'>×</a>
+                        </div>
+                    </div>-->
+
+                    <div ng-if='asArray(selectedSales).length > 0'>
+                        <label class='full-width margin-top' localized>Annual Sales</label>
+                        <div class='bubble' ng-repeat='sales in asArray(selectedSales)'>
+                            <span>{{sales}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedEmployeeCount).length > 0'>
+                        <label class='full-width margin-top' localized>Employee Count</label>
+                        <div class='bubble' ng-repeat='employeeCount in asArray(selectedEmployeeCount)'>
+                            <span>{{employeeCount}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedTitles).length > 0'>
+                        <label class='full-width margin-top' localized>Titles</label>
+                        <div class='bubble' ng-repeat='title in asArray(selectedTitles)'>
+                            <span>{{title}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedIndustries).length > 0'>
+                        <label class='full-width margin-top' localized>Industry</label>
+                        <div class='bubble' ng-repeat='industry in asArray(selectedIndustries)'>
+                            <span>{{industry.split("|")[ 0 ]}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-if='asArray(selectedSics).length > 0 || sicRange.fromSic || sicRange.toSic'>
+                        <label class='full-width margin-top' localized>SIC code</label>
+                        <div class='bubble' ng-repeat='sic in asArray(selectedSics)'>
+                            <span>{{sic}}</span>
+                        </div>
+
+                        <div class='bubble' ng-if='sicRange.fromSic'>
+                            <span>>= {{sicRange.fromSic}}</span>
+                        </div>
+
+                        <div class='bubble' ng-if='sicRange.toSic'>
+                            <span><= {{sicRange.toSic}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if='asArray(selectedCategory).length > 0'>
+                    <label class='full-width margin-top'>Category</label>
+                    <div class='bubble' ng-repeat='category in asArray(selectedCategory)'>
+                        <span>{{category.split("|")[ 0 ]}}</span>
+                    </div>
+                </div>
+
+                <label ng-if='asArray(selectedLists).length > 0'
+                       class='full-width margin-top' localized>dashboard.refine.list.title</label>
+
+                <div ng-if='asArray(selectedLists).length > 0'>
+                    <div class='bubble' ng-repeat='list in asArray(selectedLists)'>
+                        <span>{{list.split("|")[0]}}</span>
+                    </div>
+                </div>
+
+                <label ng-if='asArray(selectedUploadedLists).length > 0'
+                       class='full-width margin-top' localized>Suppress Uploaded List</label>
+
+                <div ng-if='asArray(selectedUploadedLists).length > 0'>
+                    <div class='bubble' ng-repeat='list in asArray(selectedUploadedLists)'>
+                        <span>{{list.split("|")[0]}}</span>
+                    </div>
+                </div>
+
+                <div ng-if='keywords.length > 0'>
+                    <label class='full-width margin-top' localized>Keywords</label>
+                    <div ng-repeat='keyword in keywords' class='bubble'>
+                        <span>{{keyword.keyword}}{{generateColumnsString(keyword)}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class='right-align float-right full-width margin-top'>
+                <button class='btn btn-default float-left'
+                        ng-if='!uploaded'
+                        ng-click='searchWithParams()'
+                        localized>Shortcut</button>
+
+                <button class='btn btn-default'
+                        ng-click='close()'
+                        localized>lists.modal.cancel</button>
+
+                <button ng-click='save()'
+                        class='btn btn-default'
+                        ng-disabled='!name'
+                        localized>lists.modal.save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
