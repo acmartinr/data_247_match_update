@@ -1741,7 +1741,6 @@ public class Lists extends Controller {
             Http.MultipartFormData.FilePart<File> file = body.getFile("file");
 
             String columnsTable = body.asFormUrlEncoded().get("columns")[0];
-            System.out.println(body.asFormUrlEncoded().get("columns")[1]);
             File listFile = new File(file.getFile().getPath());
             BufferedReader reader = new BufferedReader(new FileReader(listFile));
             String line = reader.readLine();

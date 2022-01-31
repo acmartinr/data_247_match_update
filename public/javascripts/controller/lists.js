@@ -2573,7 +2573,7 @@ controller( 'BuyListModalController',
                     var fd = new FormData();
                     fd.append( 'file', $scope.params.file );
                     fd.append( 'columns', $scope.columns);
-                    fd.append( 'datatype', 1);
+                   // fd.append( 'datatype', 1);
                     $http.post( BASE_URL + '/rest/public/lists/upload_tmp_file', fd, {
                         transformRequest: angular.identity,
                         headers: { 'Content-Type': undefined }
